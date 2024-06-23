@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const Wrapper = styled.div`
+  width: 100%;
+`;
+
 export const Node = styled.li`
   width: 5rem;
   height: 5rem;
@@ -10,7 +14,7 @@ export const Node = styled.li`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 10rem;
-
+  margin-left: 15rem;
+  margin-bottom: 2rem;
   color: #242424;
 `;

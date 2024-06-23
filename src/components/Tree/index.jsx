@@ -9,16 +9,18 @@ const Tree = () => {
     childNode: [],
   });
 
+  const [nodeValue, setNodeValue] = useState(1);
+
   function addNode(parentNode) {
-    const updateTree = (currentNode) => {
+    const updateTree = (currentNode, level) => {
       if (currentNode.node === parentNode) {
         return {
           ...currentNode,
           childNode: [
             ...currentNode.childNode,
             {
-              title: "level" + (parentNode + 1),
-              node: parentNode + 1,
+              title: "level" + level,
+              node: nodeValue,
               parentNode: parentNode,
               childNode: [],
             },
@@ -28,15 +30,20 @@ const Tree = () => {
 
       return {
         ...currentNode,
-        childNode: currentNode.childNode.map((child) => updateTree(child)),
+        childNode: currentNode.childNode.map((child) =>
+          updateTree(child, level + 1)
+        ),
       };
     };
 
-    setTree((prevTree) => updateTree(prevTree));
+    setTree((prevTree) => updateTree(prevTree, 1));
+
+    setNodeValue((prevValue) => prevValue + 1);
   }
-  console.log(tree);
+
   const TreeNode = ({ node }) => {
     const handleClick = (e) => {
+      console.log(node.node);
       e.stopPropagation();
       addNode(node.node);
     };
@@ -56,9 +63,9 @@ const Tree = () => {
   };
 
   return (
-    <div>
+    <S.Wrapper>
       <TreeNode node={tree} />
-    </div>
+    </S.Wrapper>
   );
 };
 
