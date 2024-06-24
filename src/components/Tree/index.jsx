@@ -14,17 +14,16 @@ const Tree = () => {
   function addNode(parentNode) {
     const updateTree = (currentNode, level) => {
       if (currentNode.node === parentNode) {
+        const newNode = {
+          title: `level${level} - node${nodeValue}`,
+          node: nodeValue,
+          parentNode: parentNode,
+          childNode: [],
+        };
+
         return {
           ...currentNode,
-          childNode: [
-            ...currentNode.childNode,
-            {
-              title: "level" + level,
-              node: nodeValue,
-              parentNode: parentNode,
-              childNode: [],
-            },
-          ],
+          childNode: [...currentNode.childNode, newNode],
         };
       }
 
@@ -37,26 +36,32 @@ const Tree = () => {
     };
 
     setTree((prevTree) => updateTree(prevTree, 1));
-
     setNodeValue((prevValue) => prevValue + 1);
   }
 
-  const TreeNode = ({ node }) => {
+  const TreeNode = ({ node, level, xPos }) => {
     const handleClick = (e) => {
-      console.log(node.node);
-      e.stopPropagation();
       addNode(node.node);
+      e.stopPropagation();
     };
 
     return (
-      <S.Node onClick={handleClick}>
-        {node.title}
+      <S.Node
+        style={{ marginLeft: xPos }}
+        className="node"
+        onClick={handleClick}
+      >
+        <S.NodeText>{node.title}</S.NodeText>
+
         {node.childNode && node.childNode.length > 0 && (
-          <ul>
+          <S.NodeContent>
             {node.childNode.map((child, index) => (
-              <TreeNode key={index} node={child} />
+              <React.Fragment key={child.node}>
+                {index > -1 && <S.Line />}
+                <TreeNode node={child} level={level + 1} xPos={xPos + 7} />
+              </React.Fragment>
             ))}
-          </ul>
+          </S.NodeContent>
         )}
       </S.Node>
     );
@@ -64,7 +69,7 @@ const Tree = () => {
 
   return (
     <S.Wrapper>
-      <TreeNode node={tree} />
+      <TreeNode node={tree} level={1} xPos={0} />
     </S.Wrapper>
   );
 };
