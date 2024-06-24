@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import * as S from "../MindMapTree/styles";
+import * as S from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-const Tree = () => {
+const MindMapTree = () => {
   const [tree, setTree] = useState({
-    title: "root",
+    title: "level.0 -root",
     node: 0,
     parentNode: null,
     childNode: [],
@@ -15,7 +17,7 @@ const Tree = () => {
     const updateTree = (currentNode, level) => {
       if (currentNode.node === parentNode) {
         const newNode = {
-          title: `level${level} - node${nodeValue}`,
+          title: `level.${level} - node${nodeValue}`,
           node: nodeValue,
           parentNode: parentNode,
           childNode: [],
@@ -39,6 +41,7 @@ const Tree = () => {
     setNodeValue((prevValue) => prevValue + 1);
   }
 
+  //트리 렌더링  컴포넌트
   const TreeNode = ({ node, level, xPos }) => {
     const handleClick = (e) => {
       addNode(node.node);
@@ -52,6 +55,12 @@ const Tree = () => {
         onClick={handleClick}
       >
         <S.NodeText>{node.title}</S.NodeText>
+        <S.Button style={{ right: -20 }}>
+          <FontAwesomeIcon icon={faPlus} />
+        </S.Button>
+        <S.Button>
+          <FontAwesomeIcon icon={faMinus} />
+        </S.Button>
 
         {node.childNode && node.childNode.length > 0 && (
           <S.NodeContent>
@@ -74,4 +83,4 @@ const Tree = () => {
   );
 };
 
-export default Tree;
+export default MindMapTree;

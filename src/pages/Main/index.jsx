@@ -1,9 +1,10 @@
-import React from 'react';
-import Tree from '../../components/Tree';
+import React from "react";
+
+import MindMapTree from "../../components/MindMapTree";
 const Main = () => {
   return (
     <div>
-      <Tree />
+      <MindMapTree />
     </div>
   );
 };
