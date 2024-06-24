@@ -14,9 +14,9 @@ export const NodeContent = styled.ul`
 export const Node = styled.li`
   position: relative;
   left: 150px;
-  width: 5rem;
-  height: 5rem;
-  border: 5px solid #ffe697;
+  width: 10rem;
+  height: 10rem;
+  border: 5px solid var(--color-primary);
   background-color: #fff;
   border-radius: 50%;
   display: flex;
@@ -25,7 +25,7 @@ export const Node = styled.li`
   justify-content: center;
   margin-left: 15rem;
   margin-bottom: 1rem;
-  color: #ffe697;
+  color: var(--color-butter);
   position: relative;
 `;
 
@@ -37,22 +37,20 @@ export const NodeText = styled.span`
 export const Line = styled.div`
   position: absolute;
   background-color: #808080;
-  width: 55px;
+  width: 40px;
   height: 2px;
   top: 50%;
-  right: -55px;
+  right: -50px;
 `;
 
 export const Button = styled.button`
   position: absolute;
-  color: #2b7799;
-
-  width: 1.5rem;
-  height: 1.5rem;
+  color: ${(props) => props.$color};
+  width: ${(props) => props.$size}rem;
+  height: ${(props) => props.$size}rem;
   border-radius: 50%;
-  border: 2px solid#2b7799;
+  border: 2px solid ${(props) => props.$color};
   background-color: #fff;
-
   display: flex;
   align-items: center;
   justify-content: center;

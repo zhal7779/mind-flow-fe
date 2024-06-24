@@ -4,8 +4,8 @@ export const GlobalStyle = createGlobalStyle`
 
     //공통 색상
     :root{
-      --color-primary: #ffe697;
-      --color-butter: #F8E098;
+      --color-primary: #fadf85;
+      --color-butter: #FBD37C;
       --color-bg : #FCFEE6;
       --color-red: #e26559;
       --color-blue: #2b7799;
