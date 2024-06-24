@@ -2,16 +2,13 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 `;
 
-export const NodeContent = styled.ul`
-  position: relative;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-`;
-
-export const Node = styled.li`
+export const Node = styled.div`
   position: relative;
   left: 150px;
   width: 10rem;
@@ -23,7 +20,6 @@ export const Node = styled.li`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 15rem;
   margin-bottom: 1rem;
   color: var(--color-butter);
   position: relative;

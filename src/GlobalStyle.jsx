@@ -116,14 +116,5 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
-  /* sweetalert 설정 */
-  div:where(.swal2-icon) {
-    border: 0.25em solid rgba(0,0,0,0);
-
-    &.swal2-question {
-      border-color: #c9dae1;
-      color: #87adbd;
-    }
-  }
 
 `;

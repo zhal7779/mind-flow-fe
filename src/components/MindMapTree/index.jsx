@@ -56,64 +56,59 @@ const MindMapTree = () => {
     setTree((currentTree) => updateTree(currentTree));
   }
 
-  //트리 렌더링  컴포넌트
-  const TreeNode = ({ node, level }) => {
-    console.log(node);
-    const handleOver = (e) => {
-      setActive(node.node);
+  const TreeNode = ({ node }) => {
+    const handleAddChild = () => {
+      addNode(node.node); // 해당 노드에 새로운 자식 노드 추가
     };
 
-    const handleAddNode = (e) => {
-      addNode(node.node);
-
-      e.stopPropagation();
+    const handleDeleteNode = () => {
+      deleteNode(node.node); // 해당 노드 삭제
     };
-
-    const handleDeleteNode = (e) => {
-      deleteNode(node.node);
-      setActive(null);
-      e.stopPropagation();
-    };
-
-    console.log(S.Button);
 
     return (
-      <S.Node className="node">
-        <S.NodeText>{node.title}</S.NodeText>
-        <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          margin: "10px",
+          padding: "10px",
+          alignItems: "center",
+        }}
+      >
+        <S.Node>
           <S.Button
+            onClick={handleAddChild}
             style={{ right: "-4rem" }}
             $size={2.6}
             $color={"var(--color-blue)"}
-            onClick={(e) => {
-              handleAddNode(e); // 버튼 클릭 시 노드 추가 함수 호출
-            }}
           >
             <FontAwesomeIcon icon={faPlus} />
           </S.Button>
           <S.Button
+            onClick={handleDeleteNode}
             style={{ right: "-1.5rem" }}
             $size={2}
             $color={"var(--color-red)"}
-            onClick={(e) => {
-              handleDeleteNode(e); // 버튼 클릭 시 노드 삭제 함수 호출
-            }}
           >
             <FontAwesomeIcon icon={faMinus} />
           </S.Button>
-        </>
-
-        {node.childNode && node.childNode.length > 0 && (
-          <S.NodeContent>
+          <S.NodeText>{node.title}</S.NodeText>
+        </S.Node>
+        {node.childNode.length > 0 && (
+          <div style={{ marginLeft: "30px" }}>
             {node.childNode.map((child, index) => (
               <React.Fragment key={child.node}>
-                {index > -1 && <S.Line />}
-                <TreeNode node={child} level={level + 1} />
+                {/* {index > -1 && <S.Line />} */}
+                <TreeNode
+                  node={child}
+                  addNode={addNode}
+                  deleteNode={deleteNode}
+                />
               </React.Fragment>
             ))}
-          </S.NodeContent>
+          </div>
         )}
-      </S.Node>
+      </div>
     );
   };
 
