@@ -37,7 +37,7 @@ const App = () => {
     event.preventDefault();
     const delta = Math.sign(event.deltaY) * -0.1;
     let newScale = scale + delta;
-    newScale = Math.min(Math.max(1, newScale), 3);
+    newScale = Math.min(Math.max(0.5, newScale), 3);
 
     const rect = document.getElementById("content").getBoundingClientRect();
     const originX = event.clientX - rect.left;
@@ -102,7 +102,7 @@ const App = () => {
           style={{
             width: "100vw",
             height: "100vh",
-            overflow: "hidden",
+
             position: "relative",
           }}
         >
