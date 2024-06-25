@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Wrapper } from "./styles";
 import Node from "../Node";
 
@@ -6,11 +6,22 @@ const MindMapTree = () => {
   const [tree, setTree] = useState({
     title: "level.0 -root",
     node: 0,
+    position: { top: 0, left: 0 },
     parentNode: null,
     childNode: [],
   });
 
   const [nodeValue, setNodeValue] = useState(1);
+
+  const updateNodePosition = useCallback((node, position) => {
+    const updatePosition = (tree) => {
+      if (tree.node === node) {
+        return { ...tree, position };
+      }
+      return { ...tree, childNode: tree.childNode.map(updatePosition) };
+    };
+    setTree((prevTree) => updatePosition(prevTree));
+  }, []);
 
   function addNode(targetNode) {
     const updateTree = (currentTree, level) => {
@@ -19,6 +30,7 @@ const MindMapTree = () => {
           title: `level.${level} - node${nodeValue}`,
           node: nodeValue,
           parentNode: targetNode,
+          position: { top: 0, left: 0 },
           childNode: [],
         };
 
@@ -56,7 +68,12 @@ const MindMapTree = () => {
 
   return (
     <Wrapper>
-      <Node tree={tree} addNode={addNode} deleteNode={deleteNode} />
+      <Node
+        tree={tree}
+        addNode={addNode}
+        deleteNode={deleteNode}
+        updateNodePosition={updateNodePosition}
+      />
     </Wrapper>
   );
 };

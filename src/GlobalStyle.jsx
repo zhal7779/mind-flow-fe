@@ -31,7 +31,7 @@ export const GlobalStyle = createGlobalStyle`
     word-break: keep-all;
     color: var(--color-text-05);
     letter-spacing: -.05rem;
-    overflow: hidden;
+  
   }
 
   a{
@@ -49,72 +49,7 @@ export const GlobalStyle = createGlobalStyle`
     color: var(--color-text-01);
   }
 
-  input:focus,textarea:focus {outline:none;}
-
-  ::-webkit-input-placeholder { 
-      color: var(--color-text-06);
-  }
-  :-moz-placeholder { 
-    color: var(--color-text-06);
-  }
-  ::-moz-placeholder { 
-    color: var(--color-text-06);
-  }
-  :-ms-input-placeholder {
-    color: var(--color-text-06);
-  }
-
-
-  textarea::-webkit-input-placeholder {
-    color: var(--color-text-06);
-  }
-
-  textarea:-moz-placeholder {
-      color: var(--color-text-06);
-  }
-
-  textarea::-moz-placeholder {
-      color: var(--color-text-06);
-  }
-
-  textarea:-ms-input-placeholder {
-      color: var(--color-text-06);
-  }
-
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-  }
-
-  input[type=number] {
-      -moz-appearance: textfield;
-  }
-
-  .prevent-drag {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-  }
-
-  // 스크롤바 커스텀
-  .y-scroll {
-    overflow-y: auto;
-    &::-webkit-scrollbar {
-    width: 1.5rem;
-    
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--color-point-gray-01);
-      border-radius: 1.5rem;
-      background-clip: padding-box;
-      border: 0.5rem solid transparent;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-  }
+  
 
 
 `;

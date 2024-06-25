@@ -1,24 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import * as S from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import Line from "../Line";
 
-const Node = ({ tree, addNode, deleteNode }) => {
+const Node = ({ tree, addNode, deleteNode, updateNodePosition }) => {
   const nodeRef = useRef();
-
-  const [nodePosition, setNodePosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     if (nodeRef.current) {
       const { top, left, width, height } =
         nodeRef.current.getBoundingClientRect();
-      setNodePosition({
+      updateNodePosition(tree.node, {
         top: top + height / 2,
         left: left + width / 2,
       });
     }
-  }, [tree.node]);
+  }, [nodeRef.current, updateNodePosition]);
 
   const handleAddChild = () => {
     addNode(tree.node); // 해당 노드에 새로운 자식 노드 추가
@@ -33,10 +31,12 @@ const Node = ({ tree, addNode, deleteNode }) => {
       style={{
         display: "flex",
         flexDirection: "row",
-        margin: "10px",
-        padding: "10px",
         alignItems: "center",
+        position: "relative",
+        marginBottom: "2rem",
+        marginLeft: "5rem",
       }}
+      ref={nodeRef}
     >
       <S.Node>
         <S.Button
@@ -58,11 +58,20 @@ const Node = ({ tree, addNode, deleteNode }) => {
         <S.NodeText>{tree.title}</S.NodeText>
       </S.Node>
       {tree.childNode.length > 0 && (
-        <div style={{ marginLeft: "100px" }}>
+        <div>
           {tree.childNode.map((child) => (
             <React.Fragment key={child.node}>
-              <Node tree={child} addNode={addNode} deleteNode={deleteNode} />
-              <Line from={nodePosition} to={nodePosition} />
+              <Node
+                tree={child}
+                addNode={addNode}
+                deleteNode={deleteNode}
+                updateNodePosition={updateNodePosition}
+              />
+              {child.position &&
+                child.position.left !== 0 &&
+                child.position.top !== 0 && (
+                  <Line from={tree.position} to={child.position} />
+                )}
             </React.Fragment>
           ))}
         </div>

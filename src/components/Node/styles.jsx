@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Node = styled.div`
   position: relative;
-  left: 150px;
   width: 10rem;
   height: 10rem;
   border: 5px solid var(--color-primary);
@@ -14,11 +13,9 @@ export const Node = styled.div`
   justify-content: center;
   margin-bottom: 1rem;
   color: var(--color-butter);
-  position: relative;
 `;
 
 export const NodeText = styled.span`
-  position: absolute;
   font-weight: 600;
 `;
 
