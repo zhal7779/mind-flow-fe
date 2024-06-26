@@ -3,60 +3,6 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-const TreeContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 5rem;
-`;
-
-const NodeContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 15px;
-  padding: 15px;
-  position: relative;
-`;
-
-const Node = styled.div`
-  position: relative;
-  width: 20rem;
-  height: 20rem;
-  border: 5px solid var(--color-primary);
-  background-color: #fff;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-  color: var(--color-butter);
-`;
-
-const NodeText = styled.span`
-  position: absolute;
-  font-weight: 600;
-`;
-
-const Button = styled.button`
-  position: absolute;
-  color: ${(props) => props.$color};
-  width: ${(props) => props.$size}rem;
-  height: ${(props) => props.$size}rem;
-  border-radius: 50%;
-  border: 2px solid ${(props) => props.$color};
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  > i {
-    font-size: 1rem;
-  }
-`;
 const Line = ({ from, to }) => {
   console.log(from, to);
   return (
@@ -107,19 +53,6 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
 
     // Initial position update
     updatePosition();
-
-    // Observer to detect changes
-    const resizeObserver = new ResizeObserver(updatePosition);
-    if (nodeRef.current) {
-      resizeObserver.observe(nodeRef.current);
-    }
-
-    // Cleanup on unmount
-    return () => {
-      if (nodeRef.current) {
-        resizeObserver.unobserve(nodeRef.current);
-      }
-    };
   }, [node.node, node.position, updateNodePosition]);
   const handleAddChild = () => {
     addNode(node.node);
@@ -149,6 +82,7 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
           <FontAwesomeIcon icon={faMinus} />
         </Button>
         <NodeText>{node.title}</NodeText>
+        <NodeLine></NodeLine>
       </Node>
       {node.childNode.length > 0 && (
         <div style={{ marginLeft: "50px" }}>
@@ -242,3 +176,64 @@ const Example = () => {
 };
 
 export default Example;
+const TreeContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5rem;
+`;
+
+const NodeContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 15px;
+  padding: 15px;
+  position: relative;
+`;
+
+const Node = styled.div`
+  position: relative;
+  width: 20rem;
+  height: 20rem;
+  border: 5px solid var(--color-primary);
+  background-color: #fff;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: var(--color-butter);
+`;
+const NodeLine = styled.span`
+  position: absolute;
+  left: 0;
+  width: 5rem;
+  background-color: pink;
+  height: 2rem;
+`;
+
+const NodeText = styled.p`
+  position: absolute;
+  font-weight: 600;
+`;
+
+const Button = styled.button`
+  position: absolute;
+  color: ${(props) => props.$color};
+  width: ${(props) => props.$size}rem;
+  height: ${(props) => props.$size}rem;
+  border-radius: 50%;
+  border: 2px solid ${(props) => props.$color};
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > i {
+    font-size: 1rem;
+  }
+`;
