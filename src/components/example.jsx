@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
@@ -16,15 +16,15 @@ const NodeContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 10px;
-  padding: 10px;
+  margin: 15px;
+  padding: 15px;
   position: relative;
 `;
 
 const Node = styled.div`
   position: relative;
-  width: 10rem;
-  height: 10rem;
+  width: 20rem;
+  height: 20rem;
   border: 5px solid var(--color-primary);
   background-color: #fff;
   border-radius: 50%;
@@ -57,8 +57,70 @@ const Button = styled.button`
     font-size: 1rem;
   }
 `;
+const Line = ({ from, to }) => {
+  console.log(from, to);
+  return (
+    <svg
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        zIndex: -1,
+      }}
+    >
+      <line
+        x1={from.x}
+        y1={from.y}
+        x2={to.x}
+        y2={to.y}
+        stroke="black"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+};
 
-const TreeNode = ({ node, addNode, deleteNode }) => {
+const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
+  const nodeRef = useRef(null);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      if (nodeRef.current) {
+        const { top, left, width, height } =
+          nodeRef.current.getBoundingClientRect();
+        const newPosition = {
+          x: left + width / 2,
+          y: top + height / 2,
+        };
+        if (
+          !node.position ||
+          node.position.x !== newPosition.x ||
+          node.position.y !== newPosition.y
+        ) {
+          updateNodePosition(node.node, newPosition);
+        }
+      }
+    };
+
+    // Initial position update
+    updatePosition();
+
+    // Observer to detect changes
+    const resizeObserver = new ResizeObserver(updatePosition);
+    if (nodeRef.current) {
+      resizeObserver.observe(nodeRef.current);
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (nodeRef.current) {
+        resizeObserver.unobserve(nodeRef.current);
+      }
+    };
+  }, [node.node, node.position, updateNodePosition]);
   const handleAddChild = () => {
     addNode(node.node);
   };
@@ -69,7 +131,7 @@ const TreeNode = ({ node, addNode, deleteNode }) => {
 
   return (
     <NodeContainer>
-      <Node>
+      <Node ref={nodeRef}>
         <Button
           onClick={handleAddChild}
           style={{ right: "-4rem" }}
@@ -92,9 +154,15 @@ const TreeNode = ({ node, addNode, deleteNode }) => {
         <div style={{ marginLeft: "50px" }}>
           {node.childNode.map((child) => (
             <React.Fragment key={child.node}>
+              {child.position &&
+                child.position.left !== 0 &&
+                child.position.top !== 0 && (
+                  <Line from={node.position} to={child.position} />
+                )}
               <TreeNode
                 node={child}
                 addNode={addNode}
+                updateNodePosition={updateNodePosition}
                 deleteNode={deleteNode}
               />
             </React.Fragment>
@@ -109,51 +177,66 @@ const Example = () => {
   const [tree, setTree] = useState({
     title: "Root",
     node: 0,
+    position: { x: 0, y: 0 },
     childNode: [],
   });
 
   const [nodeValue, setNodeValue] = useState(1);
 
   function addNode(targetNode) {
-    const updateTree = (currentTree, level) => {
-      if (currentTree.node === targetNode) {
+    const updateTree = (tree, level) => {
+      if (tree.node === targetNode) {
         const newNode = {
           title: `level.${level} - node${nodeValue}`,
           node: nodeValue,
+          position: { x: 0, y: 0 },
           childNode: [],
         };
         return {
-          ...currentTree,
-          childNode: [...currentTree.childNode, newNode],
+          ...tree,
+          childNode: [...tree.childNode, newNode],
         };
       }
       return {
-        ...currentTree,
-        childNode: currentTree.childNode.map((child) =>
-          updateTree(child, level + 1)
-        ),
+        ...tree,
+        childNode: tree.childNode.map((child) => updateTree(child, level + 1)),
       };
     };
-    setTree((currentTree) => updateTree(currentTree, 1));
+    setTree((prevTree) => updateTree(prevTree, 1));
     setNodeValue((prevValue) => prevValue + 1);
   }
 
+  const updateNodePosition = (node, position) => {
+    const updatePosition = (tree) => {
+      if (tree.node === node) {
+        return { ...tree, position };
+      }
+      return { ...tree, childNode: tree.childNode.map(updatePosition) };
+    };
+    setTree((prevTree) => updatePosition(prevTree));
+  };
+
   function deleteNode(targetNode) {
-    const updateTree = (currentTree) => {
-      if (currentTree.node === targetNode) {
-        return { ...currentTree, childNode: [] };
+    const updateTree = (tree) => {
+      if (tree.node === targetNode) {
+        return { ...tree, childNode: [] };
       }
       return {
-        ...currentTree,
-        childNode: currentTree.childNode.map((child) => updateTree(child)),
+        ...tree,
+        childNode: tree.childNode.map((child) => updateTree(child)),
       };
     };
-    setTree((currentTree) => updateTree(currentTree));
+    setTree((prevTree) => updateTree(prevTree));
   }
 
   return (
     <TreeContainer>
-      <TreeNode node={tree} addNode={addNode} deleteNode={deleteNode} />
+      <TreeNode
+        node={tree}
+        addNode={addNode}
+        updateNodePosition={updateNodePosition}
+        deleteNode={deleteNode}
+      />
     </TreeContainer>
   );
 };

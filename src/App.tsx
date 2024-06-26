@@ -82,8 +82,8 @@ const App = () => {
       <div
         id="container"
         style={{
-          width: "10000px",
-          height: "10000px",
+          width: "5000px",
+          height: "5000px",
           backgroundColor: "var(--color-bg)",
           transformOrigin: "0 0",
           transform: `translate(${origin.x}px, ${origin.y}px) scale(${scale})`,
