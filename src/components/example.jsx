@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const TreeContainer = styled.div`
   position: absolute;
+  width: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 5rem;
 `;
 
 const NodeContainer = styled.div`
@@ -105,9 +107,8 @@ const TreeNode = ({ node, addNode, deleteNode }) => {
 
 const Example = () => {
   const [tree, setTree] = useState({
-    title: "level.0 -root",
+    title: "Root",
     node: 0,
-    position: { top: 0, left: 0 },
     childNode: [],
   });
 
