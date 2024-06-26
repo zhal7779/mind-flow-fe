@@ -4,7 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const TreeContainer = styled.div`
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const NodeContainer = styled.div`
@@ -53,45 +56,7 @@ const Button = styled.button`
   }
 `;
 
-const Line = ({ from, to }) => {
-  return (
-    <svg
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-      }}
-    >
-      <line
-        x1={from.left}
-        y1={from.top}
-        x2={to.left}
-        y2={to.top}
-        stroke="black"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-};
-
-const TreeNode = ({ node, addNode, deleteNode, updateNodePosition }) => {
-  const nodeRef = useRef();
-
-  useEffect(() => {
-    if (nodeRef.current) {
-      const { top, left, width, height } =
-        nodeRef.current.getBoundingClientRect();
-      const newPosition = {
-        top: top + height / 2,
-        left: left + width / 2,
-      };
-      updateNodePosition(node.node, newPosition);
-    }
-  }, [node.node, updateNodePosition]);
-
+const TreeNode = ({ node, addNode, deleteNode }) => {
   const handleAddChild = () => {
     addNode(node.node);
   };
@@ -101,7 +66,7 @@ const TreeNode = ({ node, addNode, deleteNode, updateNodePosition }) => {
   };
 
   return (
-    <NodeContainer ref={nodeRef}>
+    <NodeContainer>
       <Node>
         <Button
           onClick={handleAddChild}
@@ -129,9 +94,7 @@ const TreeNode = ({ node, addNode, deleteNode, updateNodePosition }) => {
                 node={child}
                 addNode={addNode}
                 deleteNode={deleteNode}
-                updateNodePosition={updateNodePosition}
               />
-              <Line from={node.position} to={child.position} />
             </React.Fragment>
           ))}
         </div>
@@ -150,35 +113,12 @@ const Example = () => {
 
   const [nodeValue, setNodeValue] = useState(1);
 
-  const updateNodePosition = useCallback((node, position) => {
-    setTree((prevTree) => {
-      const updateTree = (currentTree) => {
-        if (currentTree.node === node) {
-          return {
-            ...currentTree,
-            position: position,
-          };
-        } else {
-          return {
-            ...currentTree,
-            childNode: currentTree.childNode.map((child) => updateTree(child)),
-          };
-        }
-      };
-      return updateTree(prevTree);
-    });
-  }, []);
-
   function addNode(targetNode) {
     const updateTree = (currentTree, level) => {
       if (currentTree.node === targetNode) {
         const newNode = {
           title: `level.${level} - node${nodeValue}`,
           node: nodeValue,
-          position: {
-            top: currentTree.position.top + 50, // 예시로 50 픽셀씩 떨어진 위치
-            left: currentTree.position.left + 50,
-          },
           childNode: [],
         };
         return {
@@ -212,12 +152,7 @@ const Example = () => {
 
   return (
     <TreeContainer>
-      <TreeNode
-        node={tree}
-        addNode={addNode}
-        deleteNode={deleteNode}
-        updateNodePosition={updateNodePosition}
-      />
+      <TreeNode node={tree} addNode={addNode} deleteNode={deleteNode} />
     </TreeContainer>
   );
 };
