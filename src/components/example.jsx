@@ -3,31 +3,31 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-const Line = ({ from, to }) => {
-  console.log(from, to);
-  return (
-    <svg
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-        zIndex: -1,
-      }}
-    >
-      <line
-        x1={from.x}
-        y1={from.y}
-        x2={to.x}
-        y2={to.y}
-        stroke="black"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-};
+// const Line = ({ from, to }) => {
+//   console.log(from, to);
+//   return (
+//     <svg
+//       style={{
+//         position: "absolute",
+//         top: 0,
+//         left: 0,
+//         width: "100%",
+//         height: "100%",
+//         pointerEvents: "none",
+//         zIndex: -1,
+//       }}
+//     >
+//       <line
+//         x1={from.x}
+//         y1={from.y}
+//         x2={to.x}
+//         y2={to.y}
+//         stroke="black"
+//         strokeWidth="2"
+//       />
+//     </svg>
+//   );
+// };
 
 const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
   const nodeRef = useRef(null);
@@ -53,7 +53,9 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
 
     // Initial position update
     updatePosition();
+    console.log(node.node, node.parentNode);
   }, [node.node, node.position, updateNodePosition]);
+
   const handleAddChild = () => {
     addNode(node.node);
   };
@@ -82,17 +84,17 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
           <FontAwesomeIcon icon={faMinus} />
         </Button>
         <NodeText>{node.title}</NodeText>
-        <NodeLine></NodeLine>
+        <NodeLine $to={node.position} />
       </Node>
       {node.childNode.length > 0 && (
         <div style={{ marginLeft: "50px" }}>
           {node.childNode.map((child) => (
             <React.Fragment key={child.node}>
-              {child.position &&
+              {/* {child.position &&
                 child.position.left !== 0 &&
                 child.position.top !== 0 && (
                   <Line from={node.position} to={child.position} />
-                )}
+                )} */}
               <TreeNode
                 node={child}
                 addNode={addNode}
@@ -118,22 +120,28 @@ const Example = () => {
   const [nodeValue, setNodeValue] = useState(1);
 
   function addNode(targetNode) {
-    const updateTree = (tree, level) => {
-      if (tree.node === targetNode) {
+    const updateTree = (curNode, level) => {
+      if (curNode.node === targetNode) {
         const newNode = {
           title: `level.${level} - node${nodeValue}`,
           node: nodeValue,
           position: { x: 0, y: 0 },
+          parentNode: {
+            node: curNode.node,
+            position: curNode.position,
+          },
           childNode: [],
         };
         return {
-          ...tree,
-          childNode: [...tree.childNode, newNode],
+          ...curNode,
+          childNode: [...curNode.childNode, newNode],
         };
       }
       return {
-        ...tree,
-        childNode: tree.childNode.map((child) => updateTree(child, level + 1)),
+        ...curNode,
+        childNode: curNode.childNode.map((child) =>
+          updateTree(child, level + 1)
+        ),
       };
     };
     setTree((prevTree) => updateTree(prevTree, 1));
@@ -210,10 +218,10 @@ const Node = styled.div`
 `;
 const NodeLine = styled.span`
   position: absolute;
-  left: 0;
-  width: 5rem;
+  /* left: $to.; */
+  width: 10rem;
   background-color: pink;
-  height: 2rem;
+  height: 0.2rem;
 `;
 
 const NodeText = styled.p`
