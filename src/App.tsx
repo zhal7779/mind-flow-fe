@@ -79,7 +79,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <div
+      {/* <div
         id="container"
         style={{
           width: "5000px",
@@ -105,10 +105,13 @@ const App = () => {
 
             position: "relative",
           }}
-        >
-          <Main />
-        </div>
+        > */}
+      <div style={{ overflowY: "scroll" }}>
+        <Main />
       </div>
+
+      {/* </div>
+      </div> */}
     </>
   );
 };

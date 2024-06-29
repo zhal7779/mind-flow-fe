@@ -3,43 +3,21 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-// const Line = ({ from, to }) => {
-//   console.log(from, to);
-//   return (
-//     <svg
-//       style={{
-//         position: "absolute",
-//         top: 0,
-//         left: 0,
-//         width: "100%",
-//         height: "100%",
-//         pointerEvents: "none",
-//         zIndex: -1,
-//       }}
-//     >
-//       <line
-//         x1={from.x}
-//         y1={from.y}
-//         x2={to.x}
-//         y2={to.y}
-//         stroke="black"
-//         strokeWidth="2"
-//       />
-//     </svg>
-//   );
-// };
-
 const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
   const nodeRef = useRef(null);
 
   useEffect(() => {
     const updatePosition = () => {
       if (nodeRef.current) {
-        const { top, left, width, height } =
+        const { top, left, width, height, x, y } =
           nodeRef.current.getBoundingClientRect();
         const newPosition = {
-          x: left + width / 2,
-          y: top + height / 2,
+          // x: left + width / 2,
+          // y: top + height / 2,
+          x: x,
+          y: y,
+          l: left + width / 2,
+          t: top + height / 2,
         };
         if (
           !node.position ||
@@ -51,11 +29,19 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
       }
     };
 
-    // Initial position update
     updatePosition();
-    console.log(node.node, node.parentNode);
   }, [node.node, node.position, updateNodePosition]);
 
+  const { x: x1, y: y1 } = node.parentNode.position;
+  const { x: x2, y: y2, l: l2, t: t2 } = node.position;
+
+  const lineProps = {
+    left: l2,
+    top: y2,
+    width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
+    angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
+  };
+  console.log(lineProps);
   const handleAddChild = () => {
     addNode(node.node);
   };
@@ -84,7 +70,7 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
           <FontAwesomeIcon icon={faMinus} />
         </Button>
         <NodeText>{node.title}</NodeText>
-        <NodeLine $to={node.position} />
+        {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>
       {node.childNode.length > 0 && (
         <div style={{ marginLeft: "50px" }}>
@@ -114,6 +100,10 @@ const Example = () => {
     title: "Root",
     node: 0,
     position: { x: 0, y: 0 },
+    parentNode: {
+      node: -1,
+      position: { x: 0, y: 0 },
+    },
     childNode: [],
   });
 
@@ -218,10 +208,12 @@ const Node = styled.div`
 `;
 const NodeLine = styled.span`
   position: absolute;
-  /* left: $to.; */
-  width: 10rem;
+  display: block;
+  width: ${(props) => props.width}px;
+  transform: rotate(${(props) => props.angle}deg);
   background-color: pink;
   height: 0.2rem;
+  z-index: -1;
 `;
 
 const NodeText = styled.p`
