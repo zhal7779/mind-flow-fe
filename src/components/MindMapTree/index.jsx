@@ -1,19 +1,52 @@
-import React, { useCallback, useState } from "react";
-import { Wrapper } from "./styles";
-import Node from "../Node";
+import React, { useState } from "react";
+import { TreeContainer } from "./styles";
+import NodeRender from "../NodeRender";
 
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    title: "level.0 -root",
+    title: "Root",
     node: 0,
-    position: { top: 0, left: 0 },
-    parentNode: null,
+    position: { x: 0, y: 0 },
+    parentNode: {
+      node: -1,
+      position: { x: 0, y: 0 },
+    },
     childNode: [],
   });
 
   const [nodeValue, setNodeValue] = useState(1);
 
-  const updateNodePosition = useCallback((node, position) => {
+  function addNode(targetNode) {
+    const updateTree = (curNode, level) => {
+      if (curNode.node === targetNode) {
+        const newNode = {
+          title: `level.${level} - node${nodeValue}`,
+          node: nodeValue,
+          position: { x: 0, y: 0 },
+          parentNode: {
+            node: curNode.node,
+            position: curNode.position,
+          },
+          childNode: [],
+        };
+        return {
+          ...curNode,
+          childNode: [...curNode.childNode, newNode],
+        };
+      }
+      return {
+        ...curNode,
+        childNode: curNode.childNode.map((child) =>
+          updateTree(child, level + 1)
+        ),
+      };
+    };
+    setTree((prevTree) => updateTree(prevTree, 1));
+    setNodeValue((prevValue) => prevValue + 1);
+  }
+
+  const updateNodePosition = (node, position) => {
+    console.log(node, position);
     const updatePosition = (tree) => {
       if (tree.node === node) {
         return { ...tree, position };
@@ -21,60 +54,30 @@ const MindMapTree = () => {
       return { ...tree, childNode: tree.childNode.map(updatePosition) };
     };
     setTree((prevTree) => updatePosition(prevTree));
-  }, []);
-
-  function addNode(targetNode) {
-    const updateTree = (currentTree, level) => {
-      if (currentTree.node === targetNode) {
-        const newNode = {
-          title: `level.${level} - node${nodeValue}`,
-          node: nodeValue,
-          parentNode: targetNode,
-          position: { top: 0, left: 0 },
-          childNode: [],
-        };
-
-        return {
-          ...currentTree,
-          childNode: [...currentTree.childNode, newNode],
-        };
-      }
-
-      return {
-        ...currentTree,
-        childNode: currentTree.childNode.map((child) =>
-          updateTree(child, level + 1)
-        ),
-      };
-    };
-
-    setTree((currentTree) => updateTree(currentTree, 1));
-    setNodeValue((prevValue) => prevValue + 1);
-  }
+  };
 
   function deleteNode(targetNode) {
-    const updateTree = (currentTree) => {
-      if (currentTree.node === targetNode) {
-        return { ...currentTree, childNode: [] };
+    const updateTree = (tree) => {
+      if (tree.node === targetNode) {
+        return { ...tree, childNode: [] };
       }
-
       return {
-        ...currentTree,
-        childNode: currentTree.childNode.map((child) => updateTree(child)),
+        ...tree,
+        childNode: tree.childNode.map((child) => updateTree(child)),
       };
     };
-    setTree((currentTree) => updateTree(currentTree));
+    setTree((prevTree) => updateTree(prevTree));
   }
 
   return (
-    <Wrapper>
-      <Node
-        tree={tree}
+    <TreeContainer>
+      <NodeRender
+        node={tree}
         addNode={addNode}
-        deleteNode={deleteNode}
         updateNodePosition={updateNodePosition}
+        deleteNode={deleteNode}
       />
-    </Wrapper>
+    </TreeContainer>
   );
 };
 
