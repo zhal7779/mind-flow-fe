@@ -9,15 +9,12 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
   useEffect(() => {
     const updatePosition = () => {
       if (nodeRef.current) {
-        const { top, left, width, height, x, y } =
-          nodeRef.current.getBoundingClientRect();
+        const { width, height, x, y } = nodeRef.current.getBoundingClientRect();
         const newPosition = {
-          // x: left + width / 2,
-          // y: top + height / 2,
           x: x,
           y: y,
-          l: left + width / 2,
-          t: top + height / 2,
+          r: width / 2,
+          t: height / 2,
         };
         if (
           !node.position ||
@@ -33,11 +30,11 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
   }, [node.node, node.position, updateNodePosition]);
 
   const { x: x1, y: y1 } = node.parentNode.position;
-  const { x: x2, y: y2, l: l2, t: t2 } = node.position;
+  const { x: x2, y: y2, r: r2, t: t2 } = node.position;
 
   const lineProps = {
-    left: l2,
-    top: y2,
+    top: t2,
+    right: r2,
     width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
     angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
   };
@@ -70,8 +67,8 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
           <FontAwesomeIcon icon={faMinus} />
         </Button>
         <NodeText>{node.title}</NodeText>
-        {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>
+      {node.node > 0 && <NodeLine {...lineProps} />}
       {node.childNode.length > 0 && (
         <div style={{ marginLeft: "50px" }}>
           {node.childNode.map((child) => (
@@ -209,9 +206,11 @@ const Node = styled.div`
 const NodeLine = styled.span`
   position: absolute;
   display: block;
+  right: ${(props) => props.right}px;
   width: ${(props) => props.width}px;
   transform: rotate(${(props) => props.angle}deg);
-  background-color: pink;
+  transform-origin: 100% 0;
+  background-color: black;
   height: 0.2rem;
   z-index: -1;
 `;
