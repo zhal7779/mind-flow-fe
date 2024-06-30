@@ -5,40 +5,48 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
   const nodeRef = useRef(null);
+  const childNodeRef = useRef(null);
 
   useEffect(() => {
-    const updatePosition = () => {
-      if (nodeRef.current) {
-        const { width, height, x, y } = nodeRef.current.getBoundingClientRect();
+    const updatePosition = (current) => {
+      if (current) {
+        const { width, height, x, y } = current.getBoundingClientRect();
+
         const newPosition = {
           x: x,
           y: y,
           r: width / 2,
           t: height / 2,
         };
+
         if (
           !node.position ||
           node.position.x !== newPosition.x ||
           node.position.y !== newPosition.y
         ) {
-          updateNodePosition(node.node, newPosition);
+          // if (node.childNode.length) {
+          //   const childNodes = nodeRef.current.children;
+          //   [...childNodes].forEach((child) => updatePosition(child));
+          // }
+
+          return updateNodePosition(node.node, newPosition);
         }
       }
     };
 
-    updatePosition();
-  }, [node.node, node.position, updateNodePosition]);
+    updatePosition(nodeRef.current);
+  }, [node, node.position]);
 
   const { x: x1, y: y1 } = node.parentNode.position;
   const { x: x2, y: y2, r: r2, t: t2 } = node.position;
 
   const lineProps = {
-    top: t2,
-    right: r2,
-    width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
-    angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
+    $top: t2,
+    $right: r2,
+    $width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
+    $angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
   };
-  console.log(lineProps);
+
   const handleAddChild = () => {
     addNode(node.node);
   };
@@ -67,17 +75,13 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
           <FontAwesomeIcon icon={faMinus} />
         </Button>
         <NodeText>{node.title}</NodeText>
+        {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>
-      {node.node > 0 && <NodeLine {...lineProps} />}
+
       {node.childNode.length > 0 && (
-        <div style={{ marginLeft: "50px" }}>
+        <div style={{ marginLeft: "50px" }} ref={childNodeRef}>
           {node.childNode.map((child) => (
             <React.Fragment key={child.node}>
-              {/* {child.position &&
-                child.position.left !== 0 &&
-                child.position.top !== 0 && (
-                  <Line from={node.position} to={child.position} />
-                )} */}
               <TreeNode
                 node={child}
                 addNode={addNode}
@@ -136,6 +140,7 @@ const Example = () => {
   }
 
   const updateNodePosition = (node, position) => {
+    console.log(node, position);
     const updatePosition = (tree) => {
       if (tree.node === node) {
         return { ...tree, position };
@@ -184,18 +189,17 @@ const NodeContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 15px;
-  padding: 15px;
+  margin: 10px;
   position: relative;
 `;
 
 const Node = styled.div`
   position: relative;
-  width: 20rem;
-  height: 20rem;
+  min-width: 10rem;
+  height: 4rem;
   border: 5px solid var(--color-primary);
   background-color: #fff;
-  border-radius: 50%;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -206,9 +210,9 @@ const Node = styled.div`
 const NodeLine = styled.span`
   position: absolute;
   display: block;
-  right: ${(props) => props.right}px;
-  width: ${(props) => props.width}px;
-  transform: rotate(${(props) => props.angle}deg);
+  right: ${(props) => props.$right}px;
+  width: ${(props) => props.$width}px;
+  transform: rotate(${(props) => props.$angle}deg);
   transform-origin: 100% 0;
   background-color: black;
   height: 0.2rem;
@@ -216,7 +220,6 @@ const NodeLine = styled.span`
 `;
 
 const NodeText = styled.p`
-  position: absolute;
   font-weight: 600;
 `;
 
