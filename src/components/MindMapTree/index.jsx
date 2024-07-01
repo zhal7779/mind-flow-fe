@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { TreeContainer } from "./styles";
-import NodeRender from "../NodeRender";
+import React, { useState } from 'react';
+import { TreeContainer } from './styles';
+import NodeRender from '../NodeRender';
 
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    title: "Root",
+    title: 'Root',
     node: 0,
     position: { x: 0, y: 0 },
     parentNode: {
@@ -46,7 +46,6 @@ const MindMapTree = () => {
   }
 
   const updateNodePosition = (node, position) => {
-    console.log(node, position);
     const updatePosition = (tree) => {
       if (tree.node === node) {
         return { ...tree, position };
@@ -72,6 +71,7 @@ const MindMapTree = () => {
   return (
     <TreeContainer>
       <NodeRender
+        tree={tree}
         node={tree}
         addNode={addNode}
         updateNodePosition={updateNodePosition}
