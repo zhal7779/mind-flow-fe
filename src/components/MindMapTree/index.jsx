@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { TreeContainer } from './styles';
-import NodeRender from '../NodeRender';
+import React, { useRef, useState } from "react";
+import { TreeContainer } from "./styles";
+import NodeRender from "../NodeRender";
 
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    title: 'Root',
+    title: "Root",
     node: 0,
     position: { x: 0, y: 0 },
     parentNode: {
@@ -15,6 +15,7 @@ const MindMapTree = () => {
   });
 
   const [nodeValue, setNodeValue] = useState(1);
+  const treeRef = useRef(null);
 
   function addNode(targetNode) {
     const updateTree = (curNode, level) => {
@@ -52,6 +53,7 @@ const MindMapTree = () => {
       }
       return { ...tree, childNode: tree.childNode.map(updatePosition) };
     };
+
     setTree((prevTree) => updatePosition(prevTree));
   };
 
@@ -68,14 +70,16 @@ const MindMapTree = () => {
     setTree((prevTree) => updateTree(prevTree));
   }
 
+  console.log(treeRef);
+
   return (
     <TreeContainer>
       <NodeRender
-        tree={tree}
         node={tree}
         addNode={addNode}
         updateNodePosition={updateNodePosition}
         deleteNode={deleteNode}
+        ref={treeRef}
       />
     </TreeContainer>
   );

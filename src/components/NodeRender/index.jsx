@@ -1,7 +1,7 @@
-// import React, { useEffect, useRef } from 'react';
-// import { NodeContainer, Node, NodeLine, NodeText, Button } from './styles';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+// import React, { useEffect, useRef } from "react";
+// import { NodeContainer, Node, NodeLine, NodeText, Button } from "./styles";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 // const NodeRender = ({
 //   tree,
@@ -70,17 +70,17 @@
 //       <Node ref={nodeRef}>
 //         <Button
 //           onClick={handleAddChild}
-//           style={{ right: '-4rem' }}
+//           style={{ right: "-4rem" }}
 //           $size={2.6}
-//           $color={'var(--color-blue)'}
+//           $color={"var(--color-blue)"}
 //         >
 //           <FontAwesomeIcon icon={faPlus} />
 //         </Button>
 //         <Button
 //           onClick={handleDeleteNode}
-//           style={{ right: '-1.5rem' }}
+//           style={{ right: "-1.5rem" }}
 //           $size={2}
-//           $color={'var(--color-red)'}
+//           $color={"var(--color-red)"}
 //         >
 //           <FontAwesomeIcon icon={faMinus} />
 //         </Button>
@@ -89,7 +89,7 @@
 //       </Node>
 
 //       {node.childNode.length > 0 && (
-//         <div style={{ marginLeft: '50px' }} ref={childNodeRef}>
+//         <div style={{ marginLeft: "50px" }} ref={childNodeRef}>
 //           {node.childNode.map((child) => (
 //             <React.Fragment key={child.node}>
 //               <NodeRender
@@ -109,48 +109,64 @@
 
 // export default NodeRender;
 
-import React, { useEffect, useRef } from 'react';
-import { NodeContainer, Node, NodeLine, NodeText, Button } from './styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import React, { forwardRef } from "react";
+import { NodeContainer, Node, NodeLine, NodeText, Button } from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-const NodeRender = ({
-  tree,
-  node,
-  addNode,
-  updateNodePosition,
-  deleteNode,
-}) => {
-  const nodeRef = useRef(null);
+const NodeRender = forwardRef((props, ref) => {
+  // useEffect(() => {
+  //   const updateAllNodePositions = (currentNode) => {
+  //     if (currentNode) {
+  //       const { width, height, x, y } = nodeRef.current.getBoundingClientRect();
 
-  useEffect(() => {
-    const updateAllNodePositions = (currentNode, parentNode = null) => {
-      if (currentNode) {
-        const { width, height, x, y } = nodeRef.current.getBoundingClientRect();
+  //       const newPosition = {
+  //         x: x,
+  //         y: y,
+  //         r: width / 2,
+  //         t: height / 2,
+  //       };
 
-        const newPosition = {
-          x: x,
-          y: y,
-          r: width / 2,
-          t: height / 2,
-        };
+  //       if (
+  //         !currentNode.position ||
+  //         currentNode.position.x !== newPosition.x ||
+  //         currentNode.position.y !== newPosition.y
+  //       ) {
+  //         console.log(currentNode.node, newPosition);
+  //         updateNodePosition(currentNode.node, newPosition);
+  //       }
 
-        if (
-          !currentNode.position ||
-          currentNode.position.x !== newPosition.x ||
-          currentNode.position.y !== newPosition.y
-        ) {
-          updateNodePosition(currentNode.node, newPosition);
-        }
+  //       currentNode.childNode.forEach((childNode) => {
+  //         updateAllNodePositions(childNode);
+  //       });
+  //     }
+  //   };
 
-        currentNode.childNode.forEach((childNode) => {
-          updateAllNodePositions(childNode, currentNode);
-        });
-      }
-    };
+  //   updateAllNodePositions(tree);
+  // }, []);
 
-    updateAllNodePositions(tree);
-  }, [tree]);
+  // const traverseNodes = (node) => {
+  //   if (!node) return;
+
+  //   // 노드가 요소 노드인지 확인
+  //   if (node.nodeType === 1) {
+  //     // 현재 노드의 좌표를 가져오기
+  //     const rect = node.getBoundingClientRect();
+  //     console.log("Node:", node, "X:", rect.left, "Y:", rect.top);
+  //   }
+
+  //   // 자식 노드를 재귀적으로 탐색
+  //   node.childNodes.forEach((child) => {
+  //     traverseNodes(child);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   if (nodeRef.current) {
+  //     traverseNodes(nodeRef.current);
+  //   }
+  // }, []);
+  const { node, addNode, updateNodePosition, deleteNode } = props;
 
   const handleAddChild = () => {
     addNode(node.node);
@@ -176,21 +192,21 @@ const NodeRender = ({
   };
 
   return (
-    <NodeContainer>
-      <Node ref={nodeRef}>
+    <NodeContainer ref={ref}>
+      <Node>
         <Button
           onClick={handleAddChild}
-          style={{ right: '-4rem' }}
+          style={{ right: "-4rem" }}
           $size={2.6}
-          $color={'var(--color-blue)'}
+          $color={"var(--color-blue)"}
         >
           <FontAwesomeIcon icon={faPlus} />
         </Button>
         <Button
           onClick={handleDeleteNode}
-          style={{ right: '-1.5rem' }}
+          style={{ right: "-1.5rem" }}
           $size={2}
-          $color={'var(--color-red)'}
+          $color={"var(--color-red)"}
         >
           <FontAwesomeIcon icon={faMinus} />
         </Button>
@@ -199,11 +215,10 @@ const NodeRender = ({
       </Node>
 
       {node.childNode.length > 0 && (
-        <div style={{ marginLeft: '50px' }}>
+        <div style={{ marginLeft: "50px" }}>
           {node.childNode.map((child) => (
             <React.Fragment key={child.node}>
               <NodeRender
-                tree={tree}
                 node={child}
                 addNode={addNode}
                 updateNodePosition={updateNodePosition}
@@ -215,6 +230,6 @@ const NodeRender = ({
       )}
     </NodeContainer>
   );
-};
+});
 
 export default NodeRender;
