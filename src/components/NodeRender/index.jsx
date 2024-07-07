@@ -13,10 +13,6 @@
 //   const nodeRef = useRef(null);
 //   const childNodeRef = useRef(null);
 
-//   // useEffect(() => {
-//   //   console.log(tree);
-//   // }, [tree]);
-
 //   useEffect(() => {
 //     const updatePosition = (current) => {
 //       if (current) {
@@ -115,58 +111,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const NodeRender = forwardRef((props, ref) => {
-  // useEffect(() => {
-  //   const updateAllNodePositions = (currentNode) => {
-  //     if (currentNode) {
-  //       const { width, height, x, y } = nodeRef.current.getBoundingClientRect();
-
-  //       const newPosition = {
-  //         x: x,
-  //         y: y,
-  //         r: width / 2,
-  //         t: height / 2,
-  //       };
-
-  //       if (
-  //         !currentNode.position ||
-  //         currentNode.position.x !== newPosition.x ||
-  //         currentNode.position.y !== newPosition.y
-  //       ) {
-  //         console.log(currentNode.node, newPosition);
-  //         updateNodePosition(currentNode.node, newPosition);
-  //       }
-
-  //       currentNode.childNode.forEach((childNode) => {
-  //         updateAllNodePositions(childNode);
-  //       });
-  //     }
-  //   };
-
-  //   updateAllNodePositions(tree);
-  // }, []);
-
-  // const traverseNodes = (node) => {
-  //   if (!node) return;
-
-  //   // 노드가 요소 노드인지 확인
-  //   if (node.nodeType === 1) {
-  //     // 현재 노드의 좌표를 가져오기
-  //     const rect = node.getBoundingClientRect();
-  //     console.log("Node:", node, "X:", rect.left, "Y:", rect.top);
-  //   }
-
-  //   // 자식 노드를 재귀적으로 탐색
-  //   node.childNodes.forEach((child) => {
-  //     traverseNodes(child);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   if (nodeRef.current) {
-  //     traverseNodes(nodeRef.current);
-  //   }
-  // }, []);
-  const { node, addNode, updateNodePosition, deleteNode } = props;
+  const { node, addNode, deleteNode } = props;
 
   const handleAddChild = () => {
     addNode(node.node);
@@ -190,10 +135,9 @@ const NodeRender = forwardRef((props, ref) => {
     $width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
     $angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
   };
-
   return (
     <NodeContainer ref={ref}>
-      <Node>
+      <Node id={node.node}>
         <Button
           onClick={handleAddChild}
           style={{ right: "-4rem" }}
@@ -210,7 +154,7 @@ const NodeRender = forwardRef((props, ref) => {
         >
           <FontAwesomeIcon icon={faMinus} />
         </Button>
-        <NodeText>{node.title}</NodeText>
+        <NodeText>{node.value}</NodeText>
         {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>
 
@@ -221,7 +165,6 @@ const NodeRender = forwardRef((props, ref) => {
               <NodeRender
                 node={child}
                 addNode={addNode}
-                updateNodePosition={updateNodePosition}
                 deleteNode={deleteNode}
               />
             </React.Fragment>
