@@ -63,23 +63,30 @@ const MindMapTree = () => {
     setTree((prevTree) => updateTree(prevTree));
   };
 
-  const updateNodePosition = (node, nodeId, curPosition) => {
-    //현재 노드의 포지션 업데이트시 부모 노드의 포지션도 같이 업데이트 해주는 로직이 필요
-
+  const updateNodePosition = (node, nodeId, curPosition, parentPositon) => {
     if (node.node === parseInt(nodeId)) {
       const { position: prevPosition } = node;
       if (
         prevPosition.x !== curPosition.x ||
         prevPosition.y !== curPosition.y
       ) {
-        return { ...node, position: curPosition };
+        return {
+          ...node,
+          parentNode: {
+            ...node.parentNode,
+            position: parentPositon,
+          },
+          position: curPosition,
+        };
       }
     }
+
     if (node.childNode) {
+      const parentNodePosition = node.position;
       return {
         ...node,
         childNode: node.childNode.map((child) =>
-          updateNodePosition(child, nodeId, curPosition)
+          updateNodePosition(child, nodeId, curPosition, parentNodePosition)
         ),
       };
     }
@@ -87,26 +94,29 @@ const MindMapTree = () => {
   };
 
   const updateTreeWithNodePositions = (treeRef, setTree) => {
-    console.log(treeRef);
+    const positionCalculate = (node) => {
+      const { width, height, x, y } = node.getBoundingClientRect();
+      return {
+        x: x,
+        y: y,
+        r: width / 2,
+        t: height / 2,
+      };
+    };
+
     const treePositionRecursion = (node) => {
       if (!node.children) {
         return;
       }
       if (node.id) {
-        const { width, height, x, y } = node.getBoundingClientRect();
-        const newPosition = {
-          x: x,
-          y: y,
-          r: width / 2,
-          t: height / 2,
-        };
+        const currentPosition = positionCalculate(node);
         setTree((prevTree) =>
-          updateNodePosition(prevTree, node.id, newPosition)
+          updateNodePosition(prevTree, node.id, currentPosition, tree.position)
         );
       }
-      Array.from(node.children).forEach((child) =>
-        treePositionRecursion(child)
-      );
+      Array.from(node.children).forEach((child) => {
+        treePositionRecursion(child);
+      });
     };
 
     if (treeRef.current) {
