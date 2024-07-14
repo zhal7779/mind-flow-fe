@@ -2,6 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { TreeContainer } from "./styles";
 import NodeRender from "../NodeRender";
 
+// 필요한 작업
+// 1. 일반 노드 길이 가변적으로 변경 처리
+// 2. 최하단 자식 노드 삭제 처리
+// 3. 노드 연결 선 수정 (스타일 변경)
+// 4. 노드 추가시 선 깜빡임 디버깅
 const MindMapTree = () => {
   const [tree, setTree] = useState({
     value: "메인 주제",
@@ -52,8 +57,14 @@ const MindMapTree = () => {
   };
   const updateNodeInputValue = (event, targetNode) => {
     const updateTree = (curNode) => {
-      if (curNode.node === targetNode) {
-        const { value: inputValue } = event.target;
+      if (curNode.node === targetNode.node) {
+        const inputTarget = event.target;
+        if (targetNode.level < 2) {
+          inputTarget.style.width = "10rem";
+          inputTarget.style.width = `${inputTarget.scrollWidth}px`;
+        }
+        const { value: inputValue } = inputTarget;
+
         return { ...curNode, value: inputValue };
       }
       return {

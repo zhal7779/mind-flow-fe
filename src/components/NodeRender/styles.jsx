@@ -22,35 +22,37 @@ export const NodeLine = styled.span`
   width: ${(props) => props.$width}px;
   transform: rotate(${(props) => props.$angle}deg);
   transform-origin: 100% 0;
-  background-color: black;
-  height: 0.2rem;
+  background-color: var(--color-green);
+  height: 0.25rem;
   z-index: -1;
 `;
 
 const commonInput = styled.input`
   text-align: center;
   padding: 1.2rem;
-  border: 5px solid var(--color-primary);
   background-color: #fff;
   border-radius: 2rem;
-  min-width: 10rem; /* 최소 너비 설정 */
-  width: auto; /* 너비 가변 */
-  box-sizing: content-box; /* 패딩을 너비 계산에 포함하지 않음 */
+  min-width: 10rem;
+  width: auto;
+  box-sizing: content-box;
 `;
 
 export const RootTopicInput = styled(commonInput)`
   font-size: 2rem;
   font-weight: 600;
   width: 100%;
+  border: 5px solid var(--color-butter);
 `;
 
 export const MainTopicInput = styled(commonInput)`
   font-size: 1.6rem;
   font-weight: 600;
+  border: 5px solid var(--color-primary);
 `;
 
-export const ContentInput = styled(commonInput)`
-  font-size: 1.3rem;
+export const ContentInput = styled.textarea`
+  font-size: 1.4rem;
+  text-align: center;
   font-weight: 400;
 `;
 

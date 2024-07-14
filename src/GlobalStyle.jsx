@@ -46,10 +46,11 @@ export const GlobalStyle = createGlobalStyle`
         letter-spacing: inherit;
         color: var(--color-text-01);
     }
-    input {
+    input ,textarea{
         border: none;
+        resize: none;
     }
-    input:focus {
+    input:focus, textarea:focus {
         outline: none ;
     }
 
