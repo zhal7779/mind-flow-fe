@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const NodeRender = forwardRef((props, ref) => {
-  const { node, addNode, deleteNode } = props;
+  const { node, addNode, updateNodeInputValue, deleteNode } = props;
 
   const handleAddChild = () => {
     addNode(node.node);
@@ -31,7 +31,7 @@ const NodeRender = forwardRef((props, ref) => {
   };
   return (
     <NodeContainer ref={ref}>
-      <Node id={node.node}>
+      <Node id={node.node} $level={node.level}>
         <Button
           onClick={handleAddChild}
           style={{ right: "-4rem" }}
@@ -48,17 +48,21 @@ const NodeRender = forwardRef((props, ref) => {
         >
           <FontAwesomeIcon icon={faMinus} />
         </Button>
-        <NodeText>{node.value}</NodeText>
+        <NodeText
+          onChange={(e) => updateNodeInputValue(e, node.node)}
+          value={node.value}
+        ></NodeText>
         {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>
 
       {node.childNode.length > 0 && (
-        <div style={{ marginLeft: "50px" }}>
+        <div style={{ marginLeft: "40px" }}>
           {node.childNode.map((child) => (
             <React.Fragment key={child.node}>
               <NodeRender
                 node={child}
                 addNode={addNode}
+                updateNodeInputValue={updateNodeInputValue}
                 deleteNode={deleteNode}
               />
             </React.Fragment>

@@ -34,8 +34,10 @@ export const NodeLine = styled.span`
   z-index: -1;
 `;
 
-export const NodeText = styled.p`
+export const NodeText = styled.input`
+  text-align: center;
   font-weight: 600;
+  border: none;
 `;
 
 export const Button = styled.button`

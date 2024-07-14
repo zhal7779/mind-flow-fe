@@ -4,8 +4,9 @@ import NodeRender from "../NodeRender";
 
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    value: "Root",
+    value: "메인 주제",
     node: 0,
+    level: 0,
     position: { x: 0, y: 0 },
     parentNode: {
       node: -1,
@@ -23,7 +24,8 @@ const MindMapTree = () => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
         const newNode = {
-          value: `level.${level} - node${nodeValue}`,
+          value: level > 1 ? "내용" : "브랜치 주제",
+          level,
           node: nodeValue,
           position: { x: 0, y: 0 },
           parentNode: {
@@ -47,6 +49,20 @@ const MindMapTree = () => {
     };
     setTree((prevTree) => updateTree(prevTree, 1));
     setNodeValue((prevValue) => prevValue + 1);
+  };
+  const updateNodeInputValue = (event, targetNode) => {
+    const updateTree = (curNode) => {
+      if (curNode.node === targetNode) {
+        const { value: inputValue } = event.target;
+        return { ...curNode, value: inputValue };
+      }
+      return {
+        ...curNode,
+        childNode: curNode.childNode.map((child) => updateTree(child)),
+      };
+    };
+
+    setTree((prevTree) => updateTree(prevTree));
   };
 
   const deleteNode = (targetNode) => {
@@ -136,6 +152,7 @@ const MindMapTree = () => {
       <NodeRender
         node={tree}
         addNode={addNode}
+        updateNodeInputValue={updateNodeInputValue}
         deleteNode={deleteNode}
         ref={treeRef}
       />

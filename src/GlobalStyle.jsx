@@ -46,6 +46,8 @@ export const GlobalStyle = createGlobalStyle`
         letter-spacing: inherit;
         color: var(--color-text-01);
     }
-
+    input:focus {
+        outline: none ;
+    }
 
 `;
