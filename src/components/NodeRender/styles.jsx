@@ -10,17 +10,10 @@ export const NodeContainer = styled.div`
 
 export const Node = styled.div`
   position: relative;
-  min-width: 10rem;
-  height: 4rem;
-  border: 5px solid var(--color-primary);
-  background-color: #fff;
-  border-radius: 16px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
-  color: var(--color-butter);
 `;
 export const NodeLine = styled.span`
   position: absolute;
@@ -34,10 +27,31 @@ export const NodeLine = styled.span`
   z-index: -1;
 `;
 
-export const NodeText = styled.input`
+const commonInput = styled.input`
   text-align: center;
+  padding: 1.2rem;
+  border: 5px solid var(--color-primary);
+  background-color: #fff;
+  border-radius: 2rem;
+  min-width: 10rem; /* 최소 너비 설정 */
+  width: auto; /* 너비 가변 */
+  box-sizing: content-box; /* 패딩을 너비 계산에 포함하지 않음 */
+`;
+
+export const RootTopicInput = styled(commonInput)`
+  font-size: 2rem;
   font-weight: 600;
-  border: none;
+  width: 100%;
+`;
+
+export const MainTopicInput = styled(commonInput)`
+  font-size: 1.6rem;
+  font-weight: 600;
+`;
+
+export const ContentInput = styled(commonInput)`
+  font-size: 1.3rem;
+  font-weight: 400;
 `;
 
 export const Button = styled.button`

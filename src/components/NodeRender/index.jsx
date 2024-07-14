@@ -1,5 +1,13 @@
 import React, { forwardRef } from "react";
-import { NodeContainer, Node, NodeLine, NodeText, Button } from "./styles";
+import {
+  NodeContainer,
+  Node,
+  NodeLine,
+  RootTopicInput,
+  MainTopicInput,
+  ContentInput,
+  Button,
+} from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
@@ -48,10 +56,22 @@ const NodeRender = forwardRef((props, ref) => {
         >
           <FontAwesomeIcon icon={faMinus} />
         </Button>
-        <NodeText
-          onChange={(e) => updateNodeInputValue(e, node.node)}
-          value={node.value}
-        ></NodeText>
+        {node.level === 0 ? (
+          <RootTopicInput
+            onChange={(e) => updateNodeInputValue(e, node.node)}
+            value={node.value}
+          ></RootTopicInput>
+        ) : node.level === 1 ? (
+          <MainTopicInput
+            onChange={(e) => updateNodeInputValue(e, node.node)}
+            value={node.value}
+          ></MainTopicInput>
+        ) : (
+          <ContentInput
+            onChange={(e) => updateNodeInputValue(e, node.node)}
+            value={node.value}
+          ></ContentInput>
+        )}
         {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>
 

@@ -46,6 +46,9 @@ export const GlobalStyle = createGlobalStyle`
         letter-spacing: inherit;
         color: var(--color-text-01);
     }
+    input {
+        border: none;
+    }
     input:focus {
         outline: none ;
     }
