@@ -27,14 +27,18 @@ export const NodeLine = styled.span`
   z-index: -1;
 `;
 
-const commonInput = styled.input`
-  text-align: center;
+const commonInput = styled.div`
+  text-align: left;
   padding: 1.2rem;
   background-color: #fff;
   border-radius: 2rem;
-  min-width: 10rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  max-width: 50rem;
   width: auto;
   box-sizing: content-box;
+  height: auto;
+  overflow: hidden;
 `;
 
 export const RootTopicInput = styled(commonInput)`

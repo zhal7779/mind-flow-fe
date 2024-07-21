@@ -58,19 +58,25 @@ const NodeRender = forwardRef((props, ref) => {
         </Button>
         {node.level === 0 ? (
           <RootTopicInput
-            onChange={(e) => updateNodeInputValue(e, node)}
-            value={node.value}
-          ></RootTopicInput>
+            contentEditable
+            suppressContentEditableWarning
+            onInput={(e) => updateNodeInputValue(e, node)}
+            // value={node.value}
+          >
+            {node.value}
+          </RootTopicInput>
         ) : node.level === 1 ? (
-          <MainTopicInput
-            onChange={(e) => updateNodeInputValue(e, node)}
-            value={node.value}
-          ></MainTopicInput>
+          // <MainTopicInput
+          //   onChange={(e) => updateNodeInputValue(e, node)}
+          //   value={node.value}
+          // ></MainTopicInput>
+          <></>
         ) : (
-          <ContentInput
-            onChange={(e) => updateNodeInputValue(e, node)}
-            value={node.value}
-          ></ContentInput>
+          // <ContentInput
+          //   onChange={(e) => updateNodeInputValue(e, node)}
+          //   value={node.value}
+          // ></ContentInput>
+          <></>
         )}
         {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>

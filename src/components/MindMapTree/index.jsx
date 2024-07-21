@@ -59,13 +59,13 @@ const MindMapTree = () => {
     const updateTree = (curNode) => {
       if (curNode.node === targetNode.node) {
         const inputTarget = event.target;
-        if (targetNode.level < 2) {
-          inputTarget.style.width = "10rem";
-          inputTarget.style.width = `${inputTarget.scrollWidth}px`;
-        }
-        const { value: inputValue } = inputTarget;
+        // if (targetNode.level < 2) {
+        //   inputTarget.style.width = `${inputTarget.scrollWidth}px`;
+        //   inputTarget.style.height = `${inputTarget.scrollHeight}px`;
+        // }
+        const { innerText } = inputTarget;
 
-        return { ...curNode, value: inputValue };
+        return { ...curNode, value: innerText };
       }
       return {
         ...curNode,
