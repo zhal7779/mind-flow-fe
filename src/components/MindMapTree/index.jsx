@@ -3,13 +3,11 @@ import { TreeContainer } from './styles';
 import NodeRender from '../NodeRender';
 
 // 필요한 작업
-// 1. 일반 노드 길이 가변적으로 변경 처리
-// 2. 최하단 자식 노드 삭제 처리
 // 3. 노드 연결 선 수정 (스타일 변경)
 // 4. 노드 추가시 선 깜빡임 디버깅
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    value: '메인 주제',
+    value: '',
     node: 0,
     level: 0,
     position: { x: 0, y: 0 },
@@ -20,7 +18,7 @@ const MindMapTree = () => {
     childNode: [],
   });
 
-  const [nodeValue, setNodeValue] = useState(1);
+  const [nodeNumber, setNodeNumber] = useState(1);
   const treeRef = useRef(null);
   const treeChangedRef = useRef(true);
 
@@ -29,9 +27,9 @@ const MindMapTree = () => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
         const newNode = {
-          value: level > 1 ? '내용' : '브랜치 주제',
+          value: '',
           level,
-          node: nodeValue,
+          node: nodeNumber,
           position: { x: 0, y: 0 },
           parentNode: {
             node: curNode.node,
@@ -53,17 +51,15 @@ const MindMapTree = () => {
       };
     };
     setTree((prevTree) => updateTree(prevTree, 1));
-    setNodeValue((prevValue) => prevValue + 1);
+    setNodeNumber((prevNumber) => prevNumber + 1);
   };
   const updateNodeInputValue = (event, targetNode) => {
     const updateTree = (curNode) => {
       if (curNode.node === targetNode.node) {
         const inputTarget = event.target;
-        console.log(inputTarget.scrollHeight);
+
         inputTarget.style.height = 'auto';
-        inputTarget.style.height = inputTarget.scrollHeight - 28 + 'px';
-        // inputTarget.style.width = 'auto';
-        // inputTarget.style.width = inputTarget.scrollWidth + 'px';
+        inputTarget.style.height = inputTarget.scrollHeight - 27 + 'px';
         const { value } = inputTarget;
 
         return { ...curNode, value };
@@ -81,13 +77,21 @@ const MindMapTree = () => {
     const updateTree = (tree) => {
       if (tree.node === targetNode) {
         treeChangedRef.current = true;
-        return { ...tree, childNode: [] };
+
+        if (tree.childNode.length > 0 || tree.node === 0) {
+          //자식 노드가 있거나 루트 노드라면 자식 노드들을 삭제
+          return { ...tree, childNode: [] };
+        }
+        return null; // 자식 노드가 없으면 자기 자신을 삭제
       }
-      return {
-        ...tree,
-        childNode: tree.childNode.map((child) => updateTree(child)),
-      };
+
+      const updatedChildren = tree.childNode
+        .map((child) => updateTree(child))
+        .filter((child) => child !== null);
+
+      return { ...tree, childNode: updatedChildren };
     };
+
     setTree((prevTree) => updateTree(prevTree));
   };
 

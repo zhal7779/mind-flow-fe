@@ -37,12 +37,13 @@ const NodeRender = forwardRef((props, ref) => {
     $width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
     $angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
   };
+
   return (
     <NodeContainer ref={ref}>
       <Node id={node.node} $level={node.level}>
         <Button
           onClick={handleAddChild}
-          style={{ right: '-4rem' }}
+          style={{ right: '1rem' }}
           $size={2.6}
           $color={'var(--color-blue)'}
         >
@@ -50,7 +51,7 @@ const NodeRender = forwardRef((props, ref) => {
         </Button>
         <Button
           onClick={handleDeleteNode}
-          style={{ right: '-1.5rem' }}
+          style={{ right: '-2.5rem' }}
           $size={2}
           $color={'var(--color-red)'}
         >
@@ -62,18 +63,21 @@ const NodeRender = forwardRef((props, ref) => {
             rows={1}
             onChange={(e) => updateNodeInputValue(e, node)}
             value={node.value}
+            placeholder="메인 주제를 입력해주세요"
           ></RootTopicInput>
         ) : node.level === 1 ? (
           <MainTopicInput
             rows={1}
             onChange={(e) => updateNodeInputValue(e, node)}
             value={node.value}
+            placeholder="브랜치 주제를 입력해주세요"
           ></MainTopicInput>
         ) : (
           <ContentInput
             rows={1}
             onChange={(e) => updateNodeInputValue(e, node)}
             value={node.value}
+            placeholder="내용을 입력해주세요"
           ></ContentInput>
         )}
         {node.node > 0 && <NodeLine {...lineProps} />}

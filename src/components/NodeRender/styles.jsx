@@ -28,14 +28,10 @@ export const NodeLine = styled.span`
 `;
 
 const commonInput = styled.textarea`
-  text-align: left;
-  padding: 1.4rem 1.2rem;
+  text-align: center;
+  padding: 1.6rem 1.4rem;
   background-color: #fff;
-  border-radius: 2rem;
-  min-width: 2rem;
-  min-height: 2rem;
-  max-width: 50rem;
-  width: auto;
+  border-radius: 3.2rem;
   box-sizing: content-box;
   height: auto;
   overflow: hidden;
@@ -51,6 +47,7 @@ export const RootTopicInput = styled(commonInput)`
 export const MainTopicInput = styled(commonInput)`
   font-size: 1.6rem;
   font-weight: 600;
+  width: 100%;
   border: 5px solid var(--color-primary);
 `;
 
