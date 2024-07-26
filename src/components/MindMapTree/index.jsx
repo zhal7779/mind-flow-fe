@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { TreeContainer } from "./styles";
-import NodeRender from "../NodeRender";
+import React, { useEffect, useRef, useState } from 'react';
+import { TreeContainer } from './styles';
+import NodeRender from '../NodeRender';
 
 // 필요한 작업
 // 1. 일반 노드 길이 가변적으로 변경 처리
@@ -9,7 +9,7 @@ import NodeRender from "../NodeRender";
 // 4. 노드 추가시 선 깜빡임 디버깅
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    value: "메인 주제",
+    value: '메인 주제',
     node: 0,
     level: 0,
     position: { x: 0, y: 0 },
@@ -29,7 +29,7 @@ const MindMapTree = () => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
         const newNode = {
-          value: level > 1 ? "내용" : "브랜치 주제",
+          value: level > 1 ? '내용' : '브랜치 주제',
           level,
           node: nodeValue,
           position: { x: 0, y: 0 },
@@ -59,13 +59,14 @@ const MindMapTree = () => {
     const updateTree = (curNode) => {
       if (curNode.node === targetNode.node) {
         const inputTarget = event.target;
-        // if (targetNode.level < 2) {
-        //   inputTarget.style.width = `${inputTarget.scrollWidth}px`;
-        //   inputTarget.style.height = `${inputTarget.scrollHeight}px`;
-        // }
-        const { innerText } = inputTarget;
+        console.log(inputTarget.scrollHeight);
+        inputTarget.style.height = 'auto';
+        inputTarget.style.height = inputTarget.scrollHeight - 28 + 'px';
+        // inputTarget.style.width = 'auto';
+        // inputTarget.style.width = inputTarget.scrollWidth + 'px';
+        const { value } = inputTarget;
 
-        return { ...curNode, value: innerText };
+        return { ...curNode, value };
       }
       return {
         ...curNode,

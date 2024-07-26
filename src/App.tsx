@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { GlobalStyle } from "./GlobalStyle";
-import Main from "./pages/Main";
+import React, { useEffect, useState } from 'react';
+import { GlobalStyle } from './GlobalStyle';
+import Main from './pages/Main';
 
 const App = () => {
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
@@ -11,23 +11,23 @@ const App = () => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Control") {
+      if (event.key === 'Control') {
         setIsCtrlPressed(true);
       }
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.key === "Control") {
+      if (event.key === 'Control') {
         setIsCtrlPressed(false);
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
@@ -39,7 +39,7 @@ const App = () => {
     let newScale = scale + delta;
     newScale = Math.min(Math.max(0.5, newScale), 3);
 
-    const rect = document.getElementById("content").getBoundingClientRect();
+    const rect = document.getElementById('content').getBoundingClientRect();
     const originX = event.clientX - rect.left;
     const originY = event.clientY - rect.top;
 
@@ -82,12 +82,12 @@ const App = () => {
       <div
         id="container"
         style={{
-          width: "5000px",
-          height: "5000px",
-          backgroundColor: "var(--color-bg)",
-          transformOrigin: "0 0",
+          // width: "5000px",
+          // height: "5000px",
+          backgroundColor: 'var(--color-bg)',
+          transformOrigin: '0 0',
           transform: `translate(${origin.x}px, ${origin.y}px) scale(${scale})`,
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
         }}
@@ -100,13 +100,13 @@ const App = () => {
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseLeave}
           style={{
-            width: "100vw",
-            height: "100vh",
+            width: '100vw',
+            height: '100vh',
 
-            position: "relative",
+            position: 'relative',
           }}
         >
-          <div style={{ overflowY: "scroll" }}>
+          <div style={{ overflowY: 'scroll' }}>
             <Main />
           </div>
         </div>

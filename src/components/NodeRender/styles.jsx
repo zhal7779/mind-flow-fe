@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const NodeContainer = styled.div`
   display: flex;
@@ -27,9 +27,9 @@ export const NodeLine = styled.span`
   z-index: -1;
 `;
 
-const commonInput = styled.div`
+const commonInput = styled.textarea`
   text-align: left;
-  padding: 1.2rem;
+  padding: 1.4rem 1.2rem;
   background-color: #fff;
   border-radius: 2rem;
   min-width: 2rem;

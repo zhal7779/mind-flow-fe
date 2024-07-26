@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
     // 공통 색상
@@ -49,9 +49,12 @@ export const GlobalStyle = createGlobalStyle`
     input ,textarea{
         border: none;
         resize: none;
+        overflow: hidden;
     }
     input:focus, textarea:focus {
-        outline: none ;
+        outline: none;
+    
     }
+
 
 `;
