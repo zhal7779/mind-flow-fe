@@ -1,15 +1,16 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef } from "react";
 import {
   NodeContainer,
   Node,
   NodeLine,
+  ParentLine,
   RootTopicInput,
   MainTopicInput,
   ContentInput,
   Button,
-} from './styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+} from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const NodeRender = forwardRef((props, ref) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
@@ -43,17 +44,17 @@ const NodeRender = forwardRef((props, ref) => {
       <Node id={node.node} $level={node.level}>
         <Button
           onClick={handleAddChild}
-          style={{ right: '1rem' }}
+          style={{ right: "7rem" }}
           $size={2.6}
-          $color={'var(--color-blue)'}
+          $color={"var(--color-blue)"}
         >
           <FontAwesomeIcon icon={faPlus} />
         </Button>
         <Button
           onClick={handleDeleteNode}
-          style={{ right: '-2.5rem' }}
+          style={{ right: "5rem" }}
           $size={2}
-          $color={'var(--color-red)'}
+          $color={"var(--color-red)"}
         >
           <FontAwesomeIcon icon={faMinus} />
         </Button>
@@ -84,7 +85,7 @@ const NodeRender = forwardRef((props, ref) => {
       </Node>
 
       {node.childNode.length > 0 && (
-        <div style={{ marginLeft: '40px' }}>
+        <div style={{ marginLeft: "80px" }}>
           {node.childNode.map((child) => (
             <React.Fragment key={child.node}>
               <NodeRender

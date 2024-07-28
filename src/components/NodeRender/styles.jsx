@@ -1,20 +1,28 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const NodeContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 10px;
+  margin: 20px;
   position: relative;
 `;
 
 export const Node = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  margin-bottom: 1rem;
+  align-items: center;
 `;
+
+export const ParentLine = styled.span`
+  display: block;
+  background-color: var(--color-green);
+  height: 0.4rem;
+  width: 3.4rem;
+`;
+
 export const NodeLine = styled.span`
   position: absolute;
   display: block;
@@ -23,8 +31,8 @@ export const NodeLine = styled.span`
   transform: rotate(${(props) => props.$angle}deg);
   transform-origin: 100% 0;
   background-color: var(--color-green);
-  height: 0.25rem;
-  z-index: -1;
+  height: 0.4rem;
+  border-radius: 0.4rem;
 `;
 
 const commonInput = styled.textarea`

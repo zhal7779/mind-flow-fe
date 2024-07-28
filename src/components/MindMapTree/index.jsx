@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { TreeContainer } from './styles';
-import NodeRender from '../NodeRender';
+import React, { useEffect, useRef, useState } from "react";
+import { TreeContainer } from "./styles";
+import NodeRender from "../NodeRender";
 
 // 필요한 작업
-// 3. 노드 연결 선 수정 (스타일 변경)
-// 4. 노드 추가시 선 깜빡임 디버깅
+// 1. 노드 연결 선 곡선으로 변경 필요 (지금처럼 삼각형이 아닌 원형을 계산해서 해야함)
+// 2. 곡선 작업 때문에 svg로 변경 필요
+// 3.  노드 추가시 선 깜빡임 디버깅
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    value: '',
+    value: "",
     node: 0,
     level: 0,
     position: { x: 0, y: 0 },
@@ -27,7 +28,7 @@ const MindMapTree = () => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
         const newNode = {
-          value: '',
+          value: "",
           level,
           node: nodeNumber,
           position: { x: 0, y: 0 },
@@ -58,8 +59,8 @@ const MindMapTree = () => {
       if (curNode.node === targetNode.node) {
         const inputTarget = event.target;
 
-        inputTarget.style.height = 'auto';
-        inputTarget.style.height = inputTarget.scrollHeight - 27 + 'px';
+        inputTarget.style.height = "auto";
+        inputTarget.style.height = inputTarget.scrollHeight - 27 + "px";
         const { value } = inputTarget;
 
         return { ...curNode, value };
@@ -127,12 +128,14 @@ const MindMapTree = () => {
 
   const updateTreeWithNodePositions = (treeRef, setTree) => {
     const positionCalculate = (node) => {
+      console.log(node.getBoundingClientRect());
       const { width, height, x, y } = node.getBoundingClientRect();
+      console.log(`width : ${width}, height : ${height}, x : ${x}, y : ${y}`);
       return {
-        x: x,
+        x: x / 5,
         y: y,
-        r: width / 2,
-        t: height / 2,
+        r: width + 10,
+        t: height,
       };
     };
 
