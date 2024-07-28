@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { GlobalStyle } from './GlobalStyle';
-import Main from './pages/Main';
+import React, { useEffect, useRef, useState } from "react";
+import { GlobalStyle } from "./GlobalStyle";
+import Main from "./pages/Main";
 
 const App = () => {
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
@@ -9,25 +9,40 @@ const App = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [start, setStart] = useState({ x: 0, y: 0 });
 
+  const contentRef = useRef(null);
+  const targetElementRef = useRef(null); // 특정 요소에 대한 참조
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Control') {
+      if (event.key === "Control") {
         setIsCtrlPressed(true);
       }
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.key === 'Control') {
+      if (event.key === "Control") {
         setIsCtrlPressed(false);
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    // 특정 요소 위치로 초기 설정
+    if (contentRef.current && targetElementRef.current) {
+      const contentRect = contentRef.current.getBoundingClientRect();
+      const targetRect = targetElementRef.current.getBoundingClientRect();
+
+      setOrigin({
+        x: targetRect.left - contentRect.left,
+        y: targetRect.top - contentRect.top,
+      });
+    }
+    console.log(origin);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
     };
   }, []);
 
@@ -39,7 +54,7 @@ const App = () => {
     let newScale = scale + delta;
     newScale = Math.min(Math.max(0.5, newScale), 3);
 
-    const rect = document.getElementById('content').getBoundingClientRect();
+    const rect = contentRef.current.getBoundingClientRect();
     const originX = event.clientX - rect.left;
     const originY = event.clientY - rect.top;
 
@@ -82,32 +97,32 @@ const App = () => {
       <div
         id="container"
         style={{
-          // width: "5000px",
-          // height: "5000px",
-          backgroundColor: 'var(--color-bg)',
-          transformOrigin: '0 0',
+          width: "5000px",
+          height: "5000px",
+          backgroundColor: "var(--color-bg)",
+          transformOrigin: "0 0",
           transform: `translate(${origin.x}px, ${origin.y}px) scale(${scale})`,
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
         }}
       >
         <div
           id="content"
+          ref={contentRef}
           onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseLeave}
           style={{
-            width: '100vw',
-            height: '100vh',
-
-            position: 'relative',
+            width: "100vw",
+            height: "100vh",
+            position: "relative",
           }}
         >
-          <div style={{ overflowY: 'scroll' }}>
-            <Main />
+          <div style={{ overflowY: "scroll" }}>
+            <Main targetRef={targetElementRef} />
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ const NodeRender = forwardRef((props, ref) => {
       <Node id={node.node} $level={node.level}>
         <Button
           onClick={handleAddChild}
-          style={{ right: "7rem" }}
+          style={{ right: "-4rem" }}
           $size={2.6}
           $color={"var(--color-blue)"}
         >
@@ -52,7 +52,7 @@ const NodeRender = forwardRef((props, ref) => {
         </Button>
         <Button
           onClick={handleDeleteNode}
-          style={{ right: "5rem" }}
+          style={{ right: "-1rem" }}
           $size={2}
           $color={"var(--color-red)"}
         >
@@ -85,7 +85,7 @@ const NodeRender = forwardRef((props, ref) => {
       </Node>
 
       {node.childNode.length > 0 && (
-        <div style={{ marginLeft: "80px" }}>
+        <div style={{ marginLeft: "100px" }}>
           {node.childNode.map((child) => (
             <React.Fragment key={child.node}>
               <NodeRender

@@ -132,7 +132,7 @@ const MindMapTree = () => {
       const { width, height, x, y } = node.getBoundingClientRect();
       console.log(`width : ${width}, height : ${height}, x : ${x}, y : ${y}`);
       return {
-        x: x / 5,
+        x: x / 4.5,
         y: y,
         r: width + 10,
         t: height,

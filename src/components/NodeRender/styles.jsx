@@ -37,9 +37,9 @@ export const NodeLine = styled.span`
 
 const commonInput = styled.textarea`
   text-align: center;
-  padding: 1.6rem 1.4rem;
+  padding: 2rem 1.6rem;
   background-color: #fff;
-  border-radius: 3.2rem;
+  border-radius: 3.6rem;
   box-sizing: content-box;
   height: auto;
   overflow: hidden;
@@ -47,7 +47,7 @@ const commonInput = styled.textarea`
 
 export const RootTopicInput = styled(commonInput)`
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 700;
   width: 100%;
   border: 5px solid var(--color-butter);
 `;
@@ -59,10 +59,10 @@ export const MainTopicInput = styled(commonInput)`
   border: 5px solid var(--color-primary);
 `;
 
-export const ContentInput = styled.textarea`
+export const ContentInput = styled(commonInput)`
   font-size: 1.4rem;
-  text-align: center;
   font-weight: 400;
+  padding: 1.4rem 1.2rem;
 `;
 
 export const Button = styled.button`
@@ -80,4 +80,5 @@ export const Button = styled.button`
   > i {
     font-size: 1rem;
   }
+  z-index: 1;
 `;
