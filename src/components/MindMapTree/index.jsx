@@ -10,6 +10,8 @@ import NodeRender from "../NodeRender";
 // 5. 제목 입력
 // 6. 기타 기능 구현
 // 마지막.  노드 추가시 선 깜빡임 디버깅
+
+// 지금 해야할 것 마우스 오버시 플러스, 마이너스 버튼 보이도록
 const MindMapTree = () => {
   const [tree, setTree] = useState({
     value: "",
@@ -64,7 +66,7 @@ const MindMapTree = () => {
         const inputTarget = event.target;
 
         inputTarget.style.height = "auto";
-        inputTarget.style.height = inputTarget.scrollHeight - 27 + "px";
+        inputTarget.style.height = inputTarget.scrollHeight - 40 + "px";
         const { value } = inputTarget;
 
         return { ...curNode, value };
@@ -132,9 +134,7 @@ const MindMapTree = () => {
 
   const updateTreeWithNodePositions = (treeRef, setTree) => {
     const positionCalculate = (node) => {
-      console.log(node.getBoundingClientRect());
       const { width, height, x, y } = node.getBoundingClientRect();
-      console.log(`width : ${width}, height : ${height}, x : ${x}, y : ${y}`);
       return {
         x: x / 4.5,
         y: y,

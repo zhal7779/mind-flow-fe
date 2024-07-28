@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import {
   NodeContainer,
   Node,
@@ -6,6 +6,7 @@ import {
   RootTopicInput,
   MainTopicInput,
   ContentInput,
+  ButtonWrapper,
   Button,
 } from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +14,16 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const NodeRender = forwardRef((props, ref) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   const handleAddChild = () => {
     addNode(node.node);
@@ -40,23 +51,32 @@ const NodeRender = forwardRef((props, ref) => {
 
   return (
     <NodeContainer ref={ref}>
-      <Node id={node.node} $level={node.level}>
-        <Button
-          onClick={handleAddChild}
-          style={{ right: "-4rem" }}
-          $size={2.6}
-          $color={"var(--color-blue)"}
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </Button>
-        <Button
-          onClick={handleDeleteNode}
-          style={{ right: "-1rem" }}
-          $size={2}
-          $color={"var(--color-red)"}
-        >
-          <FontAwesomeIcon icon={faMinus} />
-        </Button>
+      <Node
+        id={node.node}
+        $level={node.level}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {isHovered && (
+          <ButtonWrapper>
+            <Button
+              onClick={handleDeleteNode}
+              style={{ right: "-1rem" }}
+              $size={2}
+              $color={"var(--color-red)"}
+            >
+              <FontAwesomeIcon icon={faMinus} />
+            </Button>
+            <Button
+              onClick={handleAddChild}
+              style={{ right: "-4rem" }}
+              $size={2.6}
+              $color={"var(--color-blue)"}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </Button>
+          </ButtonWrapper>
+        )}
 
         {node.level === 0 ? (
           <RootTopicInput

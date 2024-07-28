@@ -16,13 +16,6 @@ export const Node = styled.div`
   align-items: center;
 `;
 
-// export const ParentLine = styled.span`
-//   display: block;
-//   background-color: var(--color-green);
-//   height: 0.4rem;
-//   width: 3.4rem;
-// `;
-
 export const NodeLine = styled.span`
   position: absolute;
   display: block;
@@ -65,20 +58,27 @@ export const ContentInput = styled(commonInput)`
   padding: 1.4rem 1.2rem;
 `;
 
-export const Button = styled.button`
+export const ButtonWrapper = styled.span`
   position: absolute;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const Button = styled.button`
   color: ${(props) => props.$color};
   width: ${(props) => props.$size}rem;
   height: ${(props) => props.$size}rem;
   border-radius: 50%;
-  border: 2px solid ${(props) => props.$color};
+  border: 2.5px solid ${(props) => props.$color};
   background-color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
 
   > i {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   z-index: 1;
 `;
