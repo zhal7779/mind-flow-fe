@@ -16,18 +16,18 @@ export const Node = styled.div`
   align-items: center;
 `;
 
-export const ParentLine = styled.span`
-  display: block;
-  background-color: var(--color-green);
-  height: 0.4rem;
-  width: 3.4rem;
-`;
+// export const ParentLine = styled.span`
+//   display: block;
+//   background-color: var(--color-green);
+//   height: 0.4rem;
+//   width: 3.4rem;
+// `;
 
 export const NodeLine = styled.span`
   position: absolute;
   display: block;
-  right: ${(props) => props.$right}px;
-  width: ${(props) => props.$width}px;
+  right: ${(props) => props.$right / 10}rem;
+  width: ${(props) => props.$width / 10}rem;
   transform: rotate(${(props) => props.$angle}deg);
   transform-origin: 100% 0;
   background-color: var(--color-green);

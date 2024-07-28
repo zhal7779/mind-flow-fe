@@ -3,7 +3,6 @@ import {
   NodeContainer,
   Node,
   NodeLine,
-  ParentLine,
   RootTopicInput,
   MainTopicInput,
   ContentInput,
