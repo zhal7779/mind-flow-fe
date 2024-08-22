@@ -11,7 +11,6 @@ import NodeRender from "../NodeRender";
 // 6. 기타 기능 구현
 // 마지막.  노드 추가시 선 깜빡임 디버깅
 
-// 지금 해야할 것 마우스 오버시 플러스, 마이너스 버튼 보이도록
 const MindMapTree = () => {
   const [tree, setTree] = useState({
     value: "",
@@ -63,11 +62,17 @@ const MindMapTree = () => {
   const updateNodeInputValue = (event, targetNode) => {
     const updateTree = (curNode) => {
       if (curNode.node === targetNode.node) {
-        const inputTarget = event.target;
+        const target = event.target;
+        const { value } = target;
 
-        inputTarget.style.height = "auto";
-        inputTarget.style.height = inputTarget.scrollHeight - 40 + "px";
-        const { value } = inputTarget;
+        const prevTargetHeight = target.offsetHeight;
+        const updateTargetHeight = target.scrollHeight + 9;
+
+        if (prevTargetHeight < updateTargetHeight) {
+          target.style.height = "auto";
+          target.style.height = target.scrollHeight - 40 + "px";
+          // 이전 요소의 높이와 업데이트 될 요소의 높이가 더 클 경우에만 각 노드 연결된 선 길이 다시 구하는 로직 추가 필요
+        }
 
         return { ...curNode, value };
       }
