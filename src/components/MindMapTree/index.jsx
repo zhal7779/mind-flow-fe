@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { TreeContainer } from './styles';
-import NodeRender from '../NodeRender';
+import React, { useEffect, useRef, useState } from "react";
+import { TreeContainer } from "./styles";
+import NodeRender from "../NodeRender";
+import positionCalculate from "../../utils/positionCalculate";
 
 // 필요한 작업
 // 1. 노드 연결 선 곡선으로 변경 필요 (지금처럼 삼각형이 아닌 원형을 계산해서 해야함)
@@ -13,7 +14,7 @@ import NodeRender from '../NodeRender';
 
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    value: '',
+    value: "",
     node: 0,
     level: 0,
     position: { x: 0, y: 0 },
@@ -33,7 +34,7 @@ const MindMapTree = () => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
         const newNode = {
-          value: '',
+          value: "",
           level,
           node: nodeNumber,
           position: { x: 0, y: 0 },
@@ -69,14 +70,13 @@ const MindMapTree = () => {
         const updateTargetHeight = target.scrollHeight + 9;
 
         if (prevTargetHeight < updateTargetHeight) {
-          target.style.height = 'auto';
-          target.style.height = target.scrollHeight - 40 + 'px';
+          target.style.height = "auto";
+          target.style.height = target.scrollHeight - 40 + "px";
+          // 트리 전체의 선 길이 및 곡선을 업데이트
+          treeChangedRef.current = true;
 
-          // 현재 입력 중인 노드의 위치 및 크기를 업데이트 추가 수정 필요
-          const targetPosition = {
-            x: target.getBoundingClientRect().x / 4.5,
-            y: target.getBoundingClientRect().y,
-          };
+          // 현재 입력 중인 노드의 선 위치 및 크기를 업데이트 수정중
+          const targetPosition = positionCalculate(target);
 
           setTree((prevTree) =>
             updateNodePosition(
@@ -86,9 +86,6 @@ const MindMapTree = () => {
               targetNode.parentNode.position
             )
           );
-
-          // 트리 전체의 선 길이 및 곡선을 업데이트
-          treeChangedRef.current = true;
         }
 
         return { ...curNode, value };
@@ -155,16 +152,6 @@ const MindMapTree = () => {
   };
 
   const updateTreeWithNodePositions = (treeRef, setTree) => {
-    const positionCalculate = (node) => {
-      const { width, height, x, y } = node.getBoundingClientRect();
-      return {
-        x: x / 4.5,
-        y: y,
-        r: width + 10,
-        t: height,
-      };
-    };
-
     const treePositionRecursion = (node) => {
       if (!node.children) {
         return;
