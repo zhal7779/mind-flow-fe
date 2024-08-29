@@ -17,10 +17,10 @@ const MindMapTree = () => {
     value: "",
     node: 0,
     level: 0,
-    position: { x: 0, y: 0 },
+    position: { x: 0, y: 0, r: 0, t: 0 },
     parentNode: {
       node: -1,
-      position: { x: 0, y: 0 },
+      position: { x: 0, y: 0, r: 0, t: 0 },
     },
     childNode: [],
   });
@@ -33,11 +33,12 @@ const MindMapTree = () => {
     const updateTree = (curNode, level) => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
+
         const newNode = {
           value: "",
           level,
           node: nodeNumber,
-          position: { x: 0, y: 0 },
+          position: { x: 0, y: 0, r: 0, t: 0 },
           parentNode: {
             node: curNode.node,
             position: curNode.position,
@@ -72,20 +73,9 @@ const MindMapTree = () => {
         if (prevTargetHeight < updateTargetHeight) {
           target.style.height = "auto";
           target.style.height = target.scrollHeight - 40 + "px";
-          // 트리 전체의 선 길이 및 곡선을 업데이트
+
+          // textarea입력으로 높이 변경될 경우 트리 전체의 선 길이 및 곡선을 업데이트
           treeChangedRef.current = true;
-
-          // 현재 입력 중인 노드의 선 위치 및 크기를 업데이트 수정중
-          const targetPosition = positionCalculate(target);
-
-          setTree((prevTree) =>
-            updateNodePosition(
-              prevTree,
-              targetNode.node,
-              targetPosition,
-              targetNode.parentNode.position
-            )
-          );
         }
 
         return { ...curNode, value };

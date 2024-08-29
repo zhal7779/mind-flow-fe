@@ -38,7 +38,6 @@ const App = () => {
         y: targetRect.top - contentRect.top,
       });
     }
-    console.log(origin);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
