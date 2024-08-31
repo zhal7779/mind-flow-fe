@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { GlobalStyle } from "./GlobalStyle";
 import Main from "./pages/Main";
 
@@ -9,26 +9,32 @@ const App = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [start, setStart] = useState({ x: 0, y: 0 });
 
-  const contentRef = useRef(null);
-  const targetElementRef = useRef(null); // 특정 요소에 대한 참조
+  const contentRef = useRef<HTMLDivElement>(null);
+  const targetElementRef = useRef<HTMLDivElement>(null);
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Control") {
+      setIsCtrlPressed(true);
+    }
+  };
+
+  const handleKeyUp = (event: KeyboardEvent) => {
+    if (event.key === "Control") {
+      setIsCtrlPressed(false);
+    }
+  };
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Control") {
-        setIsCtrlPressed(true);
-      }
-    };
-
-    const handleKeyUp = (event: KeyboardEvent) => {
-      if (event.key === "Control") {
-        setIsCtrlPressed(false);
-      }
-    };
-
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
-    // 특정 요소 위치로 초기 설정
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
     if (contentRef.current && targetElementRef.current) {
       const contentRect = contentRef.current.getBoundingClientRect();
       const targetRect = targetElementRef.current.getBoundingClientRect();
@@ -38,28 +44,36 @@ const App = () => {
         y: targetRect.top - contentRect.top,
       });
     }
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
-    };
   }, []);
 
-  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (!isCtrlPressed) return;
+  useEffect(() => {
+    const contentElement = contentRef.current;
 
-    event.preventDefault();
-    const delta = Math.sign(event.deltaY) * -0.1;
-    let newScale = scale + delta;
-    newScale = Math.min(Math.max(0.5, newScale), 3);
+    if (!contentElement) return;
 
-    const rect = contentRef.current.getBoundingClientRect();
-    const originX = event.clientX - rect.left;
-    const originY = event.clientY - rect.top;
+    // 휠 이벤트
+    const handleWheel = (event: WheelEvent) => {
+      if (!isCtrlPressed) return;
 
-    setScale(newScale);
-    setOrigin({ x: originX, y: originY });
-  };
+      event.preventDefault();
+      const delta = Math.sign(event.deltaY) * -0.1;
+      let newScale = scale + delta;
+      newScale = Math.min(Math.max(0.5, newScale), 3);
+
+      const rect = contentElement.getBoundingClientRect();
+      const originX = event.clientX - rect.left;
+      const originY = event.clientY - rect.top;
+
+      setScale(newScale);
+      setOrigin({ x: originX, y: originY });
+    };
+
+    contentElement.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      contentElement.removeEventListener("wheel", handleWheel);
+    };
+  }, [isCtrlPressed, scale]);
 
   const handleMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -109,7 +123,6 @@ const App = () => {
         <div
           id="content"
           ref={contentRef}
-          onWheel={handleWheel}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -120,8 +133,8 @@ const App = () => {
             position: "relative",
           }}
         >
-          <div style={{ overflowY: "scroll" }}>
-            <Main targetRef={targetElementRef} />
+          <div style={{ overflowY: "scroll" }} ref={targetElementRef}>
+            <Main />
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { TreeContainer } from "./styles";
 import NodeRender from "../NodeRender";
 import positionCalculate from "../../utils/positionCalculate";
 
@@ -8,8 +7,7 @@ import positionCalculate from "../../utils/positionCalculate";
 // 2. 곡선 작업 때문에 svg로 변경 필요
 // 3. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
 // 4. 루트 노드 양쪽으로 자식 노드 가질 수 있도록 데이터 구조 변경
-// 5. 제목 입력
-// 6. 기타 기능 구현
+// 5. 기타 기능 구현
 // 마지막.  노드 추가시 선 깜빡임 디버깅
 
 const MindMapTree = () => {
@@ -170,15 +168,13 @@ const MindMapTree = () => {
   }, [tree]);
 
   return (
-    <TreeContainer>
-      <NodeRender
-        node={tree}
-        addNode={addNode}
-        updateNodeInputValue={updateNodeInputValue}
-        deleteNode={deleteNode}
-        ref={treeRef}
-      />
-    </TreeContainer>
+    <NodeRender
+      node={tree}
+      addNode={addNode}
+      updateNodeInputValue={updateNodeInputValue}
+      deleteNode={deleteNode}
+      ref={treeRef}
+    />
   );
 };
 
