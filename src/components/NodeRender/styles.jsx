@@ -42,6 +42,7 @@ export const RootTopicInput = styled(commonInput)`
   font-size: 2rem;
   font-weight: 700;
   width: 100%;
+  min-width: 27rem;
   border: 5px solid var(--color-butter);
 `;
 
