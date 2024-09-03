@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState } from 'react';
 import {
   NodeContainer,
   Node,
@@ -8,13 +8,13 @@ import {
   ContentInput,
   ButtonWrapper,
   Button,
-} from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+} from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const NodeRender = forwardRef((props, ref) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
-
+  console.log(node.childNode);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -49,6 +49,39 @@ const NodeRender = forwardRef((props, ref) => {
     $angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
   };
 
+  const leftChildNodeRender = node.leftChildNode.map((child) => (
+    <React.Fragment key={child.node}>
+      <NodeRender
+        node={child}
+        addNode={addNode}
+        updateNodeInputValue={updateNodeInputValue}
+        deleteNode={deleteNode}
+      />
+    </React.Fragment>
+  ));
+
+  const rightChildNodeRender = node.rightChildNode.map((child) => (
+    <React.Fragment key={child.node}>
+      <NodeRender
+        node={child}
+        addNode={addNode}
+        updateNodeInputValue={updateNodeInputValue}
+        deleteNode={deleteNode}
+      />
+    </React.Fragment>
+  ));
+
+  const childNodeRender = (node.childNode || []).map((child) => (
+    <React.Fragment key={child.node}>
+      <NodeRender
+        node={child}
+        addNode={addNode}
+        updateNodeInputValue={updateNodeInputValue}
+        deleteNode={deleteNode}
+      />
+    </React.Fragment>
+  ));
+
   return (
     <NodeContainer ref={ref}>
       <Node
@@ -61,17 +94,17 @@ const NodeRender = forwardRef((props, ref) => {
           <ButtonWrapper>
             <Button
               onClick={handleDeleteNode}
-              style={{ right: "-1rem" }}
+              style={{ right: '-1rem' }}
               $size={2}
-              $color={"var(--color-red)"}
+              $color={'var(--color-red)'}
             >
               <FontAwesomeIcon icon={faMinus} />
             </Button>
             <Button
               onClick={handleAddChild}
-              style={{ right: "-4rem" }}
+              style={{ right: '-4rem' }}
               $size={2.6}
-              $color={"var(--color-blue)"}
+              $color={'var(--color-blue)'}
             >
               <FontAwesomeIcon icon={faPlus} />
             </Button>
@@ -103,19 +136,16 @@ const NodeRender = forwardRef((props, ref) => {
         {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>
 
-      {node.childNode.length > 0 && (
-        <div style={{ marginLeft: "100px" }}>
-          {node.childNode.map((child) => (
-            <React.Fragment key={child.node}>
-              <NodeRender
-                node={child}
-                addNode={addNode}
-                updateNodeInputValue={updateNodeInputValue}
-                deleteNode={deleteNode}
-              />
-            </React.Fragment>
-          ))}
-        </div>
+      {node.childNode === undefined ? (
+        node.leftChildNode.length > 0 ? (
+          <div style={{ marginRight: '100px' }}>{leftChildNodeRender}</div>
+        ) : (
+          <div style={{ marginLeft: '100px' }}>{rightChildNodeRender}</div>
+        )
+      ) : (
+        node.childNode.length > 0 && (
+          <div style={{ marginLeft: '100px' }}>{childNodeRender}</div>
+        )
       )}
     </NodeContainer>
   );

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import NodeRender from "../NodeRender";
-import positionCalculate from "../../utils/positionCalculate";
+import React, { useEffect, useRef, useState } from 'react';
+import NodeRender from '../NodeRender';
+import positionCalculate from '../../utils/positionCalculate';
 
 // 필요한 작업
 // 1. 노드 연결 선 곡선으로 변경 필요 (지금처럼 삼각형이 아닌 원형을 계산해서 해야함)
@@ -12,7 +12,7 @@ import positionCalculate from "../../utils/positionCalculate";
 
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    value: "",
+    value: '',
     node: 0,
     level: 0,
     position: { x: 0, y: 0, r: 0, t: 0 },
@@ -20,7 +20,8 @@ const MindMapTree = () => {
       node: -1,
       position: { x: 0, y: 0, r: 0, t: 0 },
     },
-    childNode: [],
+    leftChildNode: [],
+    rightChildNode: [],
   });
 
   const [nodeNumber, setNodeNumber] = useState(1);
@@ -33,7 +34,7 @@ const MindMapTree = () => {
         treeChangedRef.current = true;
 
         const newNode = {
-          value: "",
+          value: '',
           level,
           node: nodeNumber,
           position: { x: 0, y: 0, r: 0, t: 0 },
@@ -69,8 +70,8 @@ const MindMapTree = () => {
         const updateTargetHeight = target.scrollHeight + 9;
 
         if (prevTargetHeight < updateTargetHeight) {
-          target.style.height = "auto";
-          target.style.height = target.scrollHeight - 40 + "px";
+          target.style.height = 'auto';
+          target.style.height = target.scrollHeight - 40 + 'px';
 
           // textarea입력으로 높이 변경될 경우 트리 전체의 선 길이 및 곡선을 업데이트
           treeChangedRef.current = true;
