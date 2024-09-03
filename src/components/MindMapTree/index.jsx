@@ -6,8 +6,7 @@ import positionCalculate from '../../utils/positionCalculate';
 // 1. 노드 연결 선 곡선으로 변경 필요 (지금처럼 삼각형이 아닌 원형을 계산해서 해야함)
 // 2. 곡선 작업 때문에 svg로 변경 필요
 // 3. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
-// 4. 루트 노드 양쪽으로 자식 노드 가질 수 있도록 데이터 구조 변경
-// 5. 기타 기능 구현
+// 4. 기타 기능 구현
 // 마지막.  노드 추가시 선 깜빡임 디버깅
 
 const MindMapTree = () => {
@@ -28,14 +27,15 @@ const MindMapTree = () => {
   const treeRef = useRef(null);
   const treeChangedRef = useRef(true);
 
-  const addNode = (targetNode) => {
+  const addNode = (targetNode, side) => {
     const updateTree = (curNode, level) => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
-
+        console.log(side);
         const newNode = {
           value: '',
           level,
+          side,
           node: nodeNumber,
           position: { x: 0, y: 0, r: 0, t: 0 },
           parentNode: {
@@ -44,10 +44,36 @@ const MindMapTree = () => {
           },
           childNode: [],
         };
-
+        if (targetNode === 0 && side === 'left') {
+          return {
+            ...curNode,
+            leftChildNode: [...curNode.leftChildNode, newNode],
+          };
+        } else if (targetNode === 0 && side === 'right') {
+          return {
+            ...curNode,
+            rightChildNode: [...curNode.rightChildNode, newNode],
+          };
+        }
         return {
           ...curNode,
           childNode: [...curNode.childNode, newNode],
+        };
+      }
+
+      if (targetNode === 0 && side === 'left') {
+        return {
+          ...curNode,
+          leftChildNode: curNode.leftChildNode.map((child) =>
+            updateTree(child, level + 1)
+          ),
+        };
+      } else if (targetNode === 0 && side === 'right') {
+        return {
+          ...curNode,
+          rightChildNode: curNode.rightChildNode.map((child) =>
+            updateTree(child, level + 1)
+          ),
         };
       }
       return {

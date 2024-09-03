@@ -14,7 +14,7 @@ import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const NodeRender = forwardRef((props, ref) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
-  console.log(node.childNode);
+
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -25,8 +25,8 @@ const NodeRender = forwardRef((props, ref) => {
     setIsHovered(false);
   };
 
-  const handleAddChild = () => {
-    addNode(node.node);
+  const handleAddChild = (side) => {
+    addNode(node.node, side);
   };
 
   const handleDeleteNode = () => {
@@ -49,24 +49,26 @@ const NodeRender = forwardRef((props, ref) => {
     $angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
   };
 
-  const leftChildNodeRender = node.leftChildNode.map((child) => (
+  const leftChildNodeRender = (node.leftChildNode || []).map((child) => (
     <React.Fragment key={child.node}>
       <NodeRender
         node={child}
         addNode={addNode}
         updateNodeInputValue={updateNodeInputValue}
         deleteNode={deleteNode}
+        side={'left'}
       />
     </React.Fragment>
   ));
 
-  const rightChildNodeRender = node.rightChildNode.map((child) => (
+  const rightChildNodeRender = (node.rightChildNode || []).map((child) => (
     <React.Fragment key={child.node}>
       <NodeRender
         node={child}
         addNode={addNode}
         updateNodeInputValue={updateNodeInputValue}
         deleteNode={deleteNode}
+        side={'right'}
       />
     </React.Fragment>
   ));
@@ -90,26 +92,46 @@ const NodeRender = forwardRef((props, ref) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {isHovered && (
-          <ButtonWrapper>
-            <Button
-              onClick={handleDeleteNode}
-              style={{ right: '-1rem' }}
-              $size={2}
-              $color={'var(--color-red)'}
-            >
-              <FontAwesomeIcon icon={faMinus} />
-            </Button>
-            <Button
-              onClick={handleAddChild}
-              style={{ right: '-4rem' }}
-              $size={2.6}
-              $color={'var(--color-blue)'}
-            >
-              <FontAwesomeIcon icon={faPlus} />
-            </Button>
-          </ButtonWrapper>
-        )}
+        {isHovered &&
+          (node.level === 0 ? (
+            <ButtonWrapper>
+              <Button
+                onClick={() => handleAddChild('left')}
+                style={{ right: '-1rem' }}
+                $size={2.6}
+                $color={'var(--color-red)'}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </Button>
+              <Button
+                onClick={() => handleAddChild('right')}
+                style={{ right: '-4rem' }}
+                $size={2.6}
+                $color={'var(--color-blue)'}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </Button>
+            </ButtonWrapper>
+          ) : (
+            <ButtonWrapper>
+              <Button
+                onClick={handleDeleteNode}
+                style={{ right: '-1rem' }}
+                $size={2}
+                $color={'var(--color-red)'}
+              >
+                <FontAwesomeIcon icon={faMinus} />
+              </Button>
+              <Button
+                onClick={handleAddChild}
+                style={{ right: '-4rem' }}
+                $size={2.6}
+                $color={'var(--color-blue)'}
+              >
+                <FontAwesomeIcon icon={faPlus} />
+              </Button>
+            </ButtonWrapper>
+          ))}
 
         {node.level === 0 ? (
           <RootTopicInput
@@ -136,7 +158,7 @@ const NodeRender = forwardRef((props, ref) => {
         {node.node > 0 && <NodeLine {...lineProps} />}
       </Node>
 
-      {node.childNode === undefined ? (
+      {node.level === 0 ? (
         node.leftChildNode.length > 0 ? (
           <div style={{ marginRight: '100px' }}>{leftChildNodeRender}</div>
         ) : (
