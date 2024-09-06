@@ -4,6 +4,7 @@ export const NodeContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
   margin: 20px;
   position: relative;
 `;
@@ -17,7 +18,7 @@ export const Node = styled.div`
 `;
 
 export const NodeLine = styled.span`
-  position: absolute;
+  /* position: absolute;
   display: block;
   right: ${(props) => props.$right / 10}rem;
   width: ${(props) => props.$width / 10}rem;
@@ -25,7 +26,7 @@ export const NodeLine = styled.span`
   transform-origin: 100% 0;
   background-color: var(--color-green);
   height: 0.4rem;
-  border-radius: 0.4rem;
+  border-radius: 0.4rem; */
 `;
 
 const commonInput = styled.textarea`

@@ -14,7 +14,7 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const NodeRender = forwardRef((props, ref) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
-
+  const [rootActive, setRootActive] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -29,8 +29,8 @@ const NodeRender = forwardRef((props, ref) => {
     addNode(node.node, side);
   };
 
-  const handleDeleteNode = () => {
-    deleteNode(node.node);
+  const handleDeleteNode = (side) => {
+    deleteNode(node.node, side);
   };
 
   const { x: x1, y: y1 } = node.parentNode.position;
@@ -89,6 +89,7 @@ const NodeRender = forwardRef((props, ref) => {
       <Node
         id={node.node}
         $level={node.level}
+        onClick={() => node.node === 0 && setRootActive(true)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -99,9 +100,25 @@ const NodeRender = forwardRef((props, ref) => {
                 onClick={() => handleAddChild("left")}
                 style={{ right: "-1rem" }}
                 $size={2.6}
-                $color={"var(--color-red)"}
+                $color={"var(--color-blue)"}
               >
                 <FontAwesomeIcon icon={faPlus} />
+              </Button>
+              <Button
+                onClick={() => handleDeleteNode("left")}
+                style={{ right: "-1rem" }}
+                $size={2}
+                $color={"var(--color-red)"}
+              >
+                <FontAwesomeIcon icon={faMinus} />
+              </Button>
+              <Button
+                onClick={() => handleDeleteNode("right")}
+                style={{ right: "-1rem" }}
+                $size={2}
+                $color={"var(--color-red)"}
+              >
+                <FontAwesomeIcon icon={faMinus} />
               </Button>
               <Button
                 onClick={() => handleAddChild("right")}
@@ -112,10 +129,10 @@ const NodeRender = forwardRef((props, ref) => {
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
             </ButtonWrapper>
-          ) : (
+          ) : node.level !== 0 && node.side === "right" ? (
             <ButtonWrapper>
               <Button
-                onClick={handleDeleteNode}
+                onClick={() => handleDeleteNode(node.side)}
                 style={{ right: "-1rem" }}
                 $size={2}
                 $color={"var(--color-red)"}
@@ -131,6 +148,8 @@ const NodeRender = forwardRef((props, ref) => {
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
             </ButtonWrapper>
+          ) : (
+            <></>
           ))}
 
         {node.level === 0 ? (

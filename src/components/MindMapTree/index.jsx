@@ -66,18 +66,18 @@ const MindMapTree = () => {
       }
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
-      if (side === "left" && curNode.leftChildNode.ㅣ && level < 2) {
+      if (side === "left" && curNode.leftChildNode && level < 2) {
         return {
           ...curNode,
-          leftChildNode: curNode.leftChildNode.map((child) =>
-            updateTree(child, level + 1)
+          leftChildNode: curNode.leftChildNode.map((leftChild) =>
+            updateTree(leftChild, level + 1)
           ),
         };
       } else if (side === "right" && curNode.rightChildNode && level < 2) {
         return {
           ...curNode,
-          rightChildNode: curNode.rightChildNode.map((child) =>
-            updateTree(child, level + 1)
+          rightChildNode: curNode.rightChildNode.map((rightChild) =>
+            updateTree(rightChild, level + 1)
           ),
         };
       }
@@ -94,6 +94,55 @@ const MindMapTree = () => {
     // 트리 상태를 업데이트하고, 노드 번호 증가
     setTree((prevTree) => updateTree(prevTree, 1));
     setNodeNumber((prevNumber) => prevNumber + 1);
+  };
+
+  const deleteNode = (targetNode, side) => {
+    // 루트 노드에서 삭제할 경우 방향에 따라 빈 배열로 먼저 리턴
+    if (targetNode === 0 && side === "left") {
+      return setTree((prevTree) => ({ ...prevTree, leftChildNode: [] }));
+    } else if (targetNode === 0 && side === "right") {
+      return setTree((prevTree) => ({ ...prevTree, rightChildNode: [] }));
+    }
+
+    const updateTree = (tree) => {
+      if (tree.node === targetNode) {
+        treeChangedRef.current = true;
+        if (tree.childNode.length > 0) {
+          //자식 노드가 있다면 자식 노드들을 삭제
+          return { ...tree, childNode: [] };
+        }
+
+        return null; // 자식 노드가 없으면 자기 자신을 삭제
+      }
+
+      // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
+
+      if (tree.level === 0 && side === "left") {
+        return {
+          ...tree,
+          leftChildNode: tree.leftChildNode.map(
+            (leftChild) =>
+              updateTree(leftChild).filter((leftChild) => leftChild !== null) // 재귀가 끝나면 자기 자신을 삭제한 노드는 제거
+          ),
+        };
+      } else if (tree.level === 0 && side === "right") {
+        return {
+          ...tree,
+          rightChildNode: tree.rightChildNode
+            .map((rightChild) => updateTree(rightChild))
+            .filter((rightChild) => rightChild !== null),
+        };
+      }
+
+      // 루트 노드를 제외하고는 childNode를 순회
+      const updatedChildren = tree.childNode
+        .map((child) => updateTree(child))
+        .filter((child) => child !== null);
+
+      return { ...tree, childNode: updatedChildren };
+    };
+
+    setTree((prevTree) => updateTree(prevTree));
   };
 
   const updateNodeInputValue = (event, targetNode) => {
@@ -124,29 +173,7 @@ const MindMapTree = () => {
     setTree((prevTree) => updateTree(prevTree));
   };
 
-  const deleteNode = (targetNode) => {
-    const updateTree = (tree) => {
-      if (tree.node === targetNode) {
-        treeChangedRef.current = true;
-
-        if (tree.childNode.length > 0 || tree.node === 0) {
-          //자식 노드가 있거나 루트 노드라면 자식 노드들을 삭제
-          return { ...tree, childNode: [] };
-        }
-        return null; // 자식 노드가 없으면 자기 자신을 삭제
-      }
-
-      const updatedChildren = tree.childNode
-        .map((child) => updateTree(child))
-        .filter((child) => child !== null);
-
-      return { ...tree, childNode: updatedChildren };
-    };
-
-    setTree((prevTree) => updateTree(prevTree));
-  };
-
-  const updateNodePosition = (node, nodeId, curPosition, parentPositon) => {
+  const updateNodePosition = (node, nodeId, curPosition, parentPosition) => {
     if (node.node === parseInt(nodeId)) {
       const { position: prevPosition } = node;
       if (
@@ -157,7 +184,7 @@ const MindMapTree = () => {
           ...node,
           parentNode: {
             ...node.parentNode,
-            position: parentPositon,
+            position: parentPosition,
           },
           position: curPosition,
         };
