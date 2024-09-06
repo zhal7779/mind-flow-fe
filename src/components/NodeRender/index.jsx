@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState } from "react";
 import {
   NodeContainer,
   Node,
@@ -8,9 +8,9 @@ import {
   ContentInput,
   ButtonWrapper,
   Button,
-} from './styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+} from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const NodeRender = forwardRef((props, ref) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
@@ -56,7 +56,7 @@ const NodeRender = forwardRef((props, ref) => {
         addNode={addNode}
         updateNodeInputValue={updateNodeInputValue}
         deleteNode={deleteNode}
-        side={'left'}
+        side={"left"}
       />
     </React.Fragment>
   ));
@@ -68,7 +68,7 @@ const NodeRender = forwardRef((props, ref) => {
         addNode={addNode}
         updateNodeInputValue={updateNodeInputValue}
         deleteNode={deleteNode}
-        side={'right'}
+        side={"right"}
       />
     </React.Fragment>
   ));
@@ -96,18 +96,18 @@ const NodeRender = forwardRef((props, ref) => {
           (node.level === 0 ? (
             <ButtonWrapper>
               <Button
-                onClick={() => handleAddChild('left')}
-                style={{ right: '-1rem' }}
+                onClick={() => handleAddChild("left")}
+                style={{ right: "-1rem" }}
                 $size={2.6}
-                $color={'var(--color-red)'}
+                $color={"var(--color-red)"}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
               <Button
-                onClick={() => handleAddChild('right')}
-                style={{ right: '-4rem' }}
+                onClick={() => handleAddChild("right")}
+                style={{ right: "-4rem" }}
                 $size={2.6}
-                $color={'var(--color-blue)'}
+                $color={"var(--color-blue)"}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
@@ -116,17 +116,17 @@ const NodeRender = forwardRef((props, ref) => {
             <ButtonWrapper>
               <Button
                 onClick={handleDeleteNode}
-                style={{ right: '-1rem' }}
+                style={{ right: "-1rem" }}
                 $size={2}
-                $color={'var(--color-red)'}
+                $color={"var(--color-red)"}
               >
                 <FontAwesomeIcon icon={faMinus} />
               </Button>
               <Button
-                onClick={handleAddChild}
-                style={{ right: '-4rem' }}
+                onClick={() => handleAddChild(node.side)}
+                style={{ right: "-4rem" }}
                 $size={2.6}
-                $color={'var(--color-blue)'}
+                $color={"var(--color-blue)"}
               >
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
@@ -160,13 +160,13 @@ const NodeRender = forwardRef((props, ref) => {
 
       {node.level === 0 ? (
         node.leftChildNode.length > 0 ? (
-          <div style={{ marginRight: '100px' }}>{leftChildNodeRender}</div>
+          <div style={{ marginRight: "100px" }}>{leftChildNodeRender}</div>
         ) : (
-          <div style={{ marginLeft: '100px' }}>{rightChildNodeRender}</div>
+          <div style={{ marginLeft: "100px" }}>{rightChildNodeRender}</div>
         )
       ) : (
         node.childNode.length > 0 && (
-          <div style={{ marginLeft: '100px' }}>{childNodeRender}</div>
+          <div style={{ marginLeft: "100px" }}>{childNodeRender}</div>
         )
       )}
     </NodeContainer>
