@@ -1,16 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import NodeRender from "../NodeRender";
 import positionCalculate from "../../utils/positionCalculate";
-import {
-  NodeContainer,
-  Node,
-  RootTopicInput,
-  ButtonWrapper,
-  Button,
-} from "../NodeRender/styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import RightNodeRender from "../RightNodeRender";
 
 // 필요한 작업
 // 1. 노드 연결 선 곡선으로 변경 필요 (지금처럼 삼각형이 아닌 원형을 계산해서 해야함)
@@ -240,6 +230,8 @@ const MindMapTree = () => {
       treeChangedRef.current = false;
     }
   }, [tree]);
+
+  console.log(tree);
   return (
     <NodeRender
       node={tree}
@@ -248,60 +240,6 @@ const MindMapTree = () => {
       deleteNode={deleteNode}
       ref={treeRef}
     />
-    // <NodeContainer >
-    //   <Node>
-    //     <ButtonWrapper>
-    //       <Button
-    //         onClick={() => addNode(tree.node, "left")}
-    //         style={{ right: "-1rem" }}
-    //         $size={2.6}
-    //         $color={"var(--color-blue)"}
-    //       >
-    //         <FontAwesomeIcon icon={faPlus} />
-    //       </Button>
-    //       <Button
-    //         onClick={() => deleteNode(tree.node, "left")}
-    //         style={{ right: "-1rem" }}
-    //         $size={2}
-    //         $color={"var(--color-red)"}
-    //       >
-    //         <FontAwesomeIcon icon={faMinus} />
-    //       </Button>
-
-    //       <Button
-    //         onClick={() => deleteNode(tree.node, "right")}
-    //         style={{ right: "-1rem" }}
-    //         $size={2}
-    //         $color={"var(--color-red)"}
-    //       >
-    //         <FontAwesomeIcon icon={faMinus} />
-    //       </Button>
-    //       <Button
-    //         onClick={() => addNode(tree.node, "right")}
-    //         style={{ right: "-4rem" }}
-    //         $size={2.6}
-    //         $color={"var(--color-blue)"}
-    //       >
-    //         <FontAwesomeIcon icon={faPlus} />
-    //       </Button>
-    //     </ButtonWrapper>
-    //     <RootTopicInput
-    //       rows={1}
-    //       onChange={(e) => updateNodeInputValue(e, tree)}
-    //       value={tree.value}
-    //       placeholder="메인 주제를 입력해주세요"
-    //     ></RootTopicInput>
-    //   </Node>
-    //   {tree.rightChildNode.length > 0 && (
-    //     <RightNodeRender
-    //       node={tree.rightChildNode}
-    //       addNode={addNode}
-    //       updateNodeInputValue={updateNodeInputValue}
-    //       deleteNode={deleteNode}
-    //       ref={treeRef}
-    //     />
-    //   )}
-    // </NodeContainer>
   );
 };
 

@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const NodeContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: ${(props) => (props.$side === "left" ? "end" : "start")};
   align-items: center;
-
   margin: 20px;
   position: relative;
 `;
@@ -51,6 +51,7 @@ export const MainTopicInput = styled(commonInput)`
   font-size: 1.6rem;
   font-weight: 600;
   width: 100%;
+  min-width: 23.5rem;
   border: 5px solid var(--color-primary);
 `;
 
