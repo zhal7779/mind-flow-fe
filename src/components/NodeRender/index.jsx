@@ -14,6 +14,7 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const NodeRender = forwardRef((props, ref) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
+
   const [rootActive, setRootActive] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -85,7 +86,7 @@ const NodeRender = forwardRef((props, ref) => {
   ));
 
   return (
-    <NodeContainer ref={ref} $side={node.side}>
+    <NodeContainer ref={ref} $side={node.side} $isRoot={node.level === 0}>
       <div
         style={{
           display: "flex",

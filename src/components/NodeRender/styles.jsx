@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const NodeContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${(props) => (props.$side === "left" ? "end" : "start")};
+  justify-content: ${({ $side }) =>
+    $side === undefined ? "center" : $side === "left" ? "end" : "start"};
   align-items: center;
   margin: 20px;
   position: relative;
@@ -43,7 +44,8 @@ export const RootTopicInput = styled(commonInput)`
   font-size: 2rem;
   font-weight: 700;
   width: 100%;
-  min-width: 27rem;
+  min-width: 30rem;
+  background-color: var(--color-butter);
   border: 5px solid var(--color-butter);
 `;
 

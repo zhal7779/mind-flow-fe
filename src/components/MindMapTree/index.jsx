@@ -120,10 +120,9 @@ const MindMapTree = () => {
       if (tree.level === 0 && side === "left") {
         return {
           ...tree,
-          leftChildNode: tree.leftChildNode.map(
-            (leftChild) =>
-              updateTree(leftChild).filter((leftChild) => leftChild !== null) // 재귀가 끝나면 자기 자신을 삭제한 노드는 제거
-          ),
+          leftChildNode: tree.leftChildNode
+            .map((leftChild) => updateTree(leftChild))
+            .filter((leftChild) => leftChild !== null), // 재귀가 끝나면 자기 자신을 삭제한 노드는 제거
         };
       } else if (tree.level === 0 && side === "right") {
         return {
@@ -231,7 +230,6 @@ const MindMapTree = () => {
     }
   }, [tree]);
 
-  console.log(tree);
   return (
     <NodeRender
       node={tree}
