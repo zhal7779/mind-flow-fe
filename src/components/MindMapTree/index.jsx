@@ -27,6 +27,15 @@ const MindMapTree = () => {
   const treeRef = useRef(null);
   const treeChangedRef = useRef(true);
 
+  useEffect(() => {
+    //트리 변경 감지시 트리의 각 노드들 포지션 업데이트
+    if (treeChangedRef.current) {
+      updateTreeWithNodePositions(treeRef, setTree);
+      treeChangedRef.current = false;
+    }
+  }, [tree.leftChildNode, tree.rightChildNode]);
+
+  //노드 추가
   const addNode = (targetNode, side) => {
     const updateTree = (curNode, level) => {
       // 목표 노드에 도달하면 새 노드를 추가
@@ -96,6 +105,7 @@ const MindMapTree = () => {
     setNodeNumber((prevNumber) => prevNumber + 1);
   };
 
+  //노드 삭제
   const deleteNode = (targetNode, side) => {
     // 루트 노드에서 삭제할 경우 방향에 따라 빈 배열로 먼저 리턴
     if (targetNode === 0 && side === "left") {
@@ -144,6 +154,7 @@ const MindMapTree = () => {
     setTree((prevTree) => updateTree(prevTree));
   };
 
+  //노드의 값 업데이트
   const updateNodeInputValue = (event, targetNode, side) => {
     const updateTree = (curNode) => {
       if (curNode.node === targetNode.node) {
@@ -192,6 +203,7 @@ const MindMapTree = () => {
     setTree((prevTree) => updateTree(prevTree));
   };
 
+  // 노드 포지션 업데이트
   const updateNodePosition = (node, nodeId, curPosition, parentPosition) => {
     if (node.node === parseInt(nodeId)) {
       const { position: prevPosition } = node;
@@ -209,9 +221,9 @@ const MindMapTree = () => {
         };
       }
     }
+    const parentNodePosition = node.position;
 
     if (node.childNode) {
-      const parentNodePosition = node.position;
       return {
         ...node,
         childNode: node.childNode.map((child) =>
@@ -223,17 +235,31 @@ const MindMapTree = () => {
   };
 
   const updateTreeWithNodePositions = (treeRef, setTree) => {
-    const treePositionRecursion = (node) => {
-      if (!node.children) {
+    const treePositionRecursion = (nodeRef) => {
+      if (!nodeRef.children) {
         return;
       }
-      if (node.id) {
-        const currentPosition = positionCalculate(node);
+      if (nodeRef.id === "leftChildren") {
+        console.log(nodeRef);
+      }
+
+      if (nodeRef.id === "rightChildren") {
+        console.log(nodeRef);
+      }
+
+      if (nodeRef.id) {
+        const currentPosition = positionCalculate(nodeRef);
+
         setTree((prevTree) =>
-          updateNodePosition(prevTree, node.id, currentPosition, tree.position)
+          updateNodePosition(
+            prevTree,
+            nodeRef.id,
+            currentPosition,
+            tree.position
+          )
         );
       }
-      Array.from(node.children).forEach((child) => {
+      Array.from(nodeRef.children).forEach((child) => {
         treePositionRecursion(child);
       });
     };
@@ -242,13 +268,6 @@ const MindMapTree = () => {
       treePositionRecursion(treeRef.current);
     }
   };
-
-  useEffect(() => {
-    if (treeChangedRef.current) {
-      updateTreeWithNodePositions(treeRef, setTree);
-      treeChangedRef.current = false;
-    }
-  }, [tree]);
 
   return (
     <NodeRender

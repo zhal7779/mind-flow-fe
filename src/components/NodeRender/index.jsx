@@ -96,7 +96,7 @@ const NodeRender = forwardRef((props, ref) => {
         }}
       >
         {/* 왼쪽 자식 노드 렌더링 */}
-        <div style={{ flex: 1, marginRight: "50px" }}>
+        <div id={"leftChildren"} style={{ flex: 1, marginRight: "50px" }}>
           {node.level === 0 &&
             node.leftChildNode.length > 0 &&
             leftChildNodeRender}
@@ -213,7 +213,7 @@ const NodeRender = forwardRef((props, ref) => {
         </Node>
 
         {/* 오른쪽 자식 노드 렌더링 */}
-        <div style={{ flex: 1, marginLeft: "50px" }}>
+        <div id={"rightChildren"} style={{ flex: 1, marginLeft: "50px" }}>
           {node.level === 0 &&
             node.rightChildNode.length > 0 &&
             rightChildNodeRender}

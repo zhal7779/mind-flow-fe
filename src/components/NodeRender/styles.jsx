@@ -19,7 +19,7 @@ export const Node = styled.div`
 `;
 
 export const NodeLine = styled.span`
-  /* position: absolute;
+  position: absolute;
   display: block;
   right: ${(props) => props.$right / 10}rem;
   width: ${(props) => props.$width / 10}rem;
@@ -27,7 +27,7 @@ export const NodeLine = styled.span`
   transform-origin: 100% 0;
   background-color: var(--color-green);
   height: 0.4rem;
-  border-radius: 0.4rem; */
+  border-radius: 0.4rem;
 `;
 
 const commonInput = styled.textarea`
@@ -60,7 +60,6 @@ export const MainTopicInput = styled(commonInput)`
 export const ContentInput = styled(commonInput)`
   font-size: 1.4rem;
   font-weight: 400;
-  padding: 1.4rem 1.2rem;
 `;
 
 export const ButtonWrapper = styled.span`
