@@ -190,21 +190,21 @@ const NodeRender = forwardRef((props, ref) => {
           {node.level === 0 ? (
             <RootTopicInput
               rows={1}
-              onChange={(e) => updateNodeInputValue(e, node)}
+              onChange={(e) => updateNodeInputValue(e, node, null)}
               value={node.value}
               placeholder="메인 주제를 입력해주세요"
             />
           ) : node.level === 1 ? (
             <MainTopicInput
               rows={1}
-              onChange={(e) => updateNodeInputValue(e, node)}
+              onChange={(e) => updateNodeInputValue(e, node, node.side)}
               value={node.value}
               placeholder="브랜치 주제를 입력해주세요"
             />
           ) : (
             <ContentInput
               rows={1}
-              onChange={(e) => updateNodeInputValue(e, node)}
+              onChange={(e) => updateNodeInputValue(e, node, node.side)}
               value={node.value}
               placeholder="내용을 입력해주세요"
             />

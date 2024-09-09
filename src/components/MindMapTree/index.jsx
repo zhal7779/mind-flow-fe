@@ -144,25 +144,45 @@ const MindMapTree = () => {
     setTree((prevTree) => updateTree(prevTree));
   };
 
-  const updateNodeInputValue = (event, targetNode) => {
+  const updateNodeInputValue = (event, targetNode, side) => {
     const updateTree = (curNode) => {
       if (curNode.node === targetNode.node) {
+        //  목표 노드에 도달하면 value 업데이트 및 해당 요소의 높이 변경
         const target = event.target;
         const { value } = target;
 
         const prevTargetHeight = target.offsetHeight;
         const updateTargetHeight = target.scrollHeight + 9;
 
+        // textarea입력으로 높이 변경될 경우 트리 전체의 선 길이 및 곡선을 업데이트
         if (prevTargetHeight < updateTargetHeight) {
           target.style.height = "auto";
           target.style.height = target.scrollHeight - 40 + "px";
 
-          // textarea입력으로 높이 변경될 경우 트리 전체의 선 길이 및 곡선을 업데이트
           treeChangedRef.current = true;
         }
 
+        // value 업데이트
         return { ...curNode, value };
       }
+
+      // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
+      if (curNode.level === 0 && side === "left") {
+        return {
+          ...curNode,
+          leftChildNode: curNode.leftChildNode.map((child) =>
+            updateTree(child)
+          ),
+        };
+      } else if (curNode.level === 0 && side === "right") {
+        return {
+          ...curNode,
+          rightChildNode: curNode.rightChildNode.map((child) =>
+            updateTree(child)
+          ),
+        };
+      }
+      // 루트 노드를 제외하고는 childNode를 순회
       return {
         ...curNode,
         childNode: curNode.childNode.map((child) => updateTree(child)),
