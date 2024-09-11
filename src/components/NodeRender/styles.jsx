@@ -1,12 +1,21 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const NodeContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${({ $isRoot }) => ($isRoot ? "row" : "column")};
   justify-content: ${({ $side }) =>
     $side === undefined ? "center" : $side === "left" ? "end" : "start"};
   align-items: center;
   margin: 20px;
+  position: relative;
+`;
+
+export const LeftNodeContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: end;
+  align-items: center;
+  margin: 15px;
   position: relative;
 `;
 

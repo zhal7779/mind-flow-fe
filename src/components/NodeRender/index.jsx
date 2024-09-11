@@ -15,7 +15,6 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 const NodeRender = forwardRef((props, ref) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
 
-  const [rootActive, setRootActive] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -48,13 +47,6 @@ const NodeRender = forwardRef((props, ref) => {
     $right: r2,
     $width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
     $angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
-  };
-
-  const leftLineProps = {
-    $top: t1,
-    $right: r1,
-    $width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y1 - y2, 2)),
-    $angle: (Math.atan2(y1 - y2, x1 - x2) * 180) / Math.PI,
   };
 
   const leftChildNodeRender = (node.leftChildNode || []).map((child) => (
@@ -113,7 +105,6 @@ const NodeRender = forwardRef((props, ref) => {
         <Node
           id={node.node}
           $level={node.level}
-          onClick={() => node.node === 0 && setRootActive(true)}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

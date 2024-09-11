@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import NodeRender from "../NodeRender";
 import positionCalculate from "../../utils/positionCalculate";
+import LeftNodeRender from "../LeftNodeRender";
+import RootNodeRender from "../RootNodeRender";
+import { NodeContainer } from "../NodeRender/styles";
 
 // 필요한 작업
 // 1. 노드 연결 선 곡선으로 변경 필요 (지금처럼 삼각형이 아닌 원형을 계산해서 해야함)
@@ -307,15 +310,37 @@ const MindMapTree = () => {
       treePositionRecursion(treeRef.current);
     }
   };
-
+  console.log(tree);
+  {
+    /* <NodeRender
+        node={tree}
+        addNode={addNode}
+        updateNodeInputValue={updateNodeInputValue}
+        deleteNode={deleteNode}
+        ref={treeRef}
+      /> */
+  }
   return (
-    <NodeRender
-      node={tree}
-      addNode={addNode}
-      updateNodeInputValue={updateNodeInputValue}
-      deleteNode={deleteNode}
-      ref={treeRef}
-    />
+    <NodeContainer ref={treeRef} $side={undefined} $isRoot={true}>
+      <div id={"leftChildren"}>
+        {tree.leftChildNode.length > 0 &&
+          tree.leftChildNode.map((leftNode) => (
+            <LeftNodeRender
+              node={leftNode}
+              addNode={addNode}
+              updateNodeInputValue={updateNodeInputValue}
+              deleteNode={deleteNode}
+            />
+          ))}
+      </div>
+      <RootNodeRender
+        tree={tree}
+        addNode={addNode}
+        deleteNode={deleteNode}
+        updateNodeInputValue={updateNodeInputValue}
+      />
+      <div id={"rightChildren"}></div>
+    </NodeContainer>
   );
 };
 
