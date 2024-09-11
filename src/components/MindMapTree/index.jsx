@@ -27,32 +27,21 @@ const MindMapTree = () => {
   const treeRef = useRef(null);
   const treeChangedRef = useRef(true);
 
-  // useEffect(() => {
-  //   //트리 변경 감지시 트리의 각 노드들 포지션 업데이트
-  //   if (treeChangedRef.current) {
-  //     updateTreeWithNodePositions(treeRef, setTree);
-  //     treeChangedRef.current = false;
-  //   }
-  // }, [tree.leftChildNode, tree.rightChildNode]);
-
   // 왼쪽 자식 노드가 생성되거나 변경된 것을 감지
-
   useEffect(() => {
-    if (tree.leftChildNode.length > 0) {
-      console.log("왼쪽 자식 노드가 생성되거나 변경됨");
-      // 여기에 왼쪽 자식 노드가 추가될 때의 로직 추가
+    if (tree.leftChildNode.length > 0 && treeChangedRef.current) {
       updateTreeWithNodePositions(treeRef, setTree, "left");
+      treeChangedRef.current = false;
     }
-  }, [tree.leftChildNode]); // 왼쪽 자식 노드 배열이 변경될 때마다 실행
+  }, [tree.leftChildNode]);
 
   // 오른쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
-    if (tree.rightChildNode.length > 0) {
-      console.log("오른쪽 자식 노드가 생성되거나 변경됨");
-      // 여기에 오른쪽 자식 노드가 추가될 때의 로직 추가
+    if (tree.rightChildNode.length > 0 && treeChangedRef.current) {
       updateTreeWithNodePositions(treeRef, setTree, "right");
+      treeChangedRef.current = false;
     }
-  }, [tree.rightChildNode]); // 오른쪽 자식 노드 배열이 변경될 때마다 실행
+  }, [tree.rightChildNode]);
 
   //노드 추가
   const addNode = (targetNode, side) => {
@@ -248,6 +237,26 @@ const MindMapTree = () => {
     }
     const parentNodePosition = node.position;
 
+    if (node.level === 0 && side === "left") {
+      return {
+        ...node,
+        leftChildNode: node.leftChildNode.map((leftChild) =>
+          updateNodePosition(leftChild, nodeId, curPosition, parentNodePosition)
+        ),
+      };
+    } else if (node.level === 0 && side === "right") {
+      return {
+        ...node,
+        rightChildNode: node.rightChildNode.map((rightChild) =>
+          updateNodePosition(
+            rightChild,
+            nodeId,
+            curPosition,
+            parentNodePosition
+          )
+        ),
+      };
+    }
     if (node.childNode) {
       return {
         ...node,
@@ -268,11 +277,16 @@ const MindMapTree = () => {
       const currentPosition = positionCalculate(nodeRef);
 
       if (side === "left") {
-        console.log(nodeRef);
-      }
-
-      if (side === "right") {
-        console.log(nodeRef);
+        setTree((prevTree) =>
+          updateNodePosition(
+            prevTree,
+            nodeRef.id,
+            currentPosition,
+            tree.position,
+            "left"
+          )
+        );
+      } else {
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,
@@ -284,16 +298,6 @@ const MindMapTree = () => {
         );
       }
 
-      // if (nodeRef.id) {
-      //   setTree((prevTree) =>
-      //     updateNodePosition(
-      //       prevTree,
-      //       nodeRef.id,
-      //       currentPosition,
-      //       tree.position
-      //     )
-      //   );
-      // }
       Array.from(nodeRef.children).forEach((child) => {
         treePositionRecursion(child);
       });

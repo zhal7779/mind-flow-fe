@@ -34,7 +34,7 @@ const NodeRender = forwardRef((props, ref) => {
     deleteNode(node.node, side);
   };
 
-  const { x: x1, y: y1 } = node.parentNode.position;
+  const { x: x1, y: y1, r: r1, t: t1 } = node.parentNode.position;
 
   const {
     x: x2,
@@ -48,6 +48,13 @@ const NodeRender = forwardRef((props, ref) => {
     $right: r2,
     $width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
     $angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
+  };
+
+  const leftLineProps = {
+    $top: t1,
+    $right: r1,
+    $width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y1 - y2, 2)),
+    $angle: (Math.atan2(y1 - y2, x1 - x2) * 180) / Math.PI,
   };
 
   const leftChildNodeRender = (node.leftChildNode || []).map((child) => (
