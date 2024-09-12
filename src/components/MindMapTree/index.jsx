@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import NodeRender from "../NodeRender";
 import positionCalculate from "../../utils/positionCalculate";
 import LeftNodeRender from "../LeftNodeRender";
 import RootNodeRender from "../RootNodeRender";
-import { NodeContainer } from "../NodeRender/styles";
+import { RootNodeContainer } from "../../styles/NodeCommon";
+import RightNodeRender from "../RightNodeRender";
 
 // 필요한 작업
 // 1. 노드 연결 선 곡선으로 변경 필요 (지금처럼 삼각형이 아닌 원형을 계산해서 해야함)
@@ -311,17 +311,8 @@ const MindMapTree = () => {
     }
   };
   console.log(tree);
-  {
-    /* <NodeRender
-        node={tree}
-        addNode={addNode}
-        updateNodeInputValue={updateNodeInputValue}
-        deleteNode={deleteNode}
-        ref={treeRef}
-      /> */
-  }
   return (
-    <NodeContainer ref={treeRef} $side={undefined} $isRoot={true}>
+    <RootNodeContainer ref={treeRef} $side={undefined} $isRoot={true}>
       <div id={"leftChildren"}>
         {tree.leftChildNode.length > 0 &&
           tree.leftChildNode.map((leftNode) => (
@@ -339,8 +330,18 @@ const MindMapTree = () => {
         deleteNode={deleteNode}
         updateNodeInputValue={updateNodeInputValue}
       />
-      <div id={"rightChildren"}></div>
-    </NodeContainer>
+      <div id={"rightChildren"}>
+        {tree.rightChildNode.length > 0 &&
+          tree.rightChildNode.map((rightNode) => (
+            <RightNodeRender
+              node={rightNode}
+              addNode={addNode}
+              updateNodeInputValue={updateNodeInputValue}
+              deleteNode={deleteNode}
+            />
+          ))}
+      </div>
+    </RootNodeContainer>
   );
 };
 
