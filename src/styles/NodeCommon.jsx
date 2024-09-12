@@ -47,6 +47,7 @@ const commonInput = styled.textarea`
   box-sizing: content-box;
   height: auto;
   overflow: hidden;
+  z-index: 1;
 `;
 
 export const RootTopicInput = styled(commonInput)`
@@ -77,6 +78,7 @@ export const ButtonWrapper = styled.span`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  z-index: 2;
 `;
 
 export const Button = styled.button`

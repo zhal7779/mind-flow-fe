@@ -7,12 +7,14 @@ import {
   ContentInput,
   ButtonWrapper,
   Button,
+  NodeLine,
 } from "../../styles/NodeCommon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const RightNodeRender = (props) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
+  // console.log(node);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -30,8 +32,25 @@ const RightNodeRender = (props) => {
     deleteNode(node.node, "right");
   };
 
+  const { x: x1, y: y1 } = node.parentNode.position;
+
+  const {
+    x: x2,
+    y: y2,
+    r: r2,
+    t: t2,
+  } = node.position || { x: 0, y: 0, r: 0, t: 0 };
+
+  const lineProps = {
+    $top: t2,
+    $right: r2,
+    $width: Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)),
+    $angle: (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI,
+  };
+
   const rightChildNodeRender = node.childNode.map((child) => (
     <RightNodeRender
+      key={child.node}
       node={child}
       addNode={addNode}
       updateNodeInputValue={updateNodeInputValue}
@@ -91,6 +110,7 @@ const RightNodeRender = (props) => {
               placeholder="내용을 입력해주세요"
             />
           )}
+          {node.node > 0 && <NodeLine {...lineProps} />}
         </Node>
       </div>
 

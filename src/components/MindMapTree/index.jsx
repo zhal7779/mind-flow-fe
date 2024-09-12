@@ -28,27 +28,25 @@ const MindMapTree = () => {
 
   const [nodeNumber, setNodeNumber] = useState(1);
 
-  // const treeRef = useRef(null);
-  const leftChildRef = useRef(null);
-  const rightChildRef = useRef(null);
+  const treeRef = useRef(null);
 
   const treeChangedRef = useRef(true);
 
   // 왼쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (tree.leftChildNode.length > 0 && treeChangedRef.current) {
-      updateTreeWithNodePositions(leftChildRef, setTree, "left");
+      updateTreeWithNodePositions(treeRef, setTree, "left");
       treeChangedRef.current = false;
     }
-  }, [leftChildRef]);
+  }, [tree.leftChildNode]);
 
   // 오른쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (tree.rightChildNode.length > 0 && treeChangedRef.current) {
-      updateTreeWithNodePositions(rightChildRef, setTree, "right");
+      updateTreeWithNodePositions(treeRef, setTree, "right");
       treeChangedRef.current = false;
     }
-  }, [rightChildRef]);
+  }, [tree.rightChildNode]);
 
   //노드 추가
   const addNode = (targetNode, side) => {
@@ -314,13 +312,14 @@ const MindMapTree = () => {
       treePositionRecursion(treeRef.current);
     }
   };
-  console.log(tree);
+
   return (
-    <RootNodeContainer $side={undefined} $isRoot={true}>
-      <div ref={leftChildRef}>
+    <RootNodeContainer ref={treeRef} $side={undefined} $isRoot={true}>
+      <div id={"leftChildNode"}>
         {tree.leftChildNode.length > 0 &&
           tree.leftChildNode.map((leftNode) => (
             <LeftNodeRender
+              key={leftNode.node}
               node={leftNode}
               addNode={addNode}
               updateNodeInputValue={updateNodeInputValue}
@@ -328,16 +327,19 @@ const MindMapTree = () => {
             />
           ))}
       </div>
+
       <RootNodeRender
         tree={tree}
         addNode={addNode}
         deleteNode={deleteNode}
         updateNodeInputValue={updateNodeInputValue}
       />
-      <div ref={rightChildRef}>
+
+      <div id={"rightChildNode"}>
         {tree.rightChildNode.length > 0 &&
           tree.rightChildNode.map((rightNode) => (
             <RightNodeRender
+              key={rightNode.node}
               node={rightNode}
               addNode={addNode}
               updateNodeInputValue={updateNodeInputValue}
