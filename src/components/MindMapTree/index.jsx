@@ -27,24 +27,28 @@ const MindMapTree = () => {
   });
 
   const [nodeNumber, setNodeNumber] = useState(1);
-  const treeRef = useRef(null);
+
+  // const treeRef = useRef(null);
+  const leftChildRef = useRef(null);
+  const rightChildRef = useRef(null);
+
   const treeChangedRef = useRef(true);
 
   // 왼쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (tree.leftChildNode.length > 0 && treeChangedRef.current) {
-      updateTreeWithNodePositions(treeRef, setTree, "left");
+      updateTreeWithNodePositions(leftChildRef, setTree, "left");
       treeChangedRef.current = false;
     }
-  }, [tree.leftChildNode]);
+  }, [leftChildRef]);
 
   // 오른쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (tree.rightChildNode.length > 0 && treeChangedRef.current) {
-      updateTreeWithNodePositions(treeRef, setTree, "right");
+      updateTreeWithNodePositions(rightChildRef, setTree, "right");
       treeChangedRef.current = false;
     }
-  }, [tree.rightChildNode]);
+  }, [rightChildRef]);
 
   //노드 추가
   const addNode = (targetNode, side) => {
@@ -312,8 +316,8 @@ const MindMapTree = () => {
   };
   console.log(tree);
   return (
-    <RootNodeContainer ref={treeRef} $side={undefined} $isRoot={true}>
-      <div id={"leftChildren"}>
+    <RootNodeContainer $side={undefined} $isRoot={true}>
+      <div ref={leftChildRef}>
         {tree.leftChildNode.length > 0 &&
           tree.leftChildNode.map((leftNode) => (
             <LeftNodeRender
@@ -330,7 +334,7 @@ const MindMapTree = () => {
         deleteNode={deleteNode}
         updateNodeInputValue={updateNodeInputValue}
       />
-      <div id={"rightChildren"}>
+      <div ref={rightChildRef}>
         {tree.rightChildNode.length > 0 &&
           tree.rightChildNode.map((rightNode) => (
             <RightNodeRender
