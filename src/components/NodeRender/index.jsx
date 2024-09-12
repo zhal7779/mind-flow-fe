@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from "react";
 import {
-  NodeContainer,
+  RootNodeContainer,
   Node,
   NodeLine,
   RootTopicInput,
@@ -8,7 +8,7 @@ import {
   ContentInput,
   ButtonWrapper,
   Button,
-} from "./styles";
+} from "../../styles/NodeCommon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
@@ -85,7 +85,7 @@ const NodeRender = forwardRef((props, ref) => {
   ));
 
   return (
-    <NodeContainer ref={ref} $side={node.side} $isRoot={node.level === 0}>
+    <RootNodeContainer ref={ref} $side={node.side} $isRoot={node.level === 0}>
       <div
         style={{
           display: "flex",
@@ -222,7 +222,7 @@ const NodeRender = forwardRef((props, ref) => {
           {node.level > 0 && node.childNode.length > 0 && childNodeRender}
         </div>
       </div>
-    </NodeContainer>
+    </RootNodeContainer>
   );
 });
 

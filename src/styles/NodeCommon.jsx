@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const NodeContainer = styled.div`
+export const RootNodeContainer = styled.div`
   display: flex;
   flex-direction: ${({ $isRoot }) => ($isRoot ? "row" : "column")};
   justify-content: ${({ $side }) =>
@@ -10,10 +10,10 @@ export const NodeContainer = styled.div`
   position: relative;
 `;
 
-export const LeftNodeContainer = styled.div`
+export const DirectionNodeContainer = styled.div`
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: end;
+  flex-direction: ${({ $side }) => ($side === "left" ? "row-reverse" : "row")};
+  justify-content: ${({ $side }) => ($side === "left" ? "end" : "start")};
   align-items: center;
   margin: 15px;
   position: relative;

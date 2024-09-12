@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 
 import {
-  LeftNodeContainer,
+  DirectionNodeContainer,
   Node,
   MainTopicInput,
   ContentInput,
   ButtonWrapper,
   Button,
-} from "../NodeRender/styles";
+} from "../../styles/NodeCommon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const LeftNodeRender = (props) => {
-  console.log(props);
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -41,7 +40,7 @@ const LeftNodeRender = (props) => {
   ));
 
   return (
-    <LeftNodeContainer>
+    <DirectionNodeContainer $side={"left"}>
       <div
         style={{
           display: "flex",
@@ -96,7 +95,7 @@ const LeftNodeRender = (props) => {
       </div>
 
       {node.childNode.length > 0 && <div>{leftChildNodeRender}</div>}
-    </LeftNodeContainer>
+    </DirectionNodeContainer>
   );
 };
 
