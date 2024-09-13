@@ -17,7 +17,7 @@ const MindMapTree = () => {
     value: "",
     node: 0,
     level: 0,
-    position: { x: 0, y: 0, r: 0, t: 0 },
+    position: { x: 215, y: 459.5, r: 0, t: 0 },
     parentNode: {
       node: -1,
       position: { x: 0, y: 0, r: 0, t: 0 },
@@ -291,7 +291,7 @@ const MindMapTree = () => {
             "left"
           )
         );
-      } else {
+      } else if (side === "right") {
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,

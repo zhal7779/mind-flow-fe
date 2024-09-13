@@ -14,7 +14,7 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const RightNodeRender = (props) => {
   const { node, addNode, updateNodeInputValue, deleteNode } = props;
-  // console.log(node);
+
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -110,7 +110,7 @@ const RightNodeRender = (props) => {
               placeholder="내용을 입력해주세요"
             />
           )}
-          {node.node > 0 && <NodeLine {...lineProps} />}
+          {node.node > 0 && <NodeLine {...lineProps} $direction={"right"} />}
         </Node>
       </div>
 
