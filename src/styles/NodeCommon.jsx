@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const RootNodeContainer = styled.div`
   display: flex;
-  flex-direction: ${({ $isRoot }) => ($isRoot ? "row" : "column")};
+  flex-direction: ${({ $isRoot }) => ($isRoot ? 'row' : 'column')};
   justify-content: ${({ $side }) =>
-    $side === undefined ? "center" : $side === "left" ? "end" : "start"};
+    $side === undefined ? 'center' : $side === 'left' ? 'end' : 'start'};
   align-items: center;
   margin: 20px;
   position: relative;
@@ -12,8 +12,8 @@ export const RootNodeContainer = styled.div`
 
 export const DirectionNodeContainer = styled.div`
   display: flex;
-  flex-direction: ${({ $side }) => ($side === "left" ? "row-reverse" : "row")};
-  justify-content: ${({ $side }) => ($side === "left" ? "end" : "start")};
+  flex-direction: ${({ $side }) => ($side === 'left' ? 'row-reverse' : 'row')};
+  justify-content: ${({ $side }) => ($side === 'left' ? 'end' : 'start')};
   align-items: center;
   margin: 15px;
   position: relative;
@@ -31,7 +31,7 @@ export const NodeLine = styled.span`
   position: absolute;
   display: block;
   right: ${(props) =>
-    props.$direction === "left" ? 0 : props.$right / 10 + "rem"};
+    props.$direction === 'left' ? 0 : props.$right / 10 + 'rem'};
   width: ${(props) => props.$width / 10}rem;
   transform: rotate(${(props) => props.$angle}deg);
   transform-origin: 100% 0;
@@ -80,6 +80,12 @@ export const ButtonWrapper = styled.span`
   justify-content: space-between;
   align-items: center;
   z-index: 2;
+
+  > span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
 `;
 
 export const Button = styled.button`

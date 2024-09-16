@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Node,
   RootTopicInput,
   ButtonWrapper,
   Button,
-} from "../../styles/NodeCommon";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+} from '../../styles/NodeCommon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const RootNodeRender = ({
   tree,
@@ -33,38 +33,38 @@ const RootNodeRender = ({
     >
       {isHovered && (
         <ButtonWrapper>
-          <Button
-            onClick={() => addNode(0, "left")}
-            style={{ right: "-1rem" }}
-            $size={2.6}
-            $color={"var(--color-blue)"}
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </Button>
-          <Button
-            onClick={() => deleteNode(0, "left")}
-            style={{ right: "-1rem" }}
-            $size={2}
-            $color={"var(--color-red)"}
-          >
-            <FontAwesomeIcon icon={faMinus} />
-          </Button>
-          <Button
-            onClick={() => deleteNode(0, "right")}
-            style={{ right: "-1rem" }}
-            $size={2}
-            $color={"var(--color-red)"}
-          >
-            <FontAwesomeIcon icon={faMinus} />
-          </Button>
-          <Button
-            onClick={() => addNode(0, "right")}
-            style={{ right: "-4rem" }}
-            $size={2.6}
-            $color={"var(--color-blue)"}
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </Button>
+          <span>
+            <Button
+              onClick={() => addNode(0, 'left')}
+              $size={2.6}
+              $color={'var(--color-blue)'}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </Button>
+            <Button
+              onClick={() => deleteNode(0, 'left')}
+              $size={2}
+              $color={'var(--color-red)'}
+            >
+              <FontAwesomeIcon icon={faMinus} />
+            </Button>
+          </span>
+          <span>
+            <Button
+              onClick={() => deleteNode(0, 'right')}
+              $size={2}
+              $color={'var(--color-red)'}
+            >
+              <FontAwesomeIcon icon={faMinus} />
+            </Button>
+            <Button
+              onClick={() => addNode(0, 'right')}
+              $size={2.6}
+              $color={'var(--color-blue)'}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </Button>
+          </span>
         </ButtonWrapper>
       )}
       <RootTopicInput
