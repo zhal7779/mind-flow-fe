@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import positionCalculate from "../../utils/positionCalculate";
-import LeftNodeRender from "../LeftNodeRender";
-import RootNodeRender from "../RootNodeRender";
-import { RootNodeContainer } from "../../styles/NodeCommon";
-import RightNodeRender from "../RightNodeRender";
+import React, { useEffect, useRef, useState } from 'react';
+import positionCalculate from '../../utils/positionCalculate';
+import LeftNodeRender from '../LeftNodeRender';
+import RootNodeRender from '../RootNodeRender';
+import { RootNodeContainer } from '../../styles/NodeCommon';
+import RightNodeRender from '../RightNodeRender';
 
 // 필요한 작업
 // 1. 노드 연결 선 곡선으로 변경 필요 (지금처럼 삼각형이 아닌 원형을 계산해서 해야함)
@@ -14,10 +14,10 @@ import RightNodeRender from "../RightNodeRender";
 
 const MindMapTree = () => {
   const [tree, setTree] = useState({
-    value: "",
+    value: '',
     node: 0,
     level: 0,
-    position: { x: 215, y: 459.5, r: 0, t: 0 },
+    position: { x: 0, y: 0, r: 0, t: 0 },
     parentNode: {
       node: -1,
       position: { x: 0, y: 0, r: 0, t: 0 },
@@ -35,7 +35,7 @@ const MindMapTree = () => {
   // 왼쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (tree.leftChildNode.length > 0 && treeChangedRef.current) {
-      updateTreeWithNodePositions(treeRef, setTree, "left");
+      updateTreeWithNodePositions(treeRef, setTree, 'left');
       treeChangedRef.current = false;
     }
   }, [tree.leftChildNode]);
@@ -43,7 +43,7 @@ const MindMapTree = () => {
   // 오른쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (tree.rightChildNode.length > 0 && treeChangedRef.current) {
-      updateTreeWithNodePositions(treeRef, setTree, "right");
+      updateTreeWithNodePositions(treeRef, setTree, 'right');
       treeChangedRef.current = false;
     }
   }, [tree.rightChildNode]);
@@ -55,7 +55,7 @@ const MindMapTree = () => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
         const newNode = {
-          value: "",
+          value: '',
           level,
           side,
           node: nodeNumber,
@@ -68,12 +68,12 @@ const MindMapTree = () => {
         };
 
         // 새 노드를 추가할 위치에 따라 추가
-        if (targetNode === 0 && side === "left") {
+        if (targetNode === 0 && side === 'left') {
           return {
             ...curNode,
             leftChildNode: [...(curNode.leftChildNode || []), newNode],
           };
-        } else if (targetNode === 0 && side === "right") {
+        } else if (targetNode === 0 && side === 'right') {
           return {
             ...curNode,
             rightChildNode: [...(curNode.rightChildNode || []), newNode],
@@ -88,14 +88,14 @@ const MindMapTree = () => {
       }
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
-      if (side === "left" && curNode.leftChildNode && level < 2) {
+      if (side === 'left' && curNode.leftChildNode && level < 2) {
         return {
           ...curNode,
           leftChildNode: curNode.leftChildNode.map((leftChild) =>
             updateTree(leftChild, level + 1)
           ),
         };
-      } else if (side === "right" && curNode.rightChildNode && level < 2) {
+      } else if (side === 'right' && curNode.rightChildNode && level < 2) {
         return {
           ...curNode,
           rightChildNode: curNode.rightChildNode.map((rightChild) =>
@@ -121,9 +121,9 @@ const MindMapTree = () => {
   //노드 삭제
   const deleteNode = (targetNode, side) => {
     // 루트 노드에서 삭제할 경우 방향에 따라 빈 배열로 먼저 리턴
-    if (targetNode === 0 && side === "left") {
+    if (targetNode === 0 && side === 'left') {
       return setTree((prevTree) => ({ ...prevTree, leftChildNode: [] }));
-    } else if (targetNode === 0 && side === "right") {
+    } else if (targetNode === 0 && side === 'right') {
       return setTree((prevTree) => ({ ...prevTree, rightChildNode: [] }));
     }
 
@@ -140,14 +140,14 @@ const MindMapTree = () => {
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
 
-      if (tree.level === 0 && side === "left") {
+      if (tree.level === 0 && side === 'left') {
         return {
           ...tree,
           leftChildNode: tree.leftChildNode
             .map((leftChild) => updateTree(leftChild))
             .filter((leftChild) => leftChild !== null), // 재귀가 끝나면 자기 자신을 삭제한 노드는 제거
         };
-      } else if (tree.level === 0 && side === "right") {
+      } else if (tree.level === 0 && side === 'right') {
         return {
           ...tree,
           rightChildNode: tree.rightChildNode
@@ -180,8 +180,8 @@ const MindMapTree = () => {
 
         // textarea입력으로 높이 변경될 경우 트리 전체의 선 길이 및 곡선을 업데이트
         if (prevTargetHeight < updateTargetHeight) {
-          target.style.height = "auto";
-          target.style.height = target.scrollHeight - 40 + "px";
+          target.style.height = 'auto';
+          target.style.height = target.scrollHeight - 40 + 'px';
 
           treeChangedRef.current = true;
         }
@@ -191,14 +191,14 @@ const MindMapTree = () => {
       }
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
-      if (curNode.level === 0 && side === "left") {
+      if (curNode.level === 0 && side === 'left') {
         return {
           ...curNode,
           leftChildNode: curNode.leftChildNode.map((child) =>
             updateTree(child)
           ),
         };
-      } else if (curNode.level === 0 && side === "right") {
+      } else if (curNode.level === 0 && side === 'right') {
         return {
           ...curNode,
           rightChildNode: curNode.rightChildNode.map((child) =>
@@ -242,14 +242,14 @@ const MindMapTree = () => {
     }
     const parentNodePosition = node.position;
 
-    if (node.level === 0 && side === "left") {
+    if (node.level === 0 && side === 'left') {
       return {
         ...node,
         leftChildNode: node.leftChildNode.map((leftChild) =>
           updateNodePosition(leftChild, nodeId, curPosition, parentNodePosition)
         ),
       };
-    } else if (node.level === 0 && side === "right") {
+    } else if (node.level === 0 && side === 'right') {
       return {
         ...node,
         rightChildNode: node.rightChildNode.map((rightChild) =>
@@ -280,25 +280,27 @@ const MindMapTree = () => {
       }
 
       const currentPosition = positionCalculate(nodeRef);
-
-      if (side === "left") {
+      //디버깅 필요
+      if (side === 'left') {
+        console.log('cur:', currentPosition, 'parent:', tree.position);
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,
             nodeRef.id,
             currentPosition,
             tree.position,
-            "left"
+            'left'
           )
         );
-      } else if (side === "right") {
+      } else if (side === 'right') {
+        console.log('cur:', currentPosition, 'parent :', tree.position);
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,
             nodeRef.id,
             currentPosition,
             tree.position,
-            "right"
+            'right'
           )
         );
       }
@@ -315,7 +317,7 @@ const MindMapTree = () => {
 
   return (
     <RootNodeContainer ref={treeRef} $side={undefined} $isRoot={true}>
-      <div id={"leftChildNode"}>
+      <div id={'leftChildNode'}>
         {tree.leftChildNode.length > 0 &&
           tree.leftChildNode.map((leftNode) => (
             <LeftNodeRender
@@ -335,7 +337,7 @@ const MindMapTree = () => {
         updateNodeInputValue={updateNodeInputValue}
       />
 
-      <div id={"rightChildNode"}>
+      <div id={'rightChildNode'}>
         {tree.rightChildNode.length > 0 &&
           tree.rightChildNode.map((rightNode) => (
             <RightNodeRender
