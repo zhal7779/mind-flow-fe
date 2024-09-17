@@ -282,7 +282,7 @@ const MindMapTree = () => {
       const currentPosition = positionCalculate(nodeRef);
       //디버깅 필요
       if (side === 'left') {
-        console.log('cur:', currentPosition, 'parent:', tree.position);
+        // console.log('cur:', currentPosition, 'parent:', tree.position);
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,
@@ -293,7 +293,7 @@ const MindMapTree = () => {
           )
         );
       } else if (side === 'right') {
-        console.log('cur:', currentPosition, 'parent :', tree.position);
+        // console.log('cur:', currentPosition, 'parent: ', tree.position);
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,

@@ -31,7 +31,7 @@ export const NodeLine = styled.span`
   position: absolute;
   display: block;
   right: ${(props) =>
-    props.$direction === 'left' ? 0 : props.$right / 10 + 'rem'};
+    props.$direction === 'left' ? -1 : props.$right / 10}rem;
   width: ${(props) => props.$width / 10}rem;
   transform: rotate(${(props) => props.$angle}deg);
   transform-origin: 100% 0;
