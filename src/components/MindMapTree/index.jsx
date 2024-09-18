@@ -27,6 +27,7 @@ const MindMapTree = () => {
   });
 
   const [nodeNumber, setNodeNumber] = useState(1);
+  const [isfirstCallLeft, setIsFirstCallLeft] = useState(false);
 
   const treeRef = useRef(null);
 
@@ -35,7 +36,7 @@ const MindMapTree = () => {
   // 왼쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (tree.leftChildNode.length > 0 && treeChangedRef.current) {
-      updateTreeWithNodePositions(treeRef, setTree, 'left');
+      navigatePositionInNodeElement(treeRef, setTree, 'left');
       treeChangedRef.current = false;
     }
   }, [tree.leftChildNode]);
@@ -43,7 +44,7 @@ const MindMapTree = () => {
   // 오른쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (tree.rightChildNode.length > 0 && treeChangedRef.current) {
-      updateTreeWithNodePositions(treeRef, setTree, 'right');
+      navigatePositionInNodeElement(treeRef, setTree, 'right');
       treeChangedRef.current = false;
     }
   }, [tree.rightChildNode]);
@@ -225,13 +226,6 @@ const MindMapTree = () => {
     side
   ) => {
     if (node.node === parseInt(nodeId)) {
-      // console.log(
-      //   nodeId,
-      //   '업데이트 할 포지션:',
-      //   updatePosition,
-      //   '부모노드의 포지션',
-      //   parentPosition
-      // );
       const { position: curPosition } = node;
       if (
         curPosition.x !== updatePosition.x ||
@@ -285,40 +279,59 @@ const MindMapTree = () => {
     return node;
   };
 
-  const updateTreeWithNodePositions = (treeRef, setTree, side) => {
+  //노드 요소 포지션 탐색
+  const navigatePositionInNodeElement = (treeRef, setTree, side) => {
     const treePositionRecursion = (nodeRef) => {
       if (!nodeRef.children) {
         return;
       }
 
       const currentPosition = positionCalculate(nodeRef);
-      const currentNodeID = nodeRef.id;
+      const currentNodeID = nodeRef.id.toString();
 
-      //요소에 id가 있는 경우에만 포지션 업데이트 함수 호출
-      if (side === 'left' && currentNodeID.toString().length > 0) {
-        console.log(currentNodeID);
+      // 요소에 id가 있는 경우에만 각 방향에 따라 포지션 업데이트 함수 호출
+      if (side === 'left' && currentNodeID.length > 0) {
+        //왼쪽 노드를 처음 생성시에만 추가 작업
+        if (!isfirstCallLeft && currentNodeID === '0') {
+          //루트 노드의 포지션과 왼쪽 노드들의 부모 노드 포지션을 동시에 업데이트
+          setTree((prevTree) => ({
+            ...prevTree,
+            position: currentPosition,
+            leftChildNode: prevTree.leftChildNode.map((leftChild) => ({
+              ...leftChild,
+              parentNode: {
+                ...leftChild.parentNode,
+                position: currentPosition,
+              },
+            })),
+          }));
+
+          setIsFirstCallLeft(true);
+        }
+
+        //나머지는 현재 노드의 포지션만 업데이트
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,
             currentNodeID,
             currentPosition,
-            tree.position,
+            prevTree.position,
             'left'
           )
         );
-      } else if (side === 'right' && currentNodeID.toString().length > 0) {
-        console.log(nodeRef.id);
+      } else if (side === 'right' && currentNodeID.length > 0) {
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,
             currentNodeID,
             currentPosition,
-            tree.position,
+            prevTree.position,
             'right'
           )
         );
       }
 
+      // 자식 노드들에 대해 재귀적으로 처리
       Array.from(nodeRef.children).forEach((child) => {
         treePositionRecursion(child);
       });
