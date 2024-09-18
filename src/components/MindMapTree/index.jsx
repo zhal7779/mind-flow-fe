@@ -220,15 +220,22 @@ const MindMapTree = () => {
   const updateNodePosition = (
     node,
     nodeId,
-    curPosition,
+    updatePosition,
     parentPosition,
     side
   ) => {
     if (node.node === parseInt(nodeId)) {
-      const { position: prevPosition } = node;
+      // console.log(
+      //   nodeId,
+      //   '업데이트 할 포지션:',
+      //   updatePosition,
+      //   '부모노드의 포지션',
+      //   parentPosition
+      // );
+      const { position: curPosition } = node;
       if (
-        prevPosition.x !== curPosition.x ||
-        prevPosition.y !== curPosition.y
+        curPosition.x !== updatePosition.x ||
+        curPosition.y !== updatePosition.y
       ) {
         return {
           ...node,
@@ -236,7 +243,7 @@ const MindMapTree = () => {
             ...node.parentNode,
             position: parentPosition,
           },
-          position: curPosition,
+          position: updatePosition,
         };
       }
     }
@@ -246,7 +253,12 @@ const MindMapTree = () => {
       return {
         ...node,
         leftChildNode: node.leftChildNode.map((leftChild) =>
-          updateNodePosition(leftChild, nodeId, curPosition, parentNodePosition)
+          updateNodePosition(
+            leftChild,
+            nodeId,
+            updatePosition,
+            parentNodePosition
+          )
         ),
       };
     } else if (node.level === 0 && side === 'right') {
@@ -256,7 +268,7 @@ const MindMapTree = () => {
           updateNodePosition(
             rightChild,
             nodeId,
-            curPosition,
+            updatePosition,
             parentNodePosition
           )
         ),
@@ -266,7 +278,7 @@ const MindMapTree = () => {
       return {
         ...node,
         childNode: node.childNode.map((child) =>
-          updateNodePosition(child, nodeId, curPosition, parentNodePosition)
+          updateNodePosition(child, nodeId, updatePosition, parentNodePosition)
         ),
       };
     }
@@ -280,24 +292,26 @@ const MindMapTree = () => {
       }
 
       const currentPosition = positionCalculate(nodeRef);
-      //디버깅 필요
-      if (side === 'left') {
-        // console.log('cur:', currentPosition, 'parent:', tree.position);
+      const currentNodeID = nodeRef.id;
+
+      //요소에 id가 있는 경우에만 포지션 업데이트 함수 호출
+      if (side === 'left' && currentNodeID.toString().length > 0) {
+        console.log(currentNodeID);
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,
-            nodeRef.id,
+            currentNodeID,
             currentPosition,
             tree.position,
             'left'
           )
         );
-      } else if (side === 'right') {
-        // console.log('cur:', currentPosition, 'parent: ', tree.position);
+      } else if (side === 'right' && currentNodeID.toString().length > 0) {
+        console.log(nodeRef.id);
         setTree((prevTree) =>
           updateNodePosition(
             prevTree,
-            nodeRef.id,
+            currentNodeID,
             currentPosition,
             tree.position,
             'right'
@@ -317,7 +331,7 @@ const MindMapTree = () => {
 
   return (
     <RootNodeContainer ref={treeRef} $side={undefined} $isRoot={true}>
-      <div id={'leftChildNode'}>
+      <div>
         {tree.leftChildNode.length > 0 &&
           tree.leftChildNode.map((leftNode) => (
             <LeftNodeRender
@@ -337,7 +351,7 @@ const MindMapTree = () => {
         updateNodeInputValue={updateNodeInputValue}
       />
 
-      <div id={'rightChildNode'}>
+      <div>
         {tree.rightChildNode.length > 0 &&
           tree.rightChildNode.map((rightNode) => (
             <RightNodeRender
