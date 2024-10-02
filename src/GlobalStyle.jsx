@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
     // 공통 색상
@@ -13,7 +13,26 @@ export const GlobalStyle = createGlobalStyle`
         --color-light-purple: #c5d7f2;
     }
 
+
+
+
     /* 공통 스타일 */
+
+    /*스크롤 커스텀 */
+    /* 스크롤바의 폭 너비 */
+    ::-webkit-scrollbar {
+        width: 1.2rem;  
+        height: 1.2rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #A8A8A8; /* 스크롤바 색상 */
+        border-radius: 10px; /* 스크롤바 둥근 테두리 */
+    }
+    ::-webkit-scrollbar-track {
+        background:transparent  /*스크롤바 뒷 배경 색상*/
+    }
+
     * {
         box-sizing: border-box;
     }
@@ -21,7 +40,7 @@ export const GlobalStyle = createGlobalStyle`
     html {
         font-size: 62.5%;
         scroll-behavior: smooth;
-        overflow: hidden;
+      
     }
 
     body {
@@ -30,6 +49,7 @@ export const GlobalStyle = createGlobalStyle`
         word-break: keep-all;
         color: var(--color-text-05);
         letter-spacing: -.05rem;
+        overflow: auto;
     }
 
     a {
