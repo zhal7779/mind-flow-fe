@@ -6,6 +6,7 @@ const App = () => {
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
   const [scale, setScale] = useState(1);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
+  console.log(origin);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const targetElementRef = useRef<HTMLDivElement>(null);
@@ -23,6 +24,8 @@ const App = () => {
   };
 
   useEffect(() => {
+    //렌더링시 스크롤 특정위치로 이동
+    window.scrollTo(1250, 700);
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
@@ -105,10 +108,16 @@ const App = () => {
           style={{
             width: "100vw",
             height: "100vh",
-            position: "relative",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
           }}
         >
-          <div ref={targetElementRef}>
+          <div
+            ref={targetElementRef}
+            style={{ position: "relative", width: "100%" }}
+          >
             <Main />
           </div>
         </div>
