@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { GlobalStyle } from "./GlobalStyle";
 import Main from "./pages/Main";
 import ControlMenuBar from "./components/ControlMenuBar";
+import { useRecoilState } from "recoil";
+import { scaleState } from "./recoil/atoms/scaleState";
 const App = () => {
+  const [scale, setScale] = useRecoilState(scaleState);
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
-  const [scale, setScale] = useState(1);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
 
   const contentRef = useRef<HTMLDivElement>(null);
@@ -85,11 +87,10 @@ const App = () => {
     };
   }, [isCtrlPressed, scale]);
 
-  console.log(scale);
   return (
     <>
       <GlobalStyle />
-      <ControlMenuBar scale={scale} setScale={setScale} />
+      <ControlMenuBar />
       <div
         id="container"
         style={{

@@ -1,4 +1,5 @@
 import React from "react";
+import { useRecoilState } from "recoil";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowsToCircle,
@@ -7,14 +8,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import * as S from "./styles";
+import { scaleState } from "../../recoil/atoms/scaleState";
 const ControlMenuBar = () => {
+  const [scale, setScale] = useRecoilState(scaleState);
   const handleMoveScroll = () => {
     window.scrollTo(1250, 700);
   };
 
-  const handleScaleUp = () => {};
+  const handleScaleUp = () => {
+    const newScale = scale - 0.1;
+    setScale(newScale);
+  };
 
-  const handleScaleDown = () => {};
+  const handleScaleDown = () => {
+    const newScale = scale + 0.1;
+    setScale(newScale);
+  };
 
   return (
     <S.MenuContainer>
