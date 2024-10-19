@@ -85,10 +85,11 @@ const App = () => {
     };
   }, [isCtrlPressed, scale]);
 
+  console.log(scale);
   return (
     <>
       <GlobalStyle />
-      <ControlMenuBar />
+      <ControlMenuBar scale={scale} setScale={setScale} />
       <div
         id="container"
         style={{
