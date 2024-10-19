@@ -17,8 +17,12 @@ export const MenuContainer = styled.div`
 export const MenuIcon = styled.div`
   font-size: 1.5rem;
   line-height: 1.5rem;
-  padding: 0.8rem;
+  width: 3.6rem;
+  height: 3.6rem;
   border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
     background-color: rgba(0, 0, 0, 0.07);
   }
