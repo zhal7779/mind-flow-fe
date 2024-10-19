@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { GlobalStyle } from "./GlobalStyle";
 import Main from "./pages/Main";
-
+import ControlMenuBar from "./components/ControlMenuBar";
 const App = () => {
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
   const [scale, setScale] = useState(1);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
-  console.log(origin);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const targetElementRef = useRef<HTMLDivElement>(null);
@@ -89,6 +88,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
+      <ControlMenuBar />
       <div
         id="container"
         style={{

@@ -11,6 +11,7 @@ export const GlobalStyle = createGlobalStyle`
         --color-green: #48767b;
         --color-light-green: #84b9c0;
         --color-light-purple: #c5d7f2;
+        --color-black:  #242424;
     }
 
 
