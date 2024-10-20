@@ -25,8 +25,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    //렌더링시 스크롤 특정위치로 이동
-    window.scrollTo(1250, 700);
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
@@ -37,6 +35,7 @@ const App = () => {
   }, []);
 
   useLayoutEffect(() => {
+    window.scrollTo(4268, 700);
     if (contentRef.current && targetElementRef.current) {
       const contentRect = contentRef.current.getBoundingClientRect();
       const targetRect = targetElementRef.current.getBoundingClientRect();
@@ -94,7 +93,7 @@ const App = () => {
       <div
         id="container"
         style={{
-          width: "4000px",
+          width: "10000px",
           height: "3000px",
           backgroundColor: "var(--color-bg)",
           transformOrigin: "0 0",

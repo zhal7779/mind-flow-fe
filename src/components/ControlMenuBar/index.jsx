@@ -12,16 +12,22 @@ import { scaleState } from "../../recoil/atoms/scaleState";
 const ControlMenuBar = () => {
   const [scale, setScale] = useRecoilState(scaleState);
   const handleMoveScroll = () => {
-    window.scrollTo(1250, 700);
+    window.scrollTo(4268, 700);
   };
 
   const handleScaleUp = () => {
-    const newScale = scale - 0.1;
+    if (scale > 1.8) {
+      return;
+    }
+    const newScale = scale + 0.1;
     setScale(newScale);
   };
 
   const handleScaleDown = () => {
-    const newScale = scale + 0.1;
+    if (scale < 0.4) {
+      return;
+    }
+    const newScale = scale - 0.1;
     setScale(newScale);
   };
 
