@@ -4,11 +4,13 @@ import Main from "./pages/Main";
 import ControlMenuBar from "./components/ControlMenuBar";
 import { useRecoilState } from "recoil";
 import { scaleState } from "./recoil/atoms/scaleState";
+import centerScroll from "./utils/centerScroll";
 const App = () => {
   const [scale, setScale] = useRecoilState(scaleState);
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const targetElementRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +37,11 @@ const App = () => {
   }, []);
 
   useLayoutEffect(() => {
-    window.scrollTo(4268, 700);
+    // window.scrollTo(4268, 700);
+    if (containerRef.current !== null) {
+      centerScroll(containerRef.current);
+    }
+
     if (contentRef.current && targetElementRef.current) {
       const contentRect = contentRef.current.getBoundingClientRect();
       const targetRect = targetElementRef.current.getBoundingClientRect();
@@ -47,44 +53,44 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const contentElement = contentRef.current;
+  // useEffect(() => {
+  //   const contentElement = contentRef.current;
 
-    if (!contentElement) return;
+  //   if (!contentElement) return;
 
-    const handleWheel = (event: WheelEvent) => {
-      if (!isCtrlPressed) return;
+  //   const handleWheel = (event: WheelEvent) => {
+  //     if (!isCtrlPressed) return;
 
-      event.preventDefault();
+  //     event.preventDefault();
 
-      const delta = Math.sign(event.deltaY) * -0.1;
-      let newScale = scale + delta;
-      newScale = Math.min(Math.max(0.5, newScale), 3);
+  //     const delta = Math.sign(event.deltaY) * -0.1;
+  //     let newScale = scale + delta;
+  //     newScale = Math.min(Math.max(0.5, newScale), 3);
 
-      const rect = contentElement.getBoundingClientRect();
+  //     const rect = contentElement.getBoundingClientRect();
 
-      // 마우스 포인터의 좌표 계산
-      const mouseX = event.clientX - rect.left;
-      const mouseY = event.clientY - rect.top;
+  //     // 마우스 포인터의 좌표 계산
+  //     const mouseX = event.clientX - rect.left;
+  //     const mouseY = event.clientY - rect.top;
 
-      // 새로운 origin 계산 (마우스 포인터를 기준으로 한 좌표)
-      const scaleRatio = newScale / scale;
-      const newOriginX = mouseX - mouseX * scaleRatio;
-      const newOriginY = mouseY - mouseY * scaleRatio;
+  //     // 새로운 origin 계산 (마우스 포인터를 기준으로 한 좌표)
+  //     const scaleRatio = newScale / scale;
+  //     const newOriginX = mouseX - mouseX * scaleRatio;
+  //     const newOriginY = mouseY - mouseY * scaleRatio;
 
-      setScale(newScale);
-      setOrigin((prevOrigin) => ({
-        x: prevOrigin.x + newOriginX,
-        y: prevOrigin.y + newOriginY,
-      }));
-    };
+  //     setScale(newScale);
+  //     setOrigin((prevOrigin) => ({
+  //       x: prevOrigin.x + newOriginX,
+  //       y: prevOrigin.y + newOriginY,
+  //     }));
+  //   };
 
-    contentElement.addEventListener("wheel", handleWheel, { passive: false });
+  //   contentElement.addEventListener("wheel", handleWheel, { passive: false });
 
-    return () => {
-      contentElement.removeEventListener("wheel", handleWheel);
-    };
-  }, [isCtrlPressed, scale]);
+  //   return () => {
+  //     contentElement.removeEventListener("wheel", handleWheel);
+  //   };
+  // }, [isCtrlPressed, scale]);
 
   return (
     <>
@@ -92,6 +98,7 @@ const App = () => {
       <ControlMenuBar />
       <div
         id="container"
+        ref={containerRef}
         style={{
           width: "10000px",
           height: "3000px",
