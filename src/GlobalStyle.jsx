@@ -1,11 +1,15 @@
 import { createGlobalStyle } from "styled-components";
-
 export const GlobalStyle = createGlobalStyle`
     // 공통 색상
     :root {
-        --color-primary: #fadf85;
-        --color-butter: #FBD37C;
-        --color-bg: #FCFEE6;
+        --color-white: ${({ isDarkMode }) =>
+          !isDarkMode ? "#ffffff" : "#aeaeae"};
+        --color-primary:${({ isDarkMode }) =>
+          !isDarkMode ? "#fadf85" : "#484848"};
+        --color-butter:${({ isDarkMode }) =>
+          !isDarkMode ? "#FBD37C" : "#454545"};
+        --color-bg: ${({ isDarkMode }) =>
+          !isDarkMode ? "#FCFEE6" : "#222222"};
         --color-red: #e26559;
         --color-blue: #2b7799;
         --color-green: #48767b;

@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const RootNodeContainer = styled.div`
   display: flex;
-  flex-direction: ${({ $isRoot }) => ($isRoot ? 'row' : 'column')};
+  flex-direction: ${({ $isRoot }) => ($isRoot ? "row" : "column")};
   justify-content: ${({ $side }) =>
-    $side === undefined ? 'center' : $side === 'left' ? 'end' : 'start'};
+    $side === undefined ? "center" : $side === "left" ? "end" : "start"};
   align-items: center;
   margin: 20px;
   position: relative;
@@ -12,8 +12,8 @@ export const RootNodeContainer = styled.div`
 
 export const DirectionNodeContainer = styled.div`
   display: flex;
-  flex-direction: ${({ $side }) => ($side === 'left' ? 'row-reverse' : 'row')};
-  justify-content: ${({ $side }) => ($side === 'left' ? 'end' : 'start')};
+  flex-direction: ${({ $side }) => ($side === "left" ? "row-reverse" : "row")};
+  justify-content: ${({ $side }) => ($side === "left" ? "end" : "start")};
   align-items: center;
   margin: 15px;
   position: relative;
@@ -31,7 +31,7 @@ export const NodeLine = styled.span`
   position: absolute;
   display: block;
   right: ${(props) =>
-    props.$direction === 'left' ? -1 : props.$right / 10}rem;
+    props.$direction === "left" ? -1 : props.$right / 10}rem;
   width: ${(props) => props.$width / 10}rem;
   transform: rotate(${(props) => props.$angle}deg);
   transform-origin: 100% 0;
@@ -43,7 +43,7 @@ export const NodeLine = styled.span`
 const commonInput = styled.textarea`
   text-align: center;
   padding: 2rem 1.6rem;
-  background-color: #fff;
+  background-color: var(--color-white);
   border-radius: 3.6rem;
   box-sizing: content-box;
   height: auto;

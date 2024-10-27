@@ -2,12 +2,12 @@ import styled from "styled-components";
 
 export const MenuContainer = styled.div`
   position: fixed;
-  top: 50%;
+  top: 10rem;
   right: 1rem;
   background-color: #fff;
   z-index: 1000;
   padding: 0.6rem;
-  transform: translate(0, -50%);
+
   border-radius: 0.6rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),

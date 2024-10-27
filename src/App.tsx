@@ -2,10 +2,13 @@ import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { GlobalStyle } from "./GlobalStyle";
 import Main from "./pages/Main";
 import ControlMenuBar from "./components/ControlMenuBar";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { scaleState } from "./recoil/atoms/scaleState";
 import centerScroll from "./utils/centerScroll";
+import { isDarkModeState } from "./recoil/atoms/isDarkModeState";
+
 const App = () => {
+  const isDarkMode = useRecoilValue(isDarkModeState);
   const [scale, setScale] = useRecoilState(scaleState);
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
@@ -94,7 +97,7 @@ const App = () => {
 
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle isDarkMode={isDarkMode} />
       <ControlMenuBar />
       <div
         id="container"
