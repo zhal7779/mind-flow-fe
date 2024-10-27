@@ -5,11 +5,18 @@ export const MenuContainer = styled.div`
   bottom: 1.5rem;
   right: 1.5rem;
   display: flex;
+  align-items: center;
   background-color: #fff;
   z-index: 1000;
   padding: 0.6rem;
   border-radius: 0.6rem;
   box-shadow: var(--shadow-primary);
+  > span {
+    display: block;
+    width: 0.1rem;
+    height: 3rem;
+    background: #aeaeae;
+  }
 `;
 
 export const MenuIcon = styled.div`

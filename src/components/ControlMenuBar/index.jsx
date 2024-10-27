@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,6 +12,7 @@ import { scaleState } from "../../recoil/atoms/scaleState";
 
 const ControlMenuBar = () => {
   const [scale, setScale] = useRecoilState(scaleState);
+
   const handleMoveScroll = () => {
     window.scrollTo(4252, 700);
   };
@@ -37,10 +38,11 @@ const ControlMenuBar = () => {
       <S.MenuIcon onClick={handleMoveScroll}>
         <FontAwesomeIcon icon={faArrowsToCircle} />
       </S.MenuIcon>
+      <span></span>
       <S.MenuIcon onClick={handleScaleUp}>
         <FontAwesomeIcon icon={faMagnifyingGlassPlus} />
       </S.MenuIcon>
-      100%
+      {Math.floor(scale * 100)} %
       <S.MenuIcon onClick={handleScaleDown}>
         <FontAwesomeIcon icon={faMagnifyingGlassMinus} />
       </S.MenuIcon>
