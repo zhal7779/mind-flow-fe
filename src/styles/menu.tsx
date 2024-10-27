@@ -1,9 +1,6 @@
 import styled from "styled-components";
 
 export const MenuContainer = styled.div`
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
   display: flex;
   align-items: center;
   background-color: #fff;
@@ -16,6 +13,7 @@ export const MenuContainer = styled.div`
     width: 0.1rem;
     height: 3rem;
     background: #aeaeae;
+    margin: 0.2rem;
   }
 `;
 

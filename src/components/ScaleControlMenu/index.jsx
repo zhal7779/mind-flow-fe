@@ -7,10 +7,11 @@ import {
   faMagnifyingGlassMinus,
 } from "@fortawesome/free-solid-svg-icons";
 
-import * as S from "./styles";
+import * as S from "../../styles/menu";
 import { scaleState } from "../../recoil/atoms/scaleState";
+import styled from "styled-components";
 
-const ControlMenuBar = () => {
+const ScaleControlMenu = () => {
   const [scale, setScale] = useRecoilState(scaleState);
 
   const handleMoveScroll = () => {
@@ -34,7 +35,7 @@ const ControlMenuBar = () => {
   };
 
   return (
-    <S.MenuContainer>
+    <Wrapper>
       <S.MenuIcon onClick={handleMoveScroll}>
         <FontAwesomeIcon icon={faArrowsToCircle} />
       </S.MenuIcon>
@@ -46,8 +47,14 @@ const ControlMenuBar = () => {
       <S.MenuIcon onClick={handleScaleDown}>
         <FontAwesomeIcon icon={faMagnifyingGlassMinus} />
       </S.MenuIcon>
-    </S.MenuContainer>
+    </Wrapper>
   );
 };
 
-export default ControlMenuBar;
+export default ScaleControlMenu;
+
+const Wrapper = styled(S.MenuContainer)`
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+`;
