@@ -6,6 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { scaleState } from "./recoil/atoms/scaleState";
 import centerScroll from "./utils/centerScroll";
 import { isDarkModeState } from "./recoil/atoms/isDarkModeState";
+import DarkModeButton from "./components/DarkModeButton";
 
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
@@ -98,6 +99,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle isDarkMode={isDarkMode} />
+      <DarkModeButton />
       <ControlMenuBar />
       <div
         id="container"

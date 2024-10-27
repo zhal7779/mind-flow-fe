@@ -9,13 +9,9 @@ import {
 
 import * as S from "./styles";
 import { scaleState } from "../../recoil/atoms/scaleState";
-import { isDarkModeState } from "../../recoil/atoms/isDarkModeState";
-import { MdSunny } from "react-icons/md";
-import { FaMoon } from "react-icons/fa";
 
 const ControlMenuBar = () => {
   const [scale, setScale] = useRecoilState(scaleState);
-  const [isDarkMode, setIsDarkMode] = useRecoilState(isDarkModeState);
   const handleMoveScroll = () => {
     window.scrollTo(4252, 700);
   };
@@ -36,9 +32,6 @@ const ControlMenuBar = () => {
     setScale(newScale);
   };
 
-  const handleChangeDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
   return (
     <S.MenuContainer>
       <S.MenuIcon onClick={handleMoveScroll}>
@@ -47,11 +40,9 @@ const ControlMenuBar = () => {
       <S.MenuIcon onClick={handleScaleUp}>
         <FontAwesomeIcon icon={faMagnifyingGlassPlus} />
       </S.MenuIcon>
+      100%
       <S.MenuIcon onClick={handleScaleDown}>
         <FontAwesomeIcon icon={faMagnifyingGlassMinus} />
-      </S.MenuIcon>
-      <S.MenuIcon onClick={handleChangeDarkMode}>
-        {!isDarkMode ? <FaMoon /> : <MdSunny fontSize={"2rem"} />}
       </S.MenuIcon>
     </S.MenuContainer>
   );
