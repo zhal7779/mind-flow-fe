@@ -2,12 +2,13 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
     // 공통 색상
     :root {
+        //color
         --color-white: ${({ isDarkMode }) =>
-          !isDarkMode ? "#ffffff" : "#aeaeae"};
+          !isDarkMode ? "#ffffff" : "#9ca8b5"};
         --color-primary:${({ isDarkMode }) =>
-          !isDarkMode ? "#fadf85" : "#484848"};
+          !isDarkMode ? "#fadf85" : "#3d4854"};
         --color-butter:${({ isDarkMode }) =>
-          !isDarkMode ? "#FBD37C" : "#454545"};
+          !isDarkMode ? "#FBD37C" : "#2F3740"};
         --color-bg: ${({ isDarkMode }) =>
           !isDarkMode ? "#FCFEE6" : "#222222"};
         --color-red: #e26559;
@@ -16,6 +17,8 @@ export const GlobalStyle = createGlobalStyle`
         --color-light-green: #84b9c0;
         --color-light-purple: #c5d7f2;
         --color-black:  #242424;
+
+        //box-shadow
         --shadow-primary:0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
     0 16px 32px rgba(0, 0, 0, 0.07), 0 32px 64px rgba(0, 0, 0, 0.07); 
