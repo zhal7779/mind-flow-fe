@@ -1,11 +1,11 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import MindMapTree from "../../components/MindMapTree/index.jsx";
-import { TreeContainer } from "./styles.jsx";
+import { TreeContainer } from "./styles.js";
 import { useRecoilState } from "recoil";
 import centerScroll from "../../utils/centerScroll.js";
 import SaveControlMenu from "../../components/SaveControlMenu/index.js";
 import { scaleState } from "../../recoil/atoms/scaleState.js";
-import ScaleControlMenu from "../../components/ScaleControlMenu";
+import ScaleControlMenu from "../../components/ScaleControlMenu/index.jsx";
 
 const Main = () => {
   const [scale, setScale] = useRecoilState(scaleState);

@@ -5,7 +5,7 @@ import { MdSunny } from "react-icons/md";
 import styled from "styled-components";
 import { faMoon } from "@fortawesome/free-solid-svg-icons";
 
-const DarkModeButton: React.FC = () => {
+const DarkModeButton = () => {
   const [isDarkMode, setIsDarkMode] = useRecoilState(isDarkModeState);
 
   const handleChangeDarkMode = (): void => {
