@@ -4,9 +4,11 @@ import * as S from "../../styles/menu";
 import styled from "styled-components";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { HiOutlineSave } from "react-icons/hi";
-
+import { fileDataState } from "../../recoil/atoms/fileDataState";
+import { useRecoilValue } from "recoil";
 const SaveControlMenu = () => {
-  const [fileName, setFileName] = useState("이름이 없는 파일");
+  const fileData = useRecoilValue(fileDataState);
+  const [fileName, setFileName] = useState(fileData[0].fileName);
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

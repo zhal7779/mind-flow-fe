@@ -4,6 +4,8 @@ import LeftNodeRender from "../LeftNodeRender";
 import RootNodeRender from "../RootNodeRender";
 import { RootNodeContainer } from "../../styles/NodeCommon";
 import RightNodeRender from "../RightNodeRender";
+import { useRecoilValue } from "recoil";
+import { fileDataState } from "../../recoil/atoms/fileDataState";
 
 // 필요한 작업
 // 1. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
@@ -12,18 +14,8 @@ import RightNodeRender from "../RightNodeRender";
 // 마지막.  노드 추가시 선 깜빡임 디버깅
 
 const MindMapTree = () => {
-  const [tree, setTree] = useState({
-    value: "",
-    node: 0,
-    level: 0,
-    position: { x: 0, y: 0, r: 0, t: 0 },
-    parentNode: {
-      node: -1,
-      position: { x: 0, y: 0, r: 0, t: 0 },
-    },
-    leftChildNode: [],
-    rightChildNode: [],
-  });
+  const fileData = useRecoilValue(fileDataState);
+  const [tree, setTree] = useState(fileData[0].tree);
 
   const [nodeNumber, setNodeNumber] = useState(1);
 

@@ -7,7 +7,7 @@ import SaveControlMenu from "../../components/SaveControlMenu/index.js";
 import { scaleState } from "../../recoil/atoms/scaleState.js";
 import ScaleControlMenu from "../../components/ScaleControlMenu/index.jsx";
 
-const Main = () => {
+const Editor = () => {
   const [scale, setScale] = useRecoilState(scaleState);
   const [isCtrlPressed, setIsCtrlPressed] = useState(false);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
@@ -138,4 +138,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Editor;
