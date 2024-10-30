@@ -11,6 +11,8 @@ export const GlobalStyle = createGlobalStyle`
           !isDarkMode ? "#FBD37C" : "#2F3740"};
         --color-bg: ${({ isDarkMode }) =>
           !isDarkMode ? "#FCFEE6" : "#222222"};
+        --color-border :  ${({ isDarkMode }) =>
+          !isDarkMode ? "#D4D5D7" : "#D4D5D7"};
         --color-red: #e26559;
         --color-blue: #2b7799;
         --color-green: #48767b;

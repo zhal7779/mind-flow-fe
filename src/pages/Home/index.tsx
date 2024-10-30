@@ -1,11 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { fileDataState } from "../../recoil/atoms/fileDataState";
 import { FileDataType } from "../../types/fileDataType";
-
+import * as S from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
-  const setFileData = useSetRecoilState(fileDataState);
+  const [fileData, setFileData] = useRecoilState(fileDataState);
 
   const navigate = useNavigate();
 
@@ -33,7 +35,22 @@ const Home = () => {
     navigate("/editor");
   };
 
-  return <div onClick={addNewFile}>새로운 파일을 생성하시겠습니까?</div>;
+  return (
+    <div onClick={addNewFile}>
+      <S.NewFileFrame>
+        <p>새로운 파일을 생성하시겠습니까?</p>
+        <FontAwesomeIcon icon={faPlus} />
+      </S.NewFileFrame>
+
+      <S.FileContent>
+        {fileData.map((item) => (
+          <S.FileFrame>
+            <p>{item.fileName}</p>
+          </S.FileFrame>
+        ))}
+      </S.FileContent>
+    </div>
+  );
 };
 
 export default Home;
