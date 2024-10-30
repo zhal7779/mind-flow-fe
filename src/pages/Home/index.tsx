@@ -1,11 +1,11 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { fileDataState } from "../../recoil/atoms/fileDataState";
-import { FileDataType } from "../../types/fileDataType";
-import * as S from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { fileDataState } from '../../recoil/atoms/fileDataState';
+import { FileDataType } from '../../types/fileDataType';
+import * as S from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
 
@@ -13,9 +13,9 @@ const Home = () => {
 
   const addNewFile = () => {
     const newFileData = {
-      fileName: "이름이 없는 파일",
+      fileName: '이름이 없는 파일',
       tree: {
-        value: "",
+        value: '',
         node: 0,
         level: 0,
         position: { x: 0, y: 0, r: 0, t: 0 },
@@ -32,24 +32,25 @@ const Home = () => {
       ...prevFileData,
       newFileData,
     ]);
-    navigate("/editor");
+    navigate('/editor');
   };
 
   return (
-    <div onClick={addNewFile}>
-      <S.NewFileFrame>
+    <S.Wrapper>
+      <S.NewFileFrame onClick={addNewFile}>
         <p>새로운 파일을 생성하시겠습니까?</p>
         <FontAwesomeIcon icon={faPlus} />
       </S.NewFileFrame>
-
-      <S.FileContent>
-        {fileData.map((item) => (
-          <S.FileFrame>
-            <p>{item.fileName}</p>
-          </S.FileFrame>
-        ))}
-      </S.FileContent>
-    </div>
+      <S.FileSection>
+        <S.FileContent>
+          {fileData.map((item) => (
+            <S.FileFrame>
+              <p>{item.fileName}</p>
+            </S.FileFrame>
+          ))}
+        </S.FileContent>
+      </S.FileSection>
+    </S.Wrapper>
   );
 };
 
