@@ -22,5 +22,6 @@ interface TreeNode {
 
 export interface FileDataType {
   fileName: string;
+  updatedDate: string;
   tree: TreeNode;
 }

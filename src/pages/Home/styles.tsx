@@ -13,6 +13,7 @@ export const NewFileFrame = styled.div`
   text-align: center;
   padding: 4rem 0;
   box-shadow: var(--shadow-primary);
+  cursor: pointer;
   > p {
     color: #19191a;
     font-size: 2.2rem;
@@ -41,4 +42,5 @@ export const FileFrame = styled.div`
   background-color: var(--color-white);
   border-radius: 8px;
   border: 1px solid var(--color-border);
+  cursor: pointer;
 `;

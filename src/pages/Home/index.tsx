@@ -1,19 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { fileDataState } from '../../recoil/atoms/fileDataState';
 import { FileDataType } from '../../types/fileDataType';
 import * as S from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import updateDate from '../../utils/updateDate';
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
 
   const navigate = useNavigate();
 
   const addNewFile = () => {
+    const updatedDate = updateDate();
+
     const newFileData = {
       fileName: '이름이 없는 파일',
+      updatedDate,
       tree: {
         value: '',
         node: 0,
@@ -46,6 +50,7 @@ const Home = () => {
           {fileData.map((item) => (
             <S.FileFrame>
               <p>{item.fileName}</p>
+              <p>{item.updatedDate} 수정함</p>
             </S.FileFrame>
           ))}
         </S.FileContent>
