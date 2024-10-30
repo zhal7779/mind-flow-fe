@@ -1,18 +1,21 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
+import reset from 'styled-reset';
+
 export const GlobalStyle = createGlobalStyle`
-    // 공통 색상
+  ${reset}
+// 공통 색상
     :root {
         //color
         --color-white: ${({ isDarkMode }) =>
-          !isDarkMode ? "#ffffff" : "#9ca8b5"};
+          !isDarkMode ? '#ffffff' : '#9ca8b5'};
         --color-primary:${({ isDarkMode }) =>
-          !isDarkMode ? "#fadf85" : "#3d4854"};
+          !isDarkMode ? '#fadf85' : '#3d4854'};
         --color-butter:${({ isDarkMode }) =>
-          !isDarkMode ? "#FBD37C" : "#2F3740"};
+          !isDarkMode ? '#FBD37C' : '#2F3740'};
         --color-bg: ${({ isDarkMode }) =>
-          !isDarkMode ? "#FCFEE6" : "#222222"};
+          !isDarkMode ? '#FCFEE6' : '#222222'};
         --color-border :  ${({ isDarkMode }) =>
-          !isDarkMode ? "#D4D5D7" : "#D4D5D7"};
+          !isDarkMode ? '#D4D5D7' : '#D4D5D7'};
         --color-red: #e26559;
         --color-blue: #2b7799;
         --color-green: #48767b;
@@ -88,6 +91,5 @@ export const GlobalStyle = createGlobalStyle`
         outline: none;
     
     }
-
 
 `;
