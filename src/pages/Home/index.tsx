@@ -1,13 +1,13 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { fileDataState } from "../../recoil/atoms/fileDataState";
-import { FileDataType } from "../../types/fileDataType";
-import * as S from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import updateDate from "../../utils/updateDate";
-import { MainTitle, SubTitle } from "../../styles/common";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { fileDataState } from '../../recoil/atoms/fileDataState';
+import { FileDataType } from '../../types/fileDataType';
+import * as S from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import updateDate from '../../utils/updateDate';
+import { MainTitle, SubTitle } from '../../styles/common';
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
 
@@ -17,10 +17,10 @@ const Home = () => {
     const updatedDate = updateDate();
 
     const newFileData = {
-      fileName: "이름이 없는 파일",
+      fileName: '이름이 없는 파일',
       updatedDate,
       tree: {
-        value: "",
+        value: '',
         node: 0,
         level: 0,
         position: { x: 0, y: 0, r: 0, t: 0 },
@@ -37,7 +37,7 @@ const Home = () => {
       ...prevFileData,
       newFileData,
     ]);
-    navigate("/editor");
+    navigate('/editor');
   };
 
   return (
@@ -54,8 +54,11 @@ const Home = () => {
         <S.FileContent>
           {fileData.map((item) => (
             <S.FileFrame>
-              <p>{item.fileName}</p>
-              <p>{item.updatedDate} 마지막으로 수정</p>
+              <S.FileImg></S.FileImg>
+              <S.FileDes>
+                <p>{item.fileName}</p>
+                <span>{item.updatedDate} 마지막으로 수정</span>
+              </S.FileDes>
             </S.FileFrame>
           ))}
         </S.FileContent>
