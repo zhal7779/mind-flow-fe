@@ -29,5 +29,5 @@ export const MenuIcon = styled.div`
   &:hover {
     background-color: rgba(0, 0, 0, 0.07);
   }
-  color: var(--color-black);
+  color: var(--color-black-01);
 `;

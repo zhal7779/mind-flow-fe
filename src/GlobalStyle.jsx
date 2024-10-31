@@ -23,8 +23,11 @@ export const GlobalStyle = createGlobalStyle`
         --color-green: #48767b;
         --color-light-green: #84b9c0;
         --color-light-purple: #c5d7f2;
-        --color-black:  #242424;
-
+        --color-black-01:  #242424;
+        --color-grey-01: #19191a;
+        --color-grey-02: #8b8c8f;
+        --color-grey-03: #f3f3f5;
+        
         //box-shadow
         --shadow-primary:0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
@@ -94,6 +97,10 @@ export const GlobalStyle = createGlobalStyle`
     input:focus, textarea:focus {
         outline: none;
     
+    }
+
+    p{
+      color: var(- --color-black-01)
     }
 
 `;
