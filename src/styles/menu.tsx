@@ -7,7 +7,7 @@ export const MenuContainer = styled.div`
   z-index: 1000;
   padding: 0.6rem;
   border-radius: 0.6rem;
-  box-shadow: var(--shadow-primary);
+  box-shadow: var(--shadow-base);
   > span {
     display: block;
     width: 0.1rem;

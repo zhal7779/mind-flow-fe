@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Wrapper = styled.main`
   max-width: 140rem;
@@ -9,7 +9,7 @@ export const Wrapper = styled.main`
 export const NewFileFrame = styled.div`
   border-radius: 0.8rem;
   width: 100%;
-  background: url('/img/home-head-bg.png') 0% 0% / 100% 100% no-repeat;
+  background: url("/img/home-head-bg.png") 0% 0% / 100% 100% no-repeat;
   text-align: center;
   padding: 4rem 0;
   box-shadow: var(--shadow-primary);
@@ -17,7 +17,7 @@ export const NewFileFrame = styled.div`
   > p {
     color: #19191a;
     font-size: 2.2rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 2rem;
   }
 
@@ -43,4 +43,8 @@ export const FileFrame = styled.div`
   border-radius: 8px;
   border: 1px solid var(--color-border);
   cursor: pointer;
+
+  &:hover {
+    box-shadow: var(--shadow-base);
+  }
 `;
