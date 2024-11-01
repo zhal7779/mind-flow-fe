@@ -13,12 +13,12 @@ export const NewFileFrame = styled.div`
   text-align: center;
   padding: 4rem 0;
   box-shadow: var(--shadow-primary);
-  color: var(--color-grey-02);
+  color: var(--color-grey-01);
   cursor: pointer;
   > p {
     font-size: 2.2rem;
     font-weight: 600;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   > svg {

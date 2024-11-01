@@ -5,9 +5,10 @@ import { fileDataState } from '../../recoil/atoms/fileDataState';
 import { FileDataType } from '../../types/fileDataType';
 import * as S from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import { MainTitle, SubTitle } from '../../styles/common';
+import NoData from '../../components/NoData';
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
 
@@ -44,24 +45,29 @@ const Home = () => {
     <S.Wrapper>
       <S.NewFileFrame onClick={addNewFile}>
         <p>새로운 파일을 생성하시겠습니까?</p>
-        <FontAwesomeIcon icon={faPlus} />
+        <FontAwesomeIcon icon={faFolderPlus} />
       </S.NewFileFrame>
 
       <S.FileSection>
         <MainTitle>최근 열기</MainTitle>
 
         <SubTitle> 파일({fileData.length})</SubTitle>
-        <S.FileContent>
-          {fileData.map((item) => (
-            <S.FileFrame>
-              <S.FileImg></S.FileImg>
-              <S.FileDes>
-                <p>{item.fileName}</p>
-                <span>{item.updatedDate} 마지막으로 수정</span>
-              </S.FileDes>
-            </S.FileFrame>
-          ))}
-        </S.FileContent>
+
+        {fileData.length === 0 ? (
+          <NoData />
+        ) : (
+          <S.FileContent>
+            {fileData.map((item) => (
+              <S.FileFrame>
+                <S.FileImg></S.FileImg>
+                <S.FileDes>
+                  <p>{item.fileName}</p>
+                  <span>{item.updatedDate} 마지막으로 수정</span>
+                </S.FileDes>
+              </S.FileFrame>
+            ))}
+          </S.FileContent>
+        )}
       </S.FileSection>
     </S.Wrapper>
   );
