@@ -1,18 +1,17 @@
-import { GlobalStyle } from "./GlobalStyle";
-import Editor from "./pages/Editor";
-import { useRecoilValue } from "recoil";
-import { isDarkModeState } from "./recoil/atoms/isDarkModeState";
-import DarkModeButton from "./components/DarkModeButton";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home";
+import { GlobalStyle } from './GlobalStyle';
+import Editor from './pages/Editor';
+import { useRecoilValue } from 'recoil';
+import { isDarkModeState } from './recoil/atoms/isDarkModeState';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './pages/Home';
 
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
 
   const router = createBrowserRouter([
-    { path: "/", element: <Home /> },
+    { path: '/', element: <Home /> },
     {
-      path: "/editor",
+      path: '/editor',
       element: <Editor />,
     },
   ]);
@@ -20,7 +19,6 @@ const App = () => {
   return (
     <>
       <GlobalStyle isDarkMode={isDarkMode} />
-      <DarkModeButton />
       <RouterProvider router={router} />
     </>
   );

@@ -44,8 +44,8 @@ const Home = () => {
   return (
     <S.Wrapper>
       <S.NewFileFrame onClick={addNewFile}>
-        <p>새로운 파일을 생성하시겠습니까?</p>
         <FontAwesomeIcon icon={faFolderPlus} />
+        <p>Create new file</p>
       </S.NewFileFrame>
 
       <S.FileSection>

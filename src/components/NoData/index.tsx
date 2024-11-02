@@ -18,7 +18,7 @@ const NoDataContent = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  margin-top: 6rem;
+  margin-top: 10rem;
   color: var(--color-grey-02);
   > svg {
     font-size: 4rem;

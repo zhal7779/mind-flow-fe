@@ -3,26 +3,40 @@ import styled from 'styled-components';
 export const Wrapper = styled.main`
   max-width: 140rem;
   margin: 0 auto;
-  padding-top: 10rem;
+  padding-top: 6rem;
 `;
 
 export const NewFileFrame = styled.div`
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: fit-content;
   border-radius: 0.8rem;
-  width: 100%;
+  height: 6rem;
   background: url('/img/home-head-bg.png') 0% 0% / 100% 100% no-repeat;
-  text-align: center;
-  padding: 4rem 0;
-  box-shadow: var(--shadow-primary);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
   color: var(--color-grey-01);
   cursor: pointer;
+
   > p {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 600;
-    margin-bottom: 3rem;
+    margin-right: 2rem;
   }
 
   > svg {
-    font-size: 2.4rem;
+    border-radius: 50%;
+    padding: 0.6rem;
+    font-size: 1.6rem;
+    color: var(--color-red);
+    background-color: var(--color-white);
+  }
+
+  &:hover {
+    box-shadow: var(--shadow-primary);
   }
 `;
 
