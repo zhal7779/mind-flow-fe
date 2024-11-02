@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.main`
-  max-width: 140rem;
-  margin: 0 auto;
+export const Wrapper = styled.div`
+  display: flex;
+`;
+
+export const Content = styled.main`
+  width: 100%;
+  margin: 0 3rem;
   padding-top: 6rem;
 `;
 
@@ -12,6 +16,7 @@ export const NewFileFrame = styled.div`
   right: 2rem;
   width: fit-content;
   border-radius: 0.8rem;
+  border: 1px solid var(--color-border);
   height: 6rem;
   background: url('/img/home-head-bg.png') 0% 0% / 100% 100% no-repeat;
   display: flex;

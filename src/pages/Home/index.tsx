@@ -9,6 +9,7 @@ import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import { MainTitle, SubTitle } from '../../styles/common';
 import NoData from '../../components/NoData';
+import SideMenu from '../../components/SideMenu';
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
 
@@ -43,32 +44,35 @@ const Home = () => {
 
   return (
     <S.Wrapper>
-      <S.NewFileFrame onClick={addNewFile}>
-        <FontAwesomeIcon icon={faFolderPlus} />
-        <p>Create new file</p>
-      </S.NewFileFrame>
+      <SideMenu />
+      <S.Content>
+        <S.NewFileFrame onClick={addNewFile}>
+          <FontAwesomeIcon icon={faFolderPlus} />
+          <p>Create new file</p>
+        </S.NewFileFrame>
 
-      <S.FileSection>
-        <MainTitle>최근 열기</MainTitle>
+        <S.FileSection>
+          <MainTitle>최근 열기</MainTitle>
 
-        <SubTitle> 파일({fileData.length})</SubTitle>
+          <SubTitle> 파일({fileData.length})</SubTitle>
 
-        {fileData.length === 0 ? (
-          <NoData />
-        ) : (
-          <S.FileContent>
-            {fileData.map((item) => (
-              <S.FileFrame>
-                <S.FileImg></S.FileImg>
-                <S.FileDes>
-                  <p>{item.fileName}</p>
-                  <span>{item.updatedDate} 마지막으로 수정</span>
-                </S.FileDes>
-              </S.FileFrame>
-            ))}
-          </S.FileContent>
-        )}
-      </S.FileSection>
+          {fileData.length === 0 ? (
+            <NoData />
+          ) : (
+            <S.FileContent>
+              {fileData.map((item) => (
+                <S.FileFrame>
+                  <S.FileImg></S.FileImg>
+                  <S.FileDes>
+                    <p>{item.fileName}</p>
+                    <span>{item.updatedDate} 마지막으로 수정</span>
+                  </S.FileDes>
+                </S.FileFrame>
+              ))}
+            </S.FileContent>
+          )}
+        </S.FileSection>
+      </S.Content>
     </S.Wrapper>
   );
 };
