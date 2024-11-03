@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
+import { createGlobalStyle } from 'styled-components';
+import reset from 'styled-reset';
 
 export const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -7,17 +7,17 @@ export const GlobalStyle = createGlobalStyle`
     :root {
         //color
         --color-white: ${({ isDarkMode }) =>
-          !isDarkMode ? "#ffffff" : "#9ca8b5"};
+          !isDarkMode ? '#ffffff' : '#9ca8b5'};
         --color-primary:${({ isDarkMode }) =>
-          !isDarkMode ? "#fadf85" : "#3d4854"};
+          !isDarkMode ? '#fadf85' : '#3d4854'};
         --color-butter:${({ isDarkMode }) =>
-          !isDarkMode ? "#FBD37C" : "#2F3740"};
+          !isDarkMode ? '#FBD37C' : '#2F3740'};
         --color-main-bg: ${({ isDarkMode }) =>
-          !isDarkMode ? "#FCFEE6" : "#222222"};
+          !isDarkMode ? '#FCFEE6' : '#222222'};
         --color-border :  ${({ isDarkMode }) =>
-          !isDarkMode ? "#D4D5D7" : "#D4D5D7"};
+          !isDarkMode ? '#D4D5D7' : '#D4D5D7'};
         --color-grey-bg:   
-        ${({ isDarkMode }) => (!isDarkMode ? "#fbfbfb" : "#222222")};
+        ${({ isDarkMode }) => (!isDarkMode ? '#fbfbfb' : '#222222')};
         --color-red: #e26559;
         --color-blue: #2b7799;
         --color-green: #48767b;
@@ -27,6 +27,7 @@ export const GlobalStyle = createGlobalStyle`
         --color-grey-01: #19191a;
         --color-grey-02: #8b8c8f;
         --color-grey-03: #f3f3f5;
+        --color-grey-04: #555557;
         
         //box-shadow
         --shadow-primary:0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
