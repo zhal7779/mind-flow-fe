@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { fileDataState } from '../../recoil/atoms/fileDataState';
 import { FileDataType } from '../../types/fileDataType';
 import * as S from './styles';
@@ -9,10 +9,11 @@ import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import { MainTitle, SubTitle } from '../../styles/common';
 import NoData from '../../components/NoData';
-import SideMenu from '../../components/SideMenu';
+import SideBar from '../../components/SideBar';
+import { isSideBarOnState } from '../../recoil/atoms/isSideBarOnState';
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
-
+  const isSideBarOn = useRecoilValue(isSideBarOnState);
   const navigate = useNavigate();
 
   const addNewFile = () => {
@@ -44,8 +45,8 @@ const Home = () => {
 
   return (
     <S.Wrapper>
-      <SideMenu />
-      <S.Content>
+      <SideBar />
+      <S.Content $isSideBarOn={isSideBarOn}>
         <S.NewFileFrame onClick={addNewFile}>
           <FontAwesomeIcon icon={faFolderPlus} />
           <p>Create new file</p>

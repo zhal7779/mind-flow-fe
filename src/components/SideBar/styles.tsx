@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 
-export const SideMenuWrapper = styled.div<{ $menuToggle: boolean }>`
-  display: ${(props) => (props.$menuToggle ? 'block' : 'none')};
+export const SideMenuWrapper = styled.div<{ $isSideBarOn: boolean }>`
+  position: fixed;
+  overflow: hidden;
+  transform: ${(props) =>
+    props.$isSideBarOn ? 'translateX(0)' : 'translateX(-100%);'};
+  transition: transform 0.35s ease-in-out;
   padding: 0 1.2rem;
   min-width: 30rem;
   max-width: 81.3rem;
@@ -54,13 +58,15 @@ export const Menu = styled.ul`
 `;
 
 export const Tag = styled.div`
+  position: fixed;
   margin-top: 2rem;
   padding: 0.7rem 0.8rem;
   border: 1px solid var(--color-border);
-  height: 100%;
+  height: fit-content;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
   cursor: pointer;
+
   > svg {
     color: var(--color-grey-02);
   }

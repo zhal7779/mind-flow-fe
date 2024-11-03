@@ -4,10 +4,12 @@ export const Wrapper = styled.div`
   display: flex;
 `;
 
-export const Content = styled.main`
+export const Content = styled.main<{ $isSideBarOn: boolean }>`
   width: 100%;
-  margin: 0 3rem;
-  padding-top: 6rem;
+  padding: 6rem 3rem 0 3rem;
+  flex-grow: 1;
+  margin-left: ${(props) => (props.$isSideBarOn ? '30rem' : '0')};
+  transition: margin-left 0.35s ease-in-out;
 `;
 
 export const NewFileFrame = styled.div`
