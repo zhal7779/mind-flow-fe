@@ -1,4 +1,5 @@
 import * as S from './styles';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAnglesLeft,
@@ -9,11 +10,17 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilState } from 'recoil';
 import { isSideBarOnState } from '../../recoil/atoms/isSideBarOnState';
-import React, { useState, useEffect } from 'react';
+
+const MenuData = [
+  { name: '홈페이지', icon: faHouse, color: 'var(--color-red)' },
+  { name: '즐겨찾기', icon: faTag, color: 'var(--color-green)' },
+  { name: '공간 휴지통', icon: faTrash, color: 'var(--color-blue)' },
+];
 
 const SideBar = () => {
   const [isSideBarOn, setIsSideBarOn] = useRecoilState(isSideBarOnState);
   const [showTag, setShowTag] = useState(false);
+  const [activeItem, setActiveItem] = useState(MenuData[0].name);
 
   const onClickToggle = () => {
     if (isSideBarOn) {
@@ -32,6 +39,10 @@ const SideBar = () => {
     }
   }, [isSideBarOn]);
 
+  const onClickActive = (item: string) => {
+    setActiveItem(item);
+  };
+
   return (
     <>
       <S.SideMenuWrapper $isSideBarOn={isSideBarOn}>
@@ -40,18 +51,17 @@ const SideBar = () => {
           <FontAwesomeIcon icon={faAnglesLeft} onClick={onClickToggle} />
         </S.Header>
         <S.Menu>
-          <li>
-            <FontAwesomeIcon icon={faHouse} />
-            <span>홈페이지</span>
-          </li>
-          <li>
-            <FontAwesomeIcon icon={faTag} />
-            <span>즐겨찾기</span>
-          </li>
-          <li>
-            <FontAwesomeIcon icon={faTrash} />
-            <span>공간 휴지통</span>
-          </li>
+          {MenuData.map((menu, index) => (
+            <S.MenuItem
+              key={index}
+              $isActive={activeItem === menu.name}
+              $color={menu.color}
+              onClick={() => onClickActive(menu.name)}
+            >
+              <FontAwesomeIcon icon={menu.icon} />
+              <span>{menu.name}</span>
+            </S.MenuItem>
+          ))}
         </S.Menu>
       </S.SideMenuWrapper>
       {!isSideBarOn && showTag && (

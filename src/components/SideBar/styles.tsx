@@ -18,14 +18,17 @@ export const Header = styled.header`
   padding: 2rem 0rem 2rem 1rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   svg {
     color: var(--color-grey-02);
     cursor: pointer;
     font-size: 1.8rem;
-    padding: 0 1rem;
+    padding: 0.6rem;
+    border-radius: 8px;
     &:hover {
       color: var(--color-grey-04);
+      background-color: var(--color-grey-active);
     }
   }
 `;
@@ -39,21 +42,32 @@ export const Menu = styled.ul`
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0.2rem;
+`;
 
-  > li {
-    display: flex;
-    align-items: center;
-    margin-left: 1rem;
-    cursor: pointer;
-    > span {
-      font-weight: 500;
-    }
-    > svg {
-      font-size: 1.4rem;
-      color: var(--color-grey-02);
-      margin-right: 1.4rem;
-    }
+export const MenuItem = styled.div<{
+  $isActive: boolean;
+  $color: string;
+}>`
+  display: flex;
+  align-items: center;
+  padding: 1.2rem;
+  background-color: ${(props) =>
+    props.$isActive ? 'var(--color-grey-active)' : 'transparent'};
+  border-radius: 8px;
+  cursor: pointer;
+
+  > span {
+    font-weight: ${(props) => (props.$isActive ? '600' : '500')};
+  }
+  > svg {
+    font-size: 1.4rem;
+    color: ${(props) => props.$color};
+    margin-right: 1.4rem;
+  }
+
+  &:hover {
+    background-color: var(--color-grey-active);
   }
 `;
 
