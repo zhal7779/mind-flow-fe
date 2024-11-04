@@ -1,13 +1,5 @@
 import styled from "styled-components";
 
-export const Content = styled.main<{ $isSideBarOn: boolean }>`
-  width: 100%;
-  padding: 6rem 3rem 0 3rem;
-  flex-grow: 1;
-  margin-left: ${(props) => (props.$isSideBarOn ? "30rem" : "0")};
-  transition: margin-left 0.35s ease-in-out;
-`;
-
 export const NewFileFrame = styled.div`
   position: absolute;
   top: 2rem;

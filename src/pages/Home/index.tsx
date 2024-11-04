@@ -1,19 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { fileDataState } from "../../recoil/atoms/fileDataState";
 import { FileDataType } from "../../types/fileDataType";
 import * as S from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
 import updateDate from "../../utils/updateDate";
-import { MainTitle, SubTitle } from "../../styles/common";
+import { MainTitle, SubTitle, TitlePadding } from "../../styles/common";
 import NoData from "../../components/NoData";
-import SideBar from "../../components/SideBar";
-import { isSideBarOnState } from "../../recoil/atoms/isSideBarOnState";
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
-  const isSideBarOn = useRecoilValue(isSideBarOnState);
+
   const navigate = useNavigate();
 
   const addNewFile = () => {
@@ -44,7 +42,11 @@ const Home = () => {
   };
 
   return (
-    <S.Content $isSideBarOn={isSideBarOn}>
+    <>
+      <TitlePadding>
+        <MainTitle>홈페이지</MainTitle>
+      </TitlePadding>
+
       <S.NewFileFrame onClick={addNewFile}>
         <FontAwesomeIcon icon={faFolderPlus} />
         <p>Create new file</p>
@@ -71,7 +73,7 @@ const Home = () => {
           </S.FileContent>
         )}
       </S.FileSection>
-    </S.Content>
+    </>
   );
 };
 
