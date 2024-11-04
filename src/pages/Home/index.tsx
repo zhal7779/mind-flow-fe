@@ -1,16 +1,16 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { fileDataState } from '../../recoil/atoms/fileDataState';
-import { FileDataType } from '../../types/fileDataType';
-import * as S from './styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
-import updateDate from '../../utils/updateDate';
-import { MainTitle, SubTitle } from '../../styles/common';
-import NoData from '../../components/NoData';
-import SideBar from '../../components/SideBar';
-import { isSideBarOnState } from '../../recoil/atoms/isSideBarOnState';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { fileDataState } from "../../recoil/atoms/fileDataState";
+import { FileDataType } from "../../types/fileDataType";
+import * as S from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
+import updateDate from "../../utils/updateDate";
+import { MainTitle, SubTitle } from "../../styles/common";
+import NoData from "../../components/NoData";
+import SideBar from "../../components/SideBar";
+import { isSideBarOnState } from "../../recoil/atoms/isSideBarOnState";
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
   const isSideBarOn = useRecoilValue(isSideBarOnState);
@@ -20,10 +20,10 @@ const Home = () => {
     const updatedDate = updateDate();
 
     const newFileData = {
-      fileName: '이름이 없는 파일',
+      fileName: "이름이 없는 파일",
       updatedDate,
       tree: {
-        value: '',
+        value: "",
         node: 0,
         level: 0,
         position: { x: 0, y: 0, r: 0, t: 0 },
@@ -40,41 +40,38 @@ const Home = () => {
       ...prevFileData,
       newFileData,
     ]);
-    navigate('/editor');
+    navigate("/editor");
   };
 
   return (
-    <S.Wrapper>
-      <SideBar />
-      <S.Content $isSideBarOn={isSideBarOn}>
-        <S.NewFileFrame onClick={addNewFile}>
-          <FontAwesomeIcon icon={faFolderPlus} />
-          <p>Create new file</p>
-        </S.NewFileFrame>
+    <S.Content $isSideBarOn={isSideBarOn}>
+      <S.NewFileFrame onClick={addNewFile}>
+        <FontAwesomeIcon icon={faFolderPlus} />
+        <p>Create new file</p>
+      </S.NewFileFrame>
 
-        <S.FileSection>
-          <MainTitle>최근 열기</MainTitle>
+      <S.FileSection>
+        <MainTitle>최근 열기</MainTitle>
 
-          <SubTitle> 파일({fileData.length})</SubTitle>
+        <SubTitle> 파일({fileData.length})</SubTitle>
 
-          {fileData.length === 0 ? (
-            <NoData />
-          ) : (
-            <S.FileContent>
-              {fileData.map((item) => (
-                <S.FileFrame>
-                  <S.FileImg></S.FileImg>
-                  <S.FileDes>
-                    <p>{item.fileName}</p>
-                    <span>{item.updatedDate} 마지막으로 수정</span>
-                  </S.FileDes>
-                </S.FileFrame>
-              ))}
-            </S.FileContent>
-          )}
-        </S.FileSection>
-      </S.Content>
-    </S.Wrapper>
+        {fileData.length === 0 ? (
+          <NoData />
+        ) : (
+          <S.FileContent>
+            {fileData.map((item) => (
+              <S.FileFrame>
+                <S.FileImg></S.FileImg>
+                <S.FileDes>
+                  <p>{item.fileName}</p>
+                  <span>{item.updatedDate} 마지막으로 수정</span>
+                </S.FileDes>
+              </S.FileFrame>
+            ))}
+          </S.FileContent>
+        )}
+      </S.FileSection>
+    </S.Content>
   );
 };
 

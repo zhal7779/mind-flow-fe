@@ -1,14 +1,10 @@
-import styled from 'styled-components';
-
-export const Wrapper = styled.div`
-  display: flex;
-`;
+import styled from "styled-components";
 
 export const Content = styled.main<{ $isSideBarOn: boolean }>`
   width: 100%;
   padding: 6rem 3rem 0 3rem;
   flex-grow: 1;
-  margin-left: ${(props) => (props.$isSideBarOn ? '30rem' : '0')};
+  margin-left: ${(props) => (props.$isSideBarOn ? "30rem" : "0")};
   transition: margin-left 0.35s ease-in-out;
 `;
 
@@ -20,7 +16,7 @@ export const NewFileFrame = styled.div`
   border-radius: 0.8rem;
   border: 1px solid var(--color-border);
   height: 6rem;
-  background: url('/img/home-head-bg.png') 0% 0% / 100% 100% no-repeat;
+  background: url("/img/home-head-bg.png") 0% 0% / 100% 100% no-repeat;
   display: flex;
   align-items: center;
   gap: 1rem;

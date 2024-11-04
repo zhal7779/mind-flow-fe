@@ -6,29 +6,36 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import Trash from "./pages/Trash";
-
+import MainLayout from "./layouts/MainLayout";
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
 
   const router = createBrowserRouter([
-    { path: "/", element: <Home /> },
     {
-      path: "/editor",
-      element: <Editor />,
-    },
-    {
-      path: "/favorites",
-      element: <Favorites />,
-    },
-    {
-      path: "/trash",
-      element: <Trash />,
+      path: "/",
+      element: <MainLayout />,
+      children: [
+        { path: "/", element: <Home /> },
+        {
+          path: "/editor",
+          element: <Editor />,
+        },
+        {
+          path: "/favorites",
+          element: <Favorites />,
+        },
+        {
+          path: "/trash",
+          element: <Trash />,
+        },
+      ],
     },
   ]);
 
   return (
     <>
       <GlobalStyle isDarkMode={isDarkMode} />
+
       <RouterProvider router={router} />
     </>
   );
