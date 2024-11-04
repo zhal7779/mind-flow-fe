@@ -1,23 +1,36 @@
-import * as S from './styles';
-import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as S from "./styles";
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAnglesLeft,
   faAnglesRight,
   faHouse,
   faTag,
   faTrash,
-} from '@fortawesome/free-solid-svg-icons';
-import { useRecoilState } from 'recoil';
-import { isSideBarOnState } from '../../recoil/atoms/isSideBarOnState';
+} from "@fortawesome/free-solid-svg-icons";
+import { useRecoilState } from "recoil";
+import { isSideBarOnState } from "../../recoil/atoms/isSideBarOnState";
+import { useNavigate } from "react-router-dom";
 
 const MenuData = [
-  { name: '홈페이지', icon: faHouse, color: 'var(--color-red)' },
-  { name: '즐겨찾기', icon: faTag, color: 'var(--color-green)' },
-  { name: '공간 휴지통', icon: faTrash, color: 'var(--color-blue)' },
+  { name: "홈페이지", icon: faHouse, color: "var(--color-red)", route: "/" },
+  {
+    name: "즐겨찾기",
+    icon: faTag,
+    color: "var(--color-green)",
+    route: "favorites",
+  },
+  {
+    name: "공간 휴지통",
+    icon: faTrash,
+    color: "var(--color-blue)",
+    route: "trash",
+  },
 ];
 
 const SideBar = () => {
+  const navigate = useNavigate();
+
   const [isSideBarOn, setIsSideBarOn] = useRecoilState(isSideBarOnState);
   const [showTag, setShowTag] = useState(false);
   const [activeItem, setActiveItem] = useState(MenuData[0].name);
@@ -39,8 +52,9 @@ const SideBar = () => {
     }
   }, [isSideBarOn]);
 
-  const onClickActive = (item: string) => {
+  const onClickActive = (item: string, route: string) => {
     setActiveItem(item);
+    navigate(route);
   };
 
   return (
@@ -56,7 +70,7 @@ const SideBar = () => {
               key={index}
               $isActive={activeItem === menu.name}
               $color={menu.color}
-              onClick={() => onClickActive(menu.name)}
+              onClick={() => onClickActive(menu.name, menu.route)}
             >
               <FontAwesomeIcon icon={menu.icon} />
               <span>{menu.name}</span>
