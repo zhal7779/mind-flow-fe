@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import positionCalculate from '../../utils/positionCalculate';
 import LeftNodeRender from '../LeftNodeRender';
 import RootNodeRender from '../RootNodeRender';
-import { RootNodeContainer } from '../../styles/NodeCommon';
 import RightNodeRender from '../RightNodeRender';
+import { RootNodeContainer } from '../../styles/NodeCommon';
 import { useRecoilValue } from 'recoil';
 import { fileDataState } from '../../recoil/atoms/fileDataState';
 import {

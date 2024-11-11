@@ -8,12 +8,25 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
+import { GeneralNode, RootNode } from '../../types/fileType';
+
+type NodeRenderProps = {
+  tree: RootNode;
+  updateNodeInputValue: (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+    targetNode: RootNode | GeneralNode,
+    side: string
+  ) => void;
+  addNode: (targetNode: number, side: string) => void;
+  deleteNode: (targetNode: number, side: string) => void;
+};
+
 const RootNodeRender = ({
   tree,
   addNode,
   deleteNode,
   updateNodeInputValue,
-}) => {
+}: NodeRenderProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -26,8 +39,7 @@ const RootNodeRender = ({
 
   return (
     <Node
-      id={0}
-      $level={0}
+      id={'0'}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -69,7 +81,7 @@ const RootNodeRender = ({
       )}
       <RootTopicInput
         rows={1}
-        onChange={(e) => updateNodeInputValue(e, tree, null)}
+        onChange={(e) => updateNodeInputValue(e, tree, 'both')}
         value={tree.value}
         placeholder="메인 주제를 입력해주세요"
       />
