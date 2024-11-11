@@ -53,6 +53,7 @@ const LeftNodeRender = ({
   const leftChildNodeRender = node.childNode.map((child) => {
     return (
       <LeftNodeRender
+        key={child.node}
         node={child as GeneralNode}
         addNode={addNode}
         updateNodeInputValue={updateNodeInputValue}
