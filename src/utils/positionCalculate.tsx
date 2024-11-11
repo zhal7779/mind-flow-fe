@@ -1,4 +1,4 @@
-const positionCalculate = (node) => {
+const positionCalculate = (node: HTMLElement) => {
   const { width, height, x, y } = node.getBoundingClientRect();
 
   return {

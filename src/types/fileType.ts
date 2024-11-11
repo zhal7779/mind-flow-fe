@@ -23,13 +23,13 @@ interface ChildNode extends BaseNode {
 }
 
 export interface GeneralNode extends ChildNode {
-  childNode: Node[] | [];
+  childNode: ChildNode[];
 }
 
 export interface RootNode extends BaseNode {
   parentNode: ParentNode;
-  leftChildNode: GeneralNode[] | [];
-  rightChildNode: GeneralNode[] | [];
+  leftChildNode: GeneralNode[];
+  rightChildNode: GeneralNode[];
 }
 
 export interface FileList {

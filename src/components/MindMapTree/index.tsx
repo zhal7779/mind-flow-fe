@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import positionCalculate from "../../utils/positionCalculate";
 import LeftNodeRender from "../LeftNodeRender";
 import RootNodeRender from "../RootNodeRender";
@@ -6,6 +6,7 @@ import { RootNodeContainer } from "../../styles/NodeCommon";
 import RightNodeRender from "../RightNodeRender";
 import { useRecoilValue } from "recoil";
 import { fileDataState } from "../../recoil/atoms/fileDataState";
+import { GeneralNode, RootNode } from "../../types/fileType";
 
 // 필요한 작업
 // 1. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
@@ -15,7 +16,7 @@ import { fileDataState } from "../../recoil/atoms/fileDataState";
 
 const MindMapTree = () => {
   const fileData = useRecoilValue(fileDataState);
-  const [tree, setTree] = useState(fileData[0].tree);
+  const [tree, setTree] = useState<RootNode>(fileData[0].tree);
 
   const [nodeNumber, setNodeNumber] = useState(1);
 
@@ -38,10 +39,9 @@ const MindMapTree = () => {
       treeChangedRef.current = false;
     }
   }, [tree.rightChildNode]);
-
   //노드 추가
-  const addNode = (targetNode, side) => {
-    const updateTree = (curNode, level) => {
+  const addNode = (targetNode: number, side: string) => {
+    const updateTree = (curNode: RootNode | GeneralNode, level: number) => {
       // 목표 노드에 도달하면 새 노드를 추가
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
@@ -82,14 +82,14 @@ const MindMapTree = () => {
       if (side === "left" && curNode.leftChildNode && level < 2) {
         return {
           ...curNode,
-          leftChildNode: curNode.leftChildNode.map((leftChild) =>
+          leftChildNode: curNode.leftChildNode.map((leftChild: Node) =>
             updateTree(leftChild, level + 1)
           ),
         };
       } else if (side === "right" && curNode.rightChildNode && level < 2) {
         return {
           ...curNode,
-          rightChildNode: curNode.rightChildNode.map((rightChild) =>
+          rightChildNode: curNode.rightChildNode.map((rightChild: Node) =>
             updateTree(rightChild, level + 1)
           ),
         };
@@ -98,7 +98,7 @@ const MindMapTree = () => {
       // 루트 노드를 제외하고는 childNode를 순회
       return {
         ...curNode,
-        childNode: curNode.childNode.map((child) =>
+        childNode: curNode.childNode.map((child: Node) =>
           updateTree(child, level + 1)
         ),
       };
@@ -109,8 +109,7 @@ const MindMapTree = () => {
     setNodeNumber((prevNumber) => prevNumber + 1);
   };
 
-  //노드 삭제
-  const deleteNode = (targetNode, side) => {
+  const deleteNode = (targetNode: number, side: string) => {
     // 루트 노드에서 삭제할 경우 방향에 따라 빈 배열로 먼저 리턴
     if (targetNode === 0 && side === "left") {
       return setTree((prevTree) => ({ ...prevTree, leftChildNode: [] }));
@@ -118,48 +117,55 @@ const MindMapTree = () => {
       return setTree((prevTree) => ({ ...prevTree, rightChildNode: [] }));
     }
 
-    const updateTree = (tree) => {
-      if (tree.node === targetNode) {
+    const updateTree = (
+      tree: RootNode | GeneralNode
+    ): RootNode | GeneralNode | null => {
+      if ("childNode" in tree && tree.node === targetNode) {
         treeChangedRef.current = true;
         if (tree.childNode.length > 0) {
           //자식 노드가 있다면 자식 노드들을 삭제
           return { ...tree, childNode: [] };
         }
-
         return null; // 자식 노드가 없으면 자기 자신을 삭제
       }
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
-
-      if (tree.level === 0 && side === "left") {
+      if ("leftChildNode" in tree && tree.level === 0 && side === "left") {
         return {
           ...tree,
           leftChildNode: tree.leftChildNode
-            .map((leftChild) => updateTree(leftChild))
-            .filter((leftChild) => leftChild !== null), // 재귀가 끝나면 자기 자신을 삭제한 노드는 제거
+            .map((leftChild: GeneralNode) => updateTree(leftChild))
+            .filter((leftChild) => leftChild !== null) as GeneralNode[], // 재귀가 끝나면 자기 자신을 삭제한 노드는 제거
         };
-      } else if (tree.level === 0 && side === "right") {
+      } else if (
+        "rightChildNode" in tree &&
+        tree.level === 0 &&
+        side === "right"
+      ) {
         return {
           ...tree,
           rightChildNode: tree.rightChildNode
-            .map((rightChild) => updateTree(rightChild))
-            .filter((rightChild) => rightChild !== null),
+            .map((rightChild: GeneralNode) => updateTree(rightChild))
+            .filter((rightChild) => rightChild !== null) as GeneralNode[],
         };
       }
-
       // 루트 노드를 제외하고는 childNode를 순회
-      const updatedChildren = tree.childNode
-        .map((child) => updateTree(child))
-        .filter((child) => child !== null);
+      if ("childNode" in tree && tree.childNode) {
+        const updatedChildren = tree.childNode
+          .map((child) => updateTree(child))
+          .filter((child) => child !== null) as GeneralNode[];
 
-      return { ...tree, childNode: updatedChildren };
+        return { ...tree, childNode: updatedChildren };
+      }
+
+      return tree;
     };
 
-    setTree((prevTree) => updateTree(prevTree));
+    setTree((prevTree) => updateTree(prevTree) as RootNode);
   };
 
   //노드의 값 업데이트
-  const updateNodeInputValue = (event, targetNode, side) => {
+  const updateNodeInputValue = (event, targetNode: number, side: string) => {
     const updateTree = (curNode) => {
       if (curNode.node === targetNode.node) {
         //  목표 노드에 도달하면 value 업데이트 및 해당 요소의 높이 변경
@@ -270,7 +276,7 @@ const MindMapTree = () => {
   };
 
   //노드 요소 포지션 탐색
-  const navigatePositionInNodeElement = (treeRef, setTree, side) => {
+  const navigatePositionInNodeElement = (treeRef, setTree, side: string) => {
     const treePositionRecursion = (nodeRef) => {
       if (!nodeRef.children) {
         return;

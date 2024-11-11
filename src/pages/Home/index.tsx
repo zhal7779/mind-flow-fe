@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { fileDataState } from "../../recoil/atoms/fileDataState";
-import { FileDataType } from "../../types/fileDataType";
+import { FileList } from "../../types/fileType";
 import * as S from "./styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
@@ -33,10 +33,7 @@ const Home = () => {
       },
     };
 
-    setFileData((prevFileData: FileDataType[]) => [
-      ...prevFileData,
-      newFileData,
-    ]);
+    setFileData((prevFileData: FileList[]) => [...prevFileData, newFileData]);
     navigate("/editor");
   };
 

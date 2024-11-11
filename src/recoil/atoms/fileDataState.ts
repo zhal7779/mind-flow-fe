@@ -1,7 +1,7 @@
 import { atom } from "recoil";
-import { FileDataType } from "../../types/fileDataType";
+import { FileList } from "../../types/fileType";
 
-export const fileDataState = atom<FileDataType[] | []>({
+export const fileDataState = atom<FileList[] | []>({
   key: "fileDataState",
   default: [],
 });

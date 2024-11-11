@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import MindMapTree from "../../components/MindMapTree/index.jsx";
+import MindMapTree from "../../components/MindMapTree/index.js";
 import { TreeContainer } from "./styles.js";
 import { useRecoilValue } from "recoil";
 import centerScroll from "../../utils/centerScroll.js";

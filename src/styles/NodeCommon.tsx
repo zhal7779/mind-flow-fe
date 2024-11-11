@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const RootNodeContainer = styled.div`
+export const RootNodeContainer = styled.div<{ $isRoot: string; $side: string }>`
   display: flex;
   flex-direction: ${({ $isRoot }) => ($isRoot ? "row" : "column")};
   justify-content: ${({ $side }) =>
@@ -10,7 +10,7 @@ export const RootNodeContainer = styled.div`
   position: relative;
 `;
 
-export const DirectionNodeContainer = styled.div`
+export const DirectionNodeContainer = styled.div<{ $side: string }>`
   display: flex;
   flex-direction: ${({ $side }) => ($side === "left" ? "row-reverse" : "row")};
   justify-content: ${({ $side }) => ($side === "left" ? "end" : "start")};
@@ -27,7 +27,12 @@ export const Node = styled.div`
   align-items: center;
 `;
 
-export const NodeLine = styled.span`
+export const NodeLine = styled.span<{
+  $direction: string;
+  $right: number;
+  $width: number;
+  $angle: number;
+}>`
   position: absolute;
   display: block;
   right: ${(props) =>
@@ -88,7 +93,7 @@ export const ButtonWrapper = styled.span`
   }
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ $color: string; $size: number }>`
   color: ${(props) => props.$color};
   width: ${(props) => props.$size}rem;
   height: ${(props) => props.$size}rem;
