@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
   const nodeRef = useRef(null);
@@ -60,17 +60,17 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
       <Node ref={nodeRef}>
         <Button
           onClick={handleAddChild}
-          style={{ right: "-4rem" }}
+          style={{ right: '-4rem' }}
           $size={2.6}
-          $color={"var(--color-blue)"}
+          $color={'var(--color-blue)'}
         >
           <FontAwesomeIcon icon={faPlus} />
         </Button>
         <Button
           onClick={handleDeleteNode}
-          style={{ right: "-1.5rem" }}
+          style={{ right: '-1.5rem' }}
           $size={2}
-          $color={"var(--color-red)"}
+          $color={'var(--color-red)'}
         >
           <FontAwesomeIcon icon={faMinus} />
         </Button>
@@ -79,7 +79,7 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
       </Node>
 
       {node.childNode.length > 0 && (
-        <div style={{ marginLeft: "50px" }} ref={childNodeRef}>
+        <div style={{ marginLeft: '50px' }} ref={childNodeRef}>
           {node.childNode.map((child) => (
             <React.Fragment key={child.node}>
               <TreeNode
@@ -98,7 +98,7 @@ const TreeNode = ({ node, addNode, updateNodePosition, deleteNode }) => {
 
 const Example = () => {
   const [tree, setTree] = useState({
-    title: "Root",
+    title: 'Root',
     node: 0,
     position: { x: 0, y: 0 },
     parentNode: {
@@ -140,7 +140,6 @@ const Example = () => {
   }
 
   const updateNodePosition = (node, position) => {
-    console.log(node, position);
     const updatePosition = (tree) => {
       if (tree.node === node) {
         return { ...tree, position };

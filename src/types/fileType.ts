@@ -17,7 +17,7 @@ interface BaseNode {
   position: Position;
 }
 
-interface ChildNode extends BaseNode {
+export interface ChildNode extends BaseNode {
   side: string;
   parentNode: ParentNode;
 }
