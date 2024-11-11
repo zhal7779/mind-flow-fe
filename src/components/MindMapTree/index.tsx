@@ -354,7 +354,7 @@ const MindMapTree = () => {
   };
 
   return (
-    <RootNodeContainer ref={treeRef} $side={undefined} $isRoot={true}>
+    <RootNodeContainer ref={treeRef} $side={'both'} $isRoot={true}>
       <div>
         {tree.leftChildNode.length > 0 &&
           tree.leftChildNode.map((leftNode) => (
