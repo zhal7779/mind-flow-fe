@@ -1,43 +1,43 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import MindMapTree from '../../components/MindMapTree/index.jsx';
-import { TreeContainer } from './styles.js';
-import { useRecoilState } from 'recoil';
-import centerScroll from '../../utils/centerScroll.js';
-import SaveControlMenu from '../../components/SaveControlMenu/index.js';
-import { scaleState } from '../../recoil/atoms/scaleState.js';
-import ScaleControlMenu from '../../components/ScaleControlMenu/index.jsx';
-import DarkModeButton from '../../components/DarkModeButton/index.js';
+import { useLayoutEffect, useRef, useState } from "react";
+import MindMapTree from "../../components/MindMapTree/index.jsx";
+import { TreeContainer } from "./styles.js";
+import { useRecoilValue } from "recoil";
+import centerScroll from "../../utils/centerScroll.js";
+import SaveControlMenu from "../../components/SaveControlMenu/index.js";
+import { scaleState } from "../../recoil/atoms/scaleState.js";
+import ScaleControlMenu from "../../components/ScaleControlMenu/index.jsx";
+import DarkModeButton from "../../components/DarkModeButton/index.js";
 
 const Editor = () => {
-  const [scale, setScale] = useRecoilState(scaleState);
-  const [isCtrlPressed, setIsCtrlPressed] = useState(false);
+  const scale = useRecoilValue(scaleState);
+  // const [isCtrlPressed, setIsCtrlPressed] = useState(false);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const targetElementRef = useRef<HTMLDivElement>(null);
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Control') {
-      setIsCtrlPressed(true);
-    }
-  };
+  // const handleKeyDown = (event: KeyboardEvent) => {
+  //   if (event.key === "Control") {
+  //     setIsCtrlPressed(true);
+  //   }
+  // };
 
-  const handleKeyUp = (event: KeyboardEvent) => {
-    if (event.key === 'Control') {
-      setIsCtrlPressed(false);
-    }
-  };
+  // const handleKeyUp = (event: KeyboardEvent) => {
+  //   if (event.key === "Control") {
+  //     setIsCtrlPressed(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+  // useEffect(() => {
+  //   window.addEventListener("keydown", handleKeyDown);
+  //   window.addEventListener("keyup", handleKeyUp);
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //     window.removeEventListener("keyup", handleKeyUp);
+  //   };
+  // }, []);
 
   useLayoutEffect(() => {
     // window.scrollTo(4268, 700);
@@ -104,12 +104,12 @@ const Editor = () => {
         id="container"
         ref={containerRef}
         style={{
-          width: '10000px',
-          height: '3000px',
-          backgroundColor: 'var(--color-main-bg)',
-          transformOrigin: '0 0',
+          width: "10000px",
+          height: "3000px",
+          backgroundColor: "var(--color-main-bg)",
+          transformOrigin: "0 0",
           transform: `translate(${origin.x}px, ${origin.y}px) scale(${scale})`,
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
         }}
@@ -118,17 +118,17 @@ const Editor = () => {
           id="content"
           ref={contentRef}
           style={{
-            width: '100vw',
-            height: '100vh',
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            width: "100vw",
+            height: "100vh",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
           }}
         >
           <div
             ref={targetElementRef}
-            style={{ position: 'relative', width: '100%' }}
+            style={{ position: "relative", width: "100%" }}
           >
             <TreeContainer>
               <MindMapTree />

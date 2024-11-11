@@ -1,4 +1,3 @@
-import React from "react";
 import { MainTitle, TitlePadding } from "../../styles/common";
 const Trash = () => {
   return (
