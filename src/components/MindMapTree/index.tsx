@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import positionCalculate from "../../utils/positionCalculate";
 import LeftNodeRender from "../LeftNodeRender";
 import RootNodeRender from "../RootNodeRender";
@@ -6,7 +6,12 @@ import { RootNodeContainer } from "../../styles/NodeCommon";
 import RightNodeRender from "../RightNodeRender";
 import { useRecoilValue } from "recoil";
 import { fileDataState } from "../../recoil/atoms/fileDataState";
-import { GeneralNode, RootNode } from "../../types/fileType";
+import {
+  GeneralNode,
+  RootNode,
+  ChildNode,
+  Position,
+} from "../../types/fileType";
 
 // 필요한 작업
 // 1. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
@@ -165,8 +170,12 @@ const MindMapTree = () => {
   };
 
   //노드의 값 업데이트
-  const updateNodeInputValue = (event, targetNode: number, side: string) => {
-    const updateTree = (curNode) => {
+  const updateNodeInputValue = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    targetNode: RootNode,
+    side: string
+  ) => {
+    const updateTree = (curNode: RootNode | GeneralNode) => {
       if (curNode.node === targetNode.node) {
         //  목표 노드에 도달하면 value 업데이트 및 해당 요소의 높이 변경
         const target = event.target;
@@ -210,17 +219,18 @@ const MindMapTree = () => {
       };
     };
 
-    setTree((prevTree) => updateTree(prevTree));
+    setTree((prevTree) => updateTree(prevTree) as RootNode);
   };
 
   // 노드 포지션 업데이트
   const updateNodePosition = (
-    node,
-    nodeId,
-    updatePosition,
-    parentPosition,
-    side
+    node: RootNode | GeneralNode,
+    nodeId: string,
+    updatePosition: Position,
+    parentPosition: Position,
+    side: string | null
   ) => {
+    console.log(updatePosition, parentPosition);
     if (node.node === parseInt(nodeId)) {
       const { position: curPosition } = node;
       if (
@@ -247,7 +257,8 @@ const MindMapTree = () => {
             leftChild,
             nodeId,
             updatePosition,
-            parentNodePosition
+            parentNodePosition,
+            null
           )
         ),
       };
@@ -259,7 +270,8 @@ const MindMapTree = () => {
             rightChild,
             nodeId,
             updatePosition,
-            parentNodePosition
+            parentNodePosition,
+            null
           )
         ),
       };
@@ -268,7 +280,13 @@ const MindMapTree = () => {
       return {
         ...node,
         childNode: node.childNode.map((child) =>
-          updateNodePosition(child, nodeId, updatePosition, parentNodePosition)
+          updateNodePosition(
+            child,
+            nodeId,
+            updatePosition,
+            parentNodePosition,
+            null
+          )
         ),
       };
     }
