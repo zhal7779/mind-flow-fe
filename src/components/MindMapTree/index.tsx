@@ -20,22 +20,30 @@ const MindMapTree = () => {
 
   const [nodeNumber, setNodeNumber] = useState(1);
 
-  const treeRef = useRef(null);
+  const treeRef = useRef<HTMLDivElement>(null);
 
   const treeChangedRef = useRef(true);
 
   // 왼쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
-    if (tree.leftChildNode.length > 0 && treeChangedRef.current) {
-      navigatePositionInNodeElement(treeRef, setTree, "left");
+    if (
+      tree.leftChildNode.length > 0 &&
+      treeChangedRef.current &&
+      treeRef.current
+    ) {
+      navigatePositionInNodeElement(treeRef.current, "left");
       treeChangedRef.current = false;
     }
   }, [tree.leftChildNode]);
 
   // 오른쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
-    if (tree.rightChildNode.length > 0 && treeChangedRef.current) {
-      navigatePositionInNodeElement(treeRef, setTree, "right");
+    if (
+      tree.rightChildNode.length > 0 &&
+      treeChangedRef.current &&
+      treeRef.current
+    ) {
+      navigatePositionInNodeElement(treeRef.current, "right");
       treeChangedRef.current = false;
     }
   }, [tree.rightChildNode]);
@@ -267,15 +275,15 @@ const MindMapTree = () => {
     side: string | null
   ): RootNode | GeneralNode => {
     if (curNode.node === parseInt(nodeId)) {
-      const { position: curPosition } = node;
+      const { position: curPosition } = curNode;
       if (
         curPosition.x !== updatePosition.x ||
         curPosition.y !== updatePosition.y
       ) {
         return {
-          ...node,
+          ...curNode,
           parentNode: {
-            ...node.parentNode,
+            ...curNode.parentNode,
             position: parentPosition,
           },
           position: updatePosition,
@@ -333,8 +341,11 @@ const MindMapTree = () => {
   };
 
   //노드 요소 포지션 탐색
-  const navigatePositionInNodeElement = (treeRef, setTree, side: string) => {
-    const treePositionRecursion = (nodeRef) => {
+  const navigatePositionInNodeElement = (
+    treeElement: HTMLDivElement,
+    side: string
+  ) => {
+    const treePositionRecursion = (nodeRef: HTMLElement) => {
       if (!nodeRef.children) {
         return;
       }
@@ -361,36 +372,37 @@ const MindMapTree = () => {
         }
 
         //나머지는 현재 노드의 포지션만 업데이트
-        setTree((prevTree) =>
-          updateNodePosition(
-            prevTree,
-            currentNodeID,
-            currentPosition,
-            prevTree.position,
-            "left"
-          )
+
+        setTree(
+          (prevTree) =>
+            updateNodePosition(
+              prevTree,
+              currentNodeID,
+              currentPosition,
+              prevTree.position,
+              "left"
+            ) as RootNode
         );
       } else if (side === "right" && currentNodeID.length > 0) {
-        setTree((prevTree) =>
-          updateNodePosition(
-            prevTree,
-            currentNodeID,
-            currentPosition,
-            prevTree.position,
-            "right"
-          )
+        setTree(
+          (prevTree) =>
+            updateNodePosition(
+              prevTree,
+              currentNodeID,
+              currentPosition,
+              prevTree.position,
+              "right"
+            ) as RootNode
         );
       }
 
       // 자식 노드들에 대해 재귀적으로 처리
       Array.from(nodeRef.children).forEach((child) => {
-        treePositionRecursion(child);
+        treePositionRecursion(child as HTMLDivElement);
       });
     };
 
-    if (treeRef.current) {
-      treePositionRecursion(treeRef.current);
-    }
+    treePositionRecursion(treeElement);
   };
 
   return (
