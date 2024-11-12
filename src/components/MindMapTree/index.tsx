@@ -6,12 +6,7 @@ import RightNodeRender from "../RightNodeRender";
 import { RootNodeContainer } from "../../styles/NodeCommon";
 import { useRecoilValue } from "recoil";
 import { fileDataState } from "../../recoil/atoms/fileDataState";
-import {
-  GeneralNode,
-  RootNode,
-  ChildNode,
-  Position,
-} from "../../types/fileType";
+import { GeneralNode, RootNode, Position } from "../../types/fileType";
 
 // 필요한 작업
 // 1. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
@@ -239,13 +234,13 @@ const MindMapTree = () => {
 
   // 노드 포지션 업데이트
   const updateNodePosition = (
-    node: RootNode | GeneralNode,
+    curNode: RootNode | GeneralNode,
     nodeId: string,
     updatePosition: Position,
     parentPosition: Position,
     side: string | null
-  ) => {
-    if (node.node === parseInt(nodeId)) {
+  ): RootNode | GeneralNode => {
+    if (curNode.node === parseInt(nodeId)) {
       const { position: curPosition } = node;
       if (
         curPosition.x !== updatePosition.x ||
@@ -261,12 +256,12 @@ const MindMapTree = () => {
         };
       }
     }
-    const parentNodePosition = node.position;
+    const parentNodePosition = curNode.position;
 
-    if (node.level === 0 && side === "left") {
+    if ("leftChildNode" in curNode && curNode.level === 0 && side === "left") {
       return {
-        ...node,
-        leftChildNode: node.leftChildNode.map((leftChild) =>
+        ...curNode,
+        leftChildNode: curNode.leftChildNode.map((leftChild) =>
           updateNodePosition(
             leftChild,
             nodeId,
@@ -274,12 +269,16 @@ const MindMapTree = () => {
             parentNodePosition,
             null
           )
-        ),
+        ) as GeneralNode[],
       };
-    } else if (node.level === 0 && side === "right") {
+    } else if (
+      "rightChildNode" in curNode &&
+      curNode.level === 0 &&
+      side === "right"
+    ) {
       return {
-        ...node,
-        rightChildNode: node.rightChildNode.map((rightChild) =>
+        ...curNode,
+        rightChildNode: curNode.rightChildNode.map((rightChild) =>
           updateNodePosition(
             rightChild,
             nodeId,
@@ -287,13 +286,13 @@ const MindMapTree = () => {
             parentNodePosition,
             null
           )
-        ),
+        ) as GeneralNode[],
       };
     }
-    if (node.childNode) {
+    if ("childNode" in curNode && curNode.childNode) {
       return {
-        ...node,
-        childNode: node.childNode.map((child) =>
+        ...curNode,
+        childNode: curNode.childNode.map((child) =>
           updateNodePosition(
             child,
             nodeId,
@@ -301,10 +300,10 @@ const MindMapTree = () => {
             parentNodePosition,
             null
           )
-        ),
+        ) as GeneralNode[],
       };
     }
-    return node;
+    return curNode;
   };
 
   //노드 요소 포지션 탐색
