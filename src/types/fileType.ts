@@ -20,10 +20,11 @@ interface BaseNode {
 export interface ChildNode extends BaseNode {
   side: string;
   parentNode: ParentNode;
+  childNode: ChildNode[] | [];
 }
 
 export interface GeneralNode extends ChildNode {
-  childNode: ChildNode[];
+  childNode: ChildNode[] | [];
 }
 
 export interface RootNode extends BaseNode {
