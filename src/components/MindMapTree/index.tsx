@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import positionCalculate from "../../utils/positionCalculate";
-import LeftNodeRender from "../LeftNodeRender";
-import RootNodeRender from "../RootNodeRender";
-import RightNodeRender from "../RightNodeRender";
-import { RootNodeContainer } from "../../styles/NodeCommon";
-import { useRecoilValue } from "recoil";
-import { fileDataState } from "../../recoil/atoms/fileDataState";
-import { GeneralNode, RootNode, Position } from "../../types/fileType";
+import React, { useEffect, useRef, useState } from 'react';
+import positionCalculate from '../../utils/positionCalculate';
+import LeftNodeRender from '../LeftNodeRender';
+import RootNodeRender from '../RootNodeRender';
+import RightNodeRender from '../RightNodeRender';
+import { RootNodeContainer } from '../../styles/NodeCommon';
+import { useRecoilValue } from 'recoil';
+import { fileDataState } from '../../recoil/atoms/fileDataState';
+import { GeneralNode, RootNode, Position } from '../../types/fileType';
 
 // 필요한 작업
 // 1. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
@@ -31,7 +31,7 @@ const MindMapTree = () => {
       treeChangedRef.current &&
       treeRef.current
     ) {
-      navigatePositionInNodeElement(treeRef.current, "left");
+      navigatePositionInNodeElement(treeRef.current, 'left');
       treeChangedRef.current = false;
     }
   }, [tree.leftChildNode]);
@@ -43,13 +43,13 @@ const MindMapTree = () => {
       treeChangedRef.current &&
       treeRef.current
     ) {
-      navigatePositionInNodeElement(treeRef.current, "right");
+      navigatePositionInNodeElement(treeRef.current, 'right');
       treeChangedRef.current = false;
     }
   }, [tree.rightChildNode]);
   //노드 추가
   const addNode = (targetNode: number, side: string) => {
-    const updateTree = (
+    const addNodeRecursion = (
       curNode: RootNode | GeneralNode,
       level: number
     ): RootNode | GeneralNode | undefined => {
@@ -57,7 +57,7 @@ const MindMapTree = () => {
       if (curNode.node === targetNode) {
         treeChangedRef.current = true;
         const newNode: GeneralNode = {
-          value: "",
+          value: '',
           level,
           side,
           node: nodeNumber,
@@ -71,15 +71,15 @@ const MindMapTree = () => {
 
         // *재귀 탈출
         // 추가할 위치에 따라 새로운 노드 추가 후 리턴
-        if ("leftChildNode" in curNode && targetNode === 0 && side === "left") {
+        if ('leftChildNode' in curNode && targetNode === 0 && side === 'left') {
           return {
             ...curNode,
             leftChildNode: [...(curNode.leftChildNode || []), newNode],
           };
         } else if (
-          "rightChildNode" in curNode &&
+          'rightChildNode' in curNode &&
           targetNode === 0 &&
-          side === "right"
+          side === 'right'
         ) {
           return {
             ...curNode,
@@ -87,7 +87,7 @@ const MindMapTree = () => {
           };
         }
         // 루트 노드를 제외하고 일반 노드에는 childNode에 새로운 노드 추가
-        if ("childNode" in curNode) {
+        if ('childNode' in curNode) {
           return {
             ...curNode,
             childNode: [...curNode.childNode, newNode],
@@ -98,59 +98,59 @@ const MindMapTree = () => {
       // *재귀 호출
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
       if (
-        "leftChildNode" in curNode &&
-        side === "left" &&
+        'leftChildNode' in curNode &&
+        side === 'left' &&
         curNode.leftChildNode &&
         level < 2
       ) {
         return {
           ...curNode,
           leftChildNode: curNode.leftChildNode.map((leftChild) =>
-            updateTree(leftChild, level + 1)
+            addNodeRecursion(leftChild, level + 1)
           ) as GeneralNode[],
         };
       } else if (
-        "rightChildNode" in curNode &&
-        side === "right" &&
+        'rightChildNode' in curNode &&
+        side === 'right' &&
         curNode.rightChildNode &&
         level < 2
       ) {
         return {
           ...curNode,
           rightChildNode: curNode.rightChildNode.map(
-            (rightChild: GeneralNode) => updateTree(rightChild, level + 1)
+            (rightChild: GeneralNode) => addNodeRecursion(rightChild, level + 1)
           ) as GeneralNode[],
         };
       }
 
       // 루트 노드를 제외하고는 childNode를 순회
-      if ("childNode" in curNode && curNode.childNode) {
+      if ('childNode' in curNode && curNode.childNode) {
         return {
           ...curNode,
           childNode: curNode.childNode.map((child) =>
-            updateTree(child, level + 1)
+            addNodeRecursion(child, level + 1)
           ) as GeneralNode[],
         };
       }
     };
 
     // 트리 상태를 업데이트하고, 노드 번호 증가
-    setTree((prevTree) => updateTree(prevTree, 1) as RootNode);
+    setTree((prevTree) => addNodeRecursion(prevTree, 1) as RootNode);
     setNodeNumber((prevNumber) => prevNumber + 1);
   };
 
   const deleteNode = (targetNode: number, side: string) => {
     // 루트 노드에서 삭제할 경우 방향에 따라 빈 배열로 먼저 리턴
-    if (targetNode === 0 && side === "left") {
+    if (targetNode === 0 && side === 'left') {
       return setTree((prevTree) => ({ ...prevTree, leftChildNode: [] }));
-    } else if (targetNode === 0 && side === "right") {
+    } else if (targetNode === 0 && side === 'right') {
       return setTree((prevTree) => ({ ...prevTree, rightChildNode: [] }));
     }
 
-    const updateTree = (
+    const deleteNodeRecursion = (
       curNode: RootNode | GeneralNode
     ): RootNode | GeneralNode | null => {
-      if ("childNode" in curNode && curNode.node === targetNode) {
+      if ('childNode' in curNode && curNode.node === targetNode) {
         treeChangedRef.current = true;
         if (curNode.childNode.length > 0) {
           //자식 노드가 있다면 자식 노드들을 삭제
@@ -161,32 +161,32 @@ const MindMapTree = () => {
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
       if (
-        "leftChildNode" in curNode &&
+        'leftChildNode' in curNode &&
         curNode.level === 0 &&
-        side === "left"
+        side === 'left'
       ) {
         return {
           ...curNode,
           leftChildNode: curNode.leftChildNode
-            .map((leftChild: GeneralNode) => updateTree(leftChild))
+            .map((leftChild: GeneralNode) => deleteNodeRecursion(leftChild))
             .filter((leftChild) => leftChild !== null) as GeneralNode[], // 재귀가 끝나면 자기 자신을 삭제한 노드는 제거
         };
       } else if (
-        "rightChildNode" in curNode &&
+        'rightChildNode' in curNode &&
         curNode.level === 0 &&
-        side === "right"
+        side === 'right'
       ) {
         return {
           ...curNode,
           rightChildNode: curNode.rightChildNode
-            .map((rightChild: GeneralNode) => updateTree(rightChild))
+            .map((rightChild: GeneralNode) => deleteNodeRecursion(rightChild))
             .filter((rightChild) => rightChild !== null) as GeneralNode[],
         };
       }
       // 루트 노드를 제외하고는 childNode를 순회
-      if ("childNode" in curNode && curNode.childNode) {
+      if ('childNode' in curNode && curNode.childNode) {
         const updatedChildren = curNode.childNode
-          .map((child) => updateTree(child))
+          .map((child) => deleteNodeRecursion(child))
           .filter((child) => child !== null) as GeneralNode[];
 
         return { ...curNode, childNode: updatedChildren };
@@ -195,7 +195,7 @@ const MindMapTree = () => {
       return curNode;
     };
 
-    setTree((prevTree) => updateTree(prevTree) as RootNode);
+    setTree((prevTree) => deleteNodeRecursion(prevTree) as RootNode);
   };
 
   //노드의 값 업데이트
@@ -204,7 +204,7 @@ const MindMapTree = () => {
     targetNode: RootNode | GeneralNode,
     side: string
   ) => {
-    const updateNodeInput = (
+    const updateNodeRecursion = (
       curNode: RootNode | GeneralNode
     ): RootNode | GeneralNode | undefined => {
       if (curNode.node === targetNode.node) {
@@ -217,8 +217,8 @@ const MindMapTree = () => {
 
         // textarea입력으로 높이 변경될 경우 트리 전체의 선 길이 및 곡선을 업데이트
         if (prevTargetHeight < updateTargetHeight) {
-          target.style.height = "auto";
-          target.style.height = target.scrollHeight - 40 + "px";
+          target.style.height = 'auto';
+          target.style.height = target.scrollHeight - 40 + 'px';
 
           treeChangedRef.current = true;
         }
@@ -229,41 +229,41 @@ const MindMapTree = () => {
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
       if (
-        "leftChildNode" in curNode &&
+        'leftChildNode' in curNode &&
         curNode.level === 0 &&
-        side === "left"
+        side === 'left'
       ) {
         return {
           ...curNode,
           leftChildNode: curNode.leftChildNode.map((leftChild) =>
-            updateNodeInput(leftChild)
+            updateNodeRecursion(leftChild)
           ) as GeneralNode[],
         };
       } else if (
-        "rightChildNode" in curNode &&
+        'rightChildNode' in curNode &&
         curNode.level === 0 &&
-        side === "right"
+        side === 'right'
       ) {
         return {
           ...curNode,
           rightChildNode: curNode.rightChildNode.map((rightChild) =>
-            updateNodeInput(rightChild)
+            updateNodeRecursion(rightChild)
           ) as GeneralNode[],
         };
       }
 
-      if ("childNode" in curNode && curNode.childNode) {
+      if ('childNode' in curNode && curNode.childNode) {
         // 루트 노드를 제외하고는 childNode를 순회
         return {
           ...curNode,
           childNode: curNode.childNode.map((child) =>
-            updateNodeInput(child)
+            updateNodeRecursion(child)
           ) as GeneralNode[],
         };
       }
     };
 
-    setTree((prevTree) => updateNodeInput(prevTree) as RootNode);
+    setTree((prevTree) => updateNodeRecursion(prevTree) as RootNode);
   };
 
   // 노드 포지션 업데이트
@@ -292,7 +292,7 @@ const MindMapTree = () => {
     }
     const parentNodePosition = curNode.position;
 
-    if ("leftChildNode" in curNode && curNode.level === 0 && side === "left") {
+    if ('leftChildNode' in curNode && curNode.level === 0 && side === 'left') {
       return {
         ...curNode,
         leftChildNode: curNode.leftChildNode.map((leftChild) =>
@@ -306,9 +306,9 @@ const MindMapTree = () => {
         ) as GeneralNode[],
       };
     } else if (
-      "rightChildNode" in curNode &&
+      'rightChildNode' in curNode &&
       curNode.level === 0 &&
-      side === "right"
+      side === 'right'
     ) {
       return {
         ...curNode,
@@ -323,7 +323,7 @@ const MindMapTree = () => {
         ) as GeneralNode[],
       };
     }
-    if ("childNode" in curNode && curNode.childNode) {
+    if ('childNode' in curNode && curNode.childNode) {
       return {
         ...curNode,
         childNode: curNode.childNode.map((child) =>
@@ -345,7 +345,7 @@ const MindMapTree = () => {
     treeElement: HTMLDivElement,
     side: string
   ) => {
-    const treePositionRecursion = (nodeRef: HTMLElement) => {
+    const nodePositionRecursion = (nodeRef: HTMLElement) => {
       if (!nodeRef.children) {
         return;
       }
@@ -354,11 +354,11 @@ const MindMapTree = () => {
       const currentNodeID = nodeRef.id.toString();
 
       // 요소에 id가 있는 경우에만 각 방향에 따라 포지션 업데이트 함수 호출
-      if (side === "left" && currentNodeID.length > 0) {
+      if (side === 'left' && currentNodeID.length > 0) {
         //왼쪽 노드 생성시에만 추가 작업
         //포지션 탐색시 왼쪽 노드들 먼저 탐색 이후 루트 노드를 탐색하기 때문에
         // 추가로 1단계 왼쪽 노드들의 부모 노드 포지션을 동시에 업데이트 해줘야 함
-        if (currentNodeID === "0") {
+        if (currentNodeID === '0') {
           setTree((prevTree) => ({
             ...prevTree,
             leftChildNode: prevTree.leftChildNode.map((leftChild) => ({
@@ -380,10 +380,10 @@ const MindMapTree = () => {
               currentNodeID,
               currentPosition,
               prevTree.position,
-              "left"
+              'left'
             ) as RootNode
         );
-      } else if (side === "right" && currentNodeID.length > 0) {
+      } else if (side === 'right' && currentNodeID.length > 0) {
         setTree(
           (prevTree) =>
             updateNodePosition(
@@ -391,22 +391,22 @@ const MindMapTree = () => {
               currentNodeID,
               currentPosition,
               prevTree.position,
-              "right"
+              'right'
             ) as RootNode
         );
       }
 
       // 자식 노드들에 대해 재귀적으로 처리
       Array.from(nodeRef.children).forEach((child) => {
-        treePositionRecursion(child as HTMLDivElement);
+        nodePositionRecursion(child as HTMLDivElement);
       });
     };
 
-    treePositionRecursion(treeElement);
+    nodePositionRecursion(treeElement);
   };
 
   return (
-    <RootNodeContainer ref={treeRef} $side={"both"} $isRoot={true}>
+    <RootNodeContainer ref={treeRef} $side={'both'} $isRoot={true}>
       <div>
         {tree.leftChildNode.length > 0 &&
           tree.leftChildNode.map((leftNode) => (
