@@ -34,6 +34,7 @@ export interface RootNode extends BaseNode {
 }
 
 export interface FileList {
+  id: string;
   fileName: string;
   updatedDate: string;
   tree: RootNode;

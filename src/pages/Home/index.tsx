@@ -1,26 +1,28 @@
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { fileDataState } from "../../recoil/atoms/fileDataState";
-import { FileList } from "../../types/fileType";
-import * as S from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFolderPlus } from "@fortawesome/free-solid-svg-icons";
-import updateDate from "../../utils/updateDate";
-import { MainTitle, SubTitle, TitlePadding } from "../../styles/common";
-import NoData from "../../components/NoData";
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { fileDataState } from '../../recoil/atoms/fileDataState';
+import { FileList } from '../../types/fileType';
+import * as S from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
+import updateDate from '../../utils/updateDate';
+import { MainTitle, SubTitle, TitlePadding } from '../../styles/common';
+import NoData from '../../components/NoData';
+
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
 
   const navigate = useNavigate();
 
-  const addNewFile = () => {
-    const updatedDate = updateDate();
+  const updatedDate = updateDate();
 
+  function addNewFile() {
     const newFileData = {
-      fileName: "이름이 없는 파일",
+      id: updatedDate,
+      fileName: '이름이 없는 파일',
       updatedDate,
       tree: {
-        value: "",
+        value: '',
         node: 0,
         level: 0,
         position: { x: 0, y: 0, r: 0, t: 0 },
@@ -34,16 +36,23 @@ const Home = () => {
     };
 
     setFileData((prevFileData: FileList[]) => [...prevFileData, newFileData]);
-    navigate("/editor");
+  }
+
+  const hadleAddNewFile = () => {
+    addNewFile();
+    navigate(`/editor/${updatedDate}`);
   };
 
+  const handleOpenFile = (id: string) => {
+    navigate(`/editor/${id}`);
+  };
   return (
     <>
       <TitlePadding>
         <MainTitle>홈페이지</MainTitle>
       </TitlePadding>
 
-      <S.NewFileFrame onClick={addNewFile}>
+      <S.NewFileFrame onClick={hadleAddNewFile}>
         <FontAwesomeIcon icon={faFolderPlus} />
         <p>Create new file</p>
       </S.NewFileFrame>
@@ -57,8 +66,8 @@ const Home = () => {
           <NoData />
         ) : (
           <S.FileContent>
-            {fileData.map((item) => (
-              <S.FileFrame>
+            {fileData.map((item, index) => (
+              <S.FileFrame key={index} onClick={() => handleOpenFile(item.id)}>
                 <S.FileImg></S.FileImg>
                 <S.FileDes>
                   <p>{item.fileName}</p>
