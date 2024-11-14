@@ -4,7 +4,7 @@ import { fileDataState } from '../../recoil/atoms/fileDataState';
 import { FileList } from '../../types/fileType';
 import * as S from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import { MainTitle, SubTitle, TitlePadding } from '../../styles/common';
 import NoData from '../../components/NoData';
@@ -91,17 +91,21 @@ const Home = () => {
             {fileData.map((item, index) => (
               <S.FileFrame
                 key={index}
+                $active={selectFiles.includes(item.id)}
                 onClick={() => handleOpenFile(item.id)}
                 onMouseOver={() => handleMouseOver(index)}
                 onMouseOut={handleMouseOut}
               >
                 <S.CheckBox
-                  $active={hoverFile === index}
+                  $hover={hoverFile === index}
+                  $active={selectFiles.includes(item.id)}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleSelectFile(item.id);
                   }}
-                ></S.CheckBox>
+                >
+                  <FontAwesomeIcon icon={faCheck} />
+                </S.CheckBox>
                 <S.FileImg></S.FileImg>
                 <S.FileDes>
                   <p>{item.fileName}</p>

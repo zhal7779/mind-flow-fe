@@ -47,27 +47,39 @@ export const FileContent = styled.div`
   margin-bottom: 24px;
 `;
 
-export const FileFrame = styled.div`
+export const FileFrame = styled.div<{ $active: boolean }>`
   position: relative;
+  border-radius: 8px;
+  border: ${(props) =>
+    props.$active
+      ? '2px solid var( --color-purple)'
+      : '1px solid var(--color-border)'};
   &:hover {
-    border-radius: 8px;
     box-shadow: var(--shadow-base);
   }
 `;
 
-export const CheckBox = styled.span<{ $active: boolean }>`
-  visibility: ${(props) => (props.$active ? 'visible' : 'hidden')};
+export const CheckBox = styled.span<{ $hover: boolean; $active: boolean }>`
+  visibility: ${(props) =>
+    props.$hover || props.$active ? 'visible' : 'hidden'};
   position: absolute;
   width: 2rem;
   height: 2rem;
-  display: block;
-  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) =>
+    props.$active ? 'var( --color-purple)' : 'var(--color-white)'};
   border: 1px solid var(--color-border);
   border-radius: 4px;
   top: 1rem;
   left: 1rem;
   z-index: 10;
 
+  > svg {
+    color: var(--color-white);
+    font-size: 1.3rem;
+  }
   &:hover {
     box-shadow: var(--shadow-primary);
   }
@@ -78,9 +90,6 @@ export const FileImg = styled.div`
   width: 100%;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  border-top: 1px solid var(--color-border);
-  border-left: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
   background-color: var(--color-grey-03);
 `;
 
@@ -89,9 +98,6 @@ export const FileDes = styled.div`
   padding: 1.2rem 1.2rem 0.8rem;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  border-bottom: 1px solid var(--color-border);
-  border-left: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
 
   > p {
     font-size: 1.4rem;
