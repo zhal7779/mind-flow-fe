@@ -13,10 +13,38 @@ import { useState } from 'react';
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
   const [hoverFile, setHoverFile] = useState(-1);
+  const [selectFiles, setSelectFiles] = useState<string[]>([]);
 
   const navigate = useNavigate();
 
   const updatedDate = updateDate();
+
+  const hadleAddNewFile = () => {
+    addNewFile();
+    navigate(`/editor/${updatedDate}`);
+  };
+
+  const handleOpenFile = (id: string) => {
+    navigate(`/editor/${id}`);
+  };
+
+  const handleMouseOver = (index: number) => {
+    setHoverFile(index);
+  };
+
+  const handleMouseOut = () => {
+    setHoverFile(-1);
+  };
+
+  const handleSelectFile = (id: string) => {
+    setSelectFiles((prevFiles) => {
+      if (!prevFiles.includes(id)) {
+        return [...prevFiles, id];
+      } else {
+        return prevFiles.filter((item) => item !== id);
+      }
+    });
+  };
 
   function addNewFile() {
     const newFileData = {
@@ -39,24 +67,6 @@ const Home = () => {
 
     setFileData((prevFileData: FileList[]) => [...prevFileData, newFileData]);
   }
-
-  const hadleAddNewFile = () => {
-    addNewFile();
-    navigate(`/editor/${updatedDate}`);
-  };
-
-  const handleOpenFile = (id: string) => {
-    navigate(`/editor/${id}`);
-  };
-
-  const handleMouseOver = (index: number) => {
-    setHoverFile(index);
-  };
-
-  const handleMouseOut = () => {
-    setHoverFile(-1);
-  };
-  console.log(hoverFile);
 
   return (
     <>
@@ -85,7 +95,13 @@ const Home = () => {
                 onMouseOver={() => handleMouseOver(index)}
                 onMouseOut={handleMouseOut}
               >
-                <S.CheckBox $active={hoverFile === index}></S.CheckBox>
+                <S.CheckBox
+                  $active={hoverFile === index}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectFile(item.id);
+                  }}
+                ></S.CheckBox>
                 <S.FileImg></S.FileImg>
                 <S.FileDes>
                   <p>{item.fileName}</p>

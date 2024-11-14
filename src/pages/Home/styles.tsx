@@ -60,12 +60,17 @@ export const CheckBox = styled.span<{ $active: boolean }>`
   position: absolute;
   width: 2rem;
   height: 2rem;
+  display: block;
   background-color: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: 4px;
   top: 1rem;
   left: 1rem;
-  z-index: 1;
+  z-index: 10;
+
+  &:hover {
+    box-shadow: var(--shadow-primary);
+  }
 `;
 
 export const FileImg = styled.div`
