@@ -85,8 +85,7 @@ const Home = () => {
                 onMouseOver={() => handleMouseOver(index)}
                 onMouseOut={handleMouseOut}
               >
-                {hoverFile === index ? <S.CheckBox></S.CheckBox> : <></>}
-
+                <S.CheckBox $active={hoverFile === index}></S.CheckBox>
                 <S.FileImg></S.FileImg>
                 <S.FileDes>
                   <p>{item.fileName}</p>

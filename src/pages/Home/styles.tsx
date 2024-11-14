@@ -55,7 +55,8 @@ export const FileFrame = styled.div`
   }
 `;
 
-export const CheckBox = styled.span`
+export const CheckBox = styled.span<{ $active: boolean }>`
+  visibility: ${(props) => (props.$active ? 'visible' : 'hidden')};
   position: absolute;
   width: 2rem;
   height: 2rem;
