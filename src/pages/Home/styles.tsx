@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const NewFileFrame = styled.div`
   position: absolute;
@@ -8,7 +8,7 @@ export const NewFileFrame = styled.div`
   border-radius: 0.8rem;
   border: 1px solid var(--color-border);
   height: 6rem;
-  background: url("/img/home-head-bg.png") 0% 0% / 100% 100% no-repeat;
+  background: url('/img/home-head-bg.png') 0% 0% / 100% 100% no-repeat;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -48,11 +48,23 @@ export const FileContent = styled.div`
 `;
 
 export const FileFrame = styled.div`
-  cursor: pointer;
+  position: relative;
   &:hover {
     border-radius: 8px;
     box-shadow: var(--shadow-base);
   }
+`;
+
+export const CheckBox = styled.span`
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1;
 `;
 
 export const FileImg = styled.div`

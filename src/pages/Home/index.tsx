@@ -8,9 +8,11 @@ import { faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import { MainTitle, SubTitle, TitlePadding } from '../../styles/common';
 import NoData from '../../components/NoData';
+import { useState } from 'react';
 
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
+  const [hoverFile, setHoverFile] = useState(-1);
 
   const navigate = useNavigate();
 
@@ -46,6 +48,16 @@ const Home = () => {
   const handleOpenFile = (id: string) => {
     navigate(`/editor/${id}`);
   };
+
+  const handleMouseOver = (index: number) => {
+    setHoverFile(index);
+  };
+
+  const handleMouseOut = () => {
+    setHoverFile(-1);
+  };
+  console.log(hoverFile);
+
   return (
     <>
       <TitlePadding>
@@ -67,7 +79,14 @@ const Home = () => {
         ) : (
           <S.FileContent>
             {fileData.map((item, index) => (
-              <S.FileFrame key={index} onClick={() => handleOpenFile(item.id)}>
+              <S.FileFrame
+                key={index}
+                onClick={() => handleOpenFile(item.id)}
+                onMouseOver={() => handleMouseOver(index)}
+                onMouseOut={handleMouseOut}
+              >
+                {hoverFile === index ? <S.CheckBox></S.CheckBox> : <></>}
+
                 <S.FileImg></S.FileImg>
                 <S.FileDes>
                   <p>{item.fileName}</p>
