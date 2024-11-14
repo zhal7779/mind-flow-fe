@@ -6,7 +6,6 @@ export const NewFileFrame = styled.div`
   right: 2rem;
   width: fit-content;
   border-radius: 0.8rem;
-  border: 1px solid var(--color-border);
   height: 6rem;
   background: url('/img/home-head-bg.png') 0% 0% / 100% 100% no-repeat;
   display: flex;
