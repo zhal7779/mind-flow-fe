@@ -8,6 +8,7 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 import { faCheck, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import {
+  Wrapper,
   MainTitle,
   TitlePadding,
   CheckBox,
@@ -94,7 +95,7 @@ const Home = () => {
   }
 
   return (
-    <>
+    <Wrapper>
       <TitlePadding>
         <MainTitle>홈페이지</MainTitle>
       </TitlePadding>
@@ -157,7 +158,7 @@ const Home = () => {
           </S.FileContent>
         )}
       </S.FileSection>
-    </>
+    </Wrapper>
   );
 };
 

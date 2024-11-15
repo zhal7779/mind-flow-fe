@@ -1,5 +1,9 @@
 import { styled } from 'styled-components';
 
+export const Wrapper = styled.main`
+  padding: 6rem 4rem 0 4rem;
+`;
+
 export const MainTitle = styled.h2`
   font-size: 1.8rem;
   font-weight: 600;

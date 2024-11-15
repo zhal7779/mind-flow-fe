@@ -1,9 +1,19 @@
-import { MainTitle, TitlePadding } from "../../styles/common";
+import TagSideBar from '../../components/TagSideBar';
+import { Wrapper, MainTitle, TitlePadding } from '../../styles/common';
+import { SideContainer, Container } from './styles';
+
 const Favorites = () => {
   return (
-    <TitlePadding>
-      <MainTitle>즐겨찾기</MainTitle>
-    </TitlePadding>
+    <Container>
+      <SideContainer>
+        <TagSideBar />
+      </SideContainer>
+      <Wrapper>
+        <TitlePadding>
+          <MainTitle>즐겨찾기</MainTitle>
+        </TitlePadding>
+      </Wrapper>
+    </Container>
   );
 };
 
