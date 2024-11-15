@@ -73,6 +73,7 @@ export const DeleteContent = styled.div`
   display: flex;
   gap: 1rem;
   padding-bottom: 1rem;
+  align-items: center;
 `;
 
 export const FileImg = styled.div`

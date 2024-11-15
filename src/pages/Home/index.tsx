@@ -4,6 +4,7 @@ import { fileDataState } from '../../recoil/atoms/fileDataState';
 import { FileList } from '../../types/fileType';
 import * as S from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaRegTrashCan } from 'react-icons/fa6';
 import {
   faCheck,
   faFolderPlus,
@@ -15,6 +16,7 @@ import {
   SubTitle,
   TitlePadding,
   CheckBox,
+  DeleteButton,
 } from '../../styles/common';
 import NoData from '../../components/NoData';
 import { useState } from 'react';
@@ -121,10 +123,10 @@ const Home = () => {
           >
             <FontAwesomeIcon icon={faCheck} />
           </CheckBox>
-          <button>
-            <FontAwesomeIcon icon={faTrash} />
-            최근열기에서 제거
-          </button>
+          <DeleteButton>
+            <FaRegTrashCan />
+            최근 열기에서 제거
+          </DeleteButton>
         </S.DeleteContent>
 
         {fileData.length === 0 ? (

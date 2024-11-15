@@ -34,6 +34,8 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         --color-grey-02: #8b8c8f;
         --color-grey-03: #f3f3f5;
         --color-grey-04: #555557;
+
+        --color-danger: #f43529;
         
         //box-shadow
         --shadow-primary:0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),

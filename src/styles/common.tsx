@@ -38,3 +38,15 @@ export const CheckBox = styled.span<{ $hover: boolean; $active: boolean }>`
     box-shadow: var(--shadow-primary);
   }
 `;
+
+export const DeleteButton = styled.button`
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  border-radius: 4px;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 1.2rem;
+`;
