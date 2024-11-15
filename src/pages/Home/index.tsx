@@ -55,12 +55,18 @@ const Home = () => {
     });
   };
 
-  const handleSelectAllFile = () => {
+  const handleToggleAllFile = () => {
+    //파일이 전체 선택되어있을 경우 파일 전체 해제
+    if (selectFiles.length === fileData.length && selectFiles.length) {
+      return setSelectFiles([]);
+    }
+
     const addFiles = fileData
       .filter((file) => !selectFiles.includes(file.id))
       .map((file) => file.id);
 
     if (addFiles.length === 0) {
+      // 추가할 파일이 없을 경우 리턴
       return;
     }
 
@@ -111,7 +117,7 @@ const Home = () => {
             $active={
               fileData.length === selectFiles.length && selectFiles.length > 0
             }
-            onClick={handleSelectAllFile}
+            onClick={handleToggleAllFile}
           >
             <FontAwesomeIcon icon={faCheck} />
           </CheckBox>
