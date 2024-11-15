@@ -66,7 +66,9 @@ export const FileFrame = styled.div<{ $active: boolean }>`
 `;
 export const TitleContent = styled.div`
   display: flex;
+  align-items: center;
   gap: 1rem;
+  margin-bottom: 3rem;
 `;
 
 export const DeleteContent = styled.div`

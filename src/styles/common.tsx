@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 export const MainTitle = styled.h2`
   font-size: 1.8rem;
   font-weight: 600;
-  margin-bottom: 3rem;
 `;
 
 export const TitlePadding = styled.div`
@@ -48,5 +47,14 @@ export const DeleteButton = styled.button`
   display: flex;
   gap: 0.4rem;
   align-items: center;
+  font-size: 1.2rem;
+`;
+
+export const BaseBox = styled.span`
+  display: block;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-grey-02);
   font-size: 1.2rem;
 `;

@@ -5,18 +5,14 @@ import { FileList } from '../../types/fileType';
 import * as S from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegTrashCan } from 'react-icons/fa6';
-import {
-  faCheck,
-  faFolderPlus,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import {
   MainTitle,
-  SubTitle,
   TitlePadding,
   CheckBox,
   DeleteButton,
+  BaseBox,
 } from '../../styles/common';
 import NoData from '../../components/NoData';
 import { useState } from 'react';
@@ -111,7 +107,7 @@ const Home = () => {
       <S.FileSection>
         <S.TitleContent>
           <MainTitle>최근 열기</MainTitle>
-          <SubTitle> 파일 ({fileData.length})</SubTitle>
+          <BaseBox>파일 ({fileData.length})</BaseBox>
         </S.TitleContent>
         <S.DeleteContent>
           <CheckBox
