@@ -53,35 +53,26 @@ export const FileFrame = styled.div<{ $active: boolean }>`
     props.$active
       ? '2px solid var( --color-purple)'
       : '1px solid var(--color-border)'};
+
+  > span {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+  }
+
   &:hover {
     box-shadow: var(--shadow-base);
   }
 `;
-
-export const CheckBox = styled.span<{ $hover: boolean; $active: boolean }>`
-  visibility: ${(props) =>
-    props.$hover || props.$active ? 'visible' : 'hidden'};
-  position: absolute;
-  width: 2rem;
-  height: 2rem;
+export const TitleContent = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) =>
-    props.$active ? 'var( --color-purple)' : 'var(--color-white)'};
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  top: 1rem;
-  left: 1rem;
-  z-index: 10;
+  gap: 1rem;
+`;
 
-  > svg {
-    color: var(--color-white);
-    font-size: 1.3rem;
-  }
-  &:hover {
-    box-shadow: var(--shadow-primary);
-  }
+export const DeleteContent = styled.div`
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1rem;
 `;
 
 export const FileImg = styled.div`

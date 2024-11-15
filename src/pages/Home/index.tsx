@@ -4,9 +4,18 @@ import { fileDataState } from '../../recoil/atoms/fileDataState';
 import { FileList } from '../../types/fileType';
 import * as S from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faFolderPlus,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
-import { MainTitle, SubTitle, TitlePadding } from '../../styles/common';
+import {
+  MainTitle,
+  SubTitle,
+  TitlePadding,
+  CheckBox,
+} from '../../styles/common';
 import NoData from '../../components/NoData';
 import { useState } from 'react';
 
@@ -46,6 +55,18 @@ const Home = () => {
     });
   };
 
+  const handleSelectAllFile = () => {
+    const addFiles = fileData
+      .filter((file) => !selectFiles.includes(file.id))
+      .map((file) => file.id);
+
+    if (addFiles.length === 0) {
+      return;
+    }
+
+    setSelectFiles((prevFiles) => [...prevFiles, ...addFiles]);
+  };
+
   function addNewFile() {
     const newFileData = {
       id: updatedDate,
@@ -80,9 +101,25 @@ const Home = () => {
       </S.NewFileFrame>
 
       <S.FileSection>
-        <MainTitle>최근 열기</MainTitle>
-
-        <SubTitle> 파일({fileData.length})</SubTitle>
+        <S.TitleContent>
+          <MainTitle>최근 열기</MainTitle>
+          <SubTitle> 파일 ({fileData.length})</SubTitle>
+        </S.TitleContent>
+        <S.DeleteContent>
+          <CheckBox
+            $hover={true}
+            $active={
+              fileData.length === selectFiles.length && selectFiles.length > 0
+            }
+            onClick={handleSelectAllFile}
+          >
+            <FontAwesomeIcon icon={faCheck} />
+          </CheckBox>
+          <button>
+            <FontAwesomeIcon icon={faTrash} />
+            최근열기에서 제거
+          </button>
+        </S.DeleteContent>
 
         {fileData.length === 0 ? (
           <NoData />
@@ -96,7 +133,7 @@ const Home = () => {
                 onMouseOver={() => handleMouseOver(index)}
                 onMouseOut={handleMouseOut}
               >
-                <S.CheckBox
+                <CheckBox
                   $hover={hoverFile === index}
                   $active={selectFiles.includes(item.id)}
                   onClick={(e) => {
@@ -105,7 +142,7 @@ const Home = () => {
                   }}
                 >
                   <FontAwesomeIcon icon={faCheck} />
-                </S.CheckBox>
+                </CheckBox>
                 <S.FileImg></S.FileImg>
                 <S.FileDes>
                   <p>{item.fileName}</p>
