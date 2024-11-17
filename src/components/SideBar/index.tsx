@@ -1,39 +1,39 @@
-import * as S from "./styles";
-import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as S from './styles';
+import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAnglesLeft,
   faAnglesRight,
   faHouse,
   faTag,
   faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { useRecoilState } from "recoil";
-import { isSideBarOnState } from "../../recoil/atoms/isSideBarOnState";
-import { useNavigate } from "react-router-dom";
+} from '@fortawesome/free-solid-svg-icons';
+import { useRecoilState } from 'recoil';
+import { isSideBarOnState } from '../../recoil/atoms/isSideBarOnState';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const MenuData = [
-  { name: "홈페이지", icon: faHouse, color: "var(--color-red)", route: "/" },
+  { name: '홈페이지', icon: faHouse, color: 'var(--color-red)', route: '/' },
   {
-    name: "즐겨찾기",
+    name: '즐겨찾기',
     icon: faTag,
-    color: "var(--color-green)",
-    route: "favorites",
+    color: 'var(--color-green)',
+    route: '/favorites',
   },
   {
-    name: "공간 휴지통",
+    name: '공간 휴지통',
     icon: faTrash,
-    color: "var(--color-blue)",
-    route: "trash",
+    color: 'var(--color-blue)',
+    route: '/trash',
   },
 ];
 
 const SideBar = () => {
   const navigate = useNavigate();
-
+  const { pathname } = useLocation();
   const [isSideBarOn, setIsSideBarOn] = useRecoilState(isSideBarOnState);
   const [showTag, setShowTag] = useState(false);
-  const [activeItem, setActiveItem] = useState(MenuData[0].name);
+  const [activeItem, setActiveItem] = useState(pathname);
 
   const onClickToggle = () => {
     if (isSideBarOn) {
@@ -52,8 +52,8 @@ const SideBar = () => {
     }
   }, [isSideBarOn]);
 
-  const onClickActive = (item: string, route: string) => {
-    setActiveItem(item);
+  const onClickActive = (route: string) => {
+    setActiveItem(route);
     navigate(route);
   };
 
@@ -68,9 +68,9 @@ const SideBar = () => {
           {MenuData.map((menu, index) => (
             <S.MenuItem
               key={index}
-              $isActive={activeItem === menu.name}
+              $isActive={activeItem === menu.route}
               $color={menu.color}
-              onClick={() => onClickActive(menu.name, menu.route)}
+              onClick={() => onClickActive(menu.route)}
             >
               <FontAwesomeIcon icon={menu.icon} />
               <span>{menu.name}</span>
