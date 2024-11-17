@@ -150,3 +150,14 @@ export const TagMenu = styled.div`
     }
   }
 `;
+
+export const ActiveTag = styled.span<{ $tag: string }>`
+  color: ${(props) =>
+    props.$tag === 'important'
+      ? 'var(--color-tag-purple)'
+      : props.$tag === 'defer'
+      ? 'var(--color-tag-red)'
+      : props.$tag === 'progress'
+      ? 'var(--color-tag-orange)'
+      : 'var(--color-tag-blue)'};
+`;

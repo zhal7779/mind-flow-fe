@@ -83,8 +83,17 @@ const Home = () => {
     setActiveTagMenu(id);
   };
 
-  const handleSelectTag = () => {
+  const handleSelectTag = (index: number, tag: string) => {
     setActiveTagMenu('');
+    setFileData((prevFileData: FileList[]) => {
+      const updatedFileData = [...prevFileData];
+      updatedFileData[index] = {
+        ...updatedFileData[index],
+        tag,
+      };
+
+      return updatedFileData;
+    });
   };
 
   function addNewFile() {
@@ -109,6 +118,8 @@ const Home = () => {
 
     setFileData((prevFileData: FileList[]) => [...prevFileData, newFileData]);
   }
+
+  console.log(fileData);
 
   return (
     <Wrapper>
@@ -178,18 +189,21 @@ const Home = () => {
                   {item.tag === null ? (
                     <GoTag style={{ color: 'var(--color-grey-02)' }} />
                   ) : (
-                    <FontAwesomeIcon icon={faTag} />
+                    <S.ActiveTag $tag={item.tag}>
+                      <FontAwesomeIcon icon={faTag} />
+                    </S.ActiveTag>
                   )}
                 </S.TagContent>
 
                 {activeTagMenu === item.id && (
                   <S.TagMenu>
                     <ul>
-                      {Tags.map((tag) => (
+                      {Tags.map((tag, tagIndex) => (
                         <li
+                          key={tagIndex}
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleSelectTag();
+                            handleSelectTag(index, tag.tag);
                           }}
                         >
                           <FontAwesomeIcon
