@@ -38,8 +38,9 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         
         --color-tag-red: #FF7487;
         --color-tag-orange: #FFB35A;
+        --color-tag-green: #19DEA6;
         --color-tag-blue: #439eff;
-
+        --color-tag-purple: #A07EFF;
         //box-shadow
         --shadow-primary:0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07),
@@ -111,8 +112,9 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     
     }
 
-    p{
-      color: var(- --color-black-01)
+   h1, h2, h3, h4, h5, h6, p, span, li{
+      color: var(--color-black-01);
     }
+
 
 `;

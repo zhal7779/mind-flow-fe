@@ -16,8 +16,9 @@ export const TitlePadding = styled.div`
 export const SubTitle = styled.p`
   font-size: 1.4rem;
   color: #555557;
-  margin-bottom: 1rem;
+
   line-height: 1.8rem;
+  font-weight: 600;
 `;
 
 export const CheckBox = styled.span<{ $hover: boolean; $active: boolean }>`

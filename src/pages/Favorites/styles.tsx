@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const SideContainer = styled.div`
-  width: 18rem;
+  width: 20rem;
   height: 100%;
 `;
 

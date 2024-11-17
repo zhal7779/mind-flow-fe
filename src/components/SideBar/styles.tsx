@@ -42,7 +42,7 @@ export const Menu = styled.ul`
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.4rem;
 `;
 
 export const MenuItem = styled.div<{
