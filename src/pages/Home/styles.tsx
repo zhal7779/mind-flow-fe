@@ -104,3 +104,9 @@ export const FileDes = styled.div`
     color: var(--color-grey-02);
   }
 `;
+export const TagContent = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1;
+`;

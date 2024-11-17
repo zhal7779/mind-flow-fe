@@ -5,7 +5,11 @@ import { FileList } from '../../types/fileType';
 import * as S from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegTrashCan } from 'react-icons/fa6';
-import { faCheck, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faFolderPlus,
+  faTag,
+} from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import {
   Wrapper,
@@ -16,6 +20,7 @@ import {
   BaseBox,
 } from '../../styles/common';
 import NoData from '../../components/NoData';
+import { GoTag } from 'react-icons/go';
 import { useState } from 'react';
 
 const Home = () => {
@@ -76,6 +81,7 @@ const Home = () => {
     const newFileData = {
       id: updatedDate,
       fileName: '이름이 없는 파일',
+      tag: null,
       updatedDate,
       tree: {
         value: '',
@@ -153,6 +159,13 @@ const Home = () => {
                   <p>{item.fileName}</p>
                   <span>{item.updatedDate} 마지막으로 수정</span>
                 </S.FileDes>
+                <S.TagContent>
+                  {item.tag === null ? (
+                    <GoTag style={{ color: 'var(--color-grey-02)' }} />
+                  ) : (
+                    <FontAwesomeIcon icon={faTag} />
+                  )}
+                </S.TagContent>
               </S.FileFrame>
             ))}
           </S.FileContent>

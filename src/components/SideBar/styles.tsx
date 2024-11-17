@@ -79,7 +79,9 @@ export const Tag = styled.div`
   height: fit-content;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+  background-color: var(--color-white);
   cursor: pointer;
+  z-index: 999;
 
   > svg {
     color: var(--color-grey-02);

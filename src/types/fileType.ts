@@ -38,4 +38,5 @@ export interface FileList {
   fileName: string;
   updatedDate: string;
   tree: RootNode;
+  tag: null | string;
 }
