@@ -108,5 +108,45 @@ export const TagContent = styled.div`
   position: absolute;
   bottom: 1rem;
   right: 1rem;
+  padding: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.4rem;
   z-index: 1;
+
+  &:hover {
+    background: var(--color-grey-03);
+  }
+`;
+
+export const TagMenu = styled.div`
+  position: absolute;
+  bottom: 5rem;
+  right: -6rem;
+  width: 10em;
+  padding: 1.4rem 1rem;
+  height: fit-content;
+  border-radius: 0.8rem;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-primary);
+  z-index: 1;
+
+  > ul {
+    display: flex;
+    gap: 0.4rem;
+    flex-direction: column;
+
+    > li {
+      display: flex;
+      gap: 1rem;
+      font-size: 1.4rem;
+      padding: 0.5rem 0.8rem;
+      border-radius: 0.4rem;
+      cursor: pointer;
+      &:hover {
+        background-color: var(--color-grey-03);
+      }
+    }
+  }
 `;

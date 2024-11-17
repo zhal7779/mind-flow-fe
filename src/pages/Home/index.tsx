@@ -22,11 +22,13 @@ import {
 import NoData from '../../components/NoData';
 import { GoTag } from 'react-icons/go';
 import { useState } from 'react';
+import Tags from '../../data/tags';
 
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
   const [hoverFile, setHoverFile] = useState(-1);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
+  const [activeTagMenu, setActiveTagMenu] = useState('');
 
   const navigate = useNavigate();
 
@@ -75,6 +77,14 @@ const Home = () => {
     }
 
     setSelectFiles((prevFiles) => [...prevFiles, ...addFiles]);
+  };
+
+  const handleActiveTagMenu = (id: string) => {
+    setActiveTagMenu(id);
+  };
+
+  const handleSelectTag = () => {
+    setActiveTagMenu('');
   };
 
   function addNewFile() {
@@ -159,13 +169,39 @@ const Home = () => {
                   <p>{item.fileName}</p>
                   <span>{item.updatedDate} 마지막으로 수정</span>
                 </S.FileDes>
-                <S.TagContent>
+                <S.TagContent
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleActiveTagMenu(item.id);
+                  }}
+                >
                   {item.tag === null ? (
                     <GoTag style={{ color: 'var(--color-grey-02)' }} />
                   ) : (
                     <FontAwesomeIcon icon={faTag} />
                   )}
                 </S.TagContent>
+
+                {activeTagMenu === item.id && (
+                  <S.TagMenu>
+                    <ul>
+                      {Tags.map((tag) => (
+                        <li
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSelectTag();
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTag}
+                            style={{ color: tag.color }}
+                          />
+                          <span>{tag.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </S.TagMenu>
+                )}
               </S.FileFrame>
             ))}
           </S.FileContent>

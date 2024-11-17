@@ -3,12 +3,7 @@ import * as S from './styles';
 import { faTag } from '@fortawesome/free-solid-svg-icons';
 import { SubTitle } from '../../styles/common';
 import { useState } from 'react';
-const Tags = [
-  { name: '중요함', color: 'var(--color-tag-purple)' },
-  { name: '보류중', color: 'var(--color-tag-red)' },
-  { name: '진행중', color: 'var(--color-tag-orange)' },
-  { name: '완료됨', color: 'var(--color-tag-blue)' },
-];
+import Tags from '../../data/tags';
 
 const TagSideBar = () => {
   const [activeTag, setActiveTag] = useState(Tags[0].name);
