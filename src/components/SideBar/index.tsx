@@ -1,30 +1,30 @@
-import * as S from './styles';
-import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as S from "./styles";
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAnglesLeft,
   faAnglesRight,
   faHouse,
   faTag,
   faTrash,
-} from '@fortawesome/free-solid-svg-icons';
-import { useRecoilState } from 'recoil';
-import { isSideBarOnState } from '../../recoil/atoms/isSideBarOnState';
-import { useLocation, useNavigate } from 'react-router-dom';
+} from "@fortawesome/free-solid-svg-icons";
+import { useRecoilState } from "recoil";
+import { isSideBarOnState } from "../../recoil/atoms/isSideBarOnState";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MenuData = [
-  { name: '홈페이지', icon: faHouse, color: 'var(--color-red)', route: '/' },
+  { name: "홈페이지", icon: faHouse, color: "var(--color-red)", route: "/" },
   {
-    name: '즐겨찾기',
+    name: "즐겨찾기",
     icon: faTag,
-    color: 'var(--color-green)',
-    route: '/favorites',
+    color: "var(--color-green)",
+    route: "/favorites",
   },
   {
-    name: '공간 휴지통',
+    name: "공간 휴지통",
     icon: faTrash,
-    color: 'var(--color-blue)',
-    route: '/trash',
+    color: "var(--color-blue)",
+    route: "/trash",
   },
 ];
 
@@ -61,7 +61,8 @@ const SideBar = () => {
     <>
       <S.SideMenuWrapper $isSideBarOn={isSideBarOn}>
         <S.Header>
-          <S.Logo>MindFlow</S.Logo>
+          <img src="/public/img/logo.png" alt="logo" />
+
           <FontAwesomeIcon icon={faAnglesLeft} onClick={onClickToggle} />
         </S.Header>
         <S.Menu>
