@@ -1,7 +1,8 @@
-import { styled } from 'styled-components';
+import { styled } from "styled-components";
 
 export const Wrapper = styled.main`
-  padding: 6rem 4rem 0 4rem;
+  padding: 6rem 4rem 0 6rem;
+  width: 100%;
 `;
 
 export const MainTitle = styled.h2`
@@ -23,14 +24,14 @@ export const SubTitle = styled.p`
 
 export const CheckBox = styled.span<{ $hover: boolean; $active: boolean }>`
   visibility: ${(props) =>
-    props.$hover || props.$active ? 'visible' : 'hidden'};
+    props.$hover || props.$active ? "visible" : "hidden"};
   width: 2rem;
   height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${(props) =>
-    props.$active ? 'var( --color-purple)' : 'var(--color-white)'};
+    props.$active ? "var( --color-purple)" : "var(--color-white)"};
   border: 1px solid var(--color-border);
   border-radius: 4px;
   z-index: 10;

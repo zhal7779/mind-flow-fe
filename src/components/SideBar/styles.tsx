@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SideMenuWrapper = styled.div<{ $isSideBarOn: boolean }>`
   position: fixed;
   overflow: hidden;
   transform: ${(props) =>
-    props.$isSideBarOn ? 'translateX(0)' : 'translateX(-100%);'};
+    props.$isSideBarOn ? "translateX(0)" : "translateX(-100%);"};
   transition: transform 0.35s ease-in-out;
   padding: 0 1.2rem;
   min-width: 30rem;
@@ -13,6 +13,7 @@ export const SideMenuWrapper = styled.div<{ $isSideBarOn: boolean }>`
   height: 100vh;
   width: 30rem;
   border-right: 1px solid var(--color-border);
+  background-color: var(--color-grey-bg);
 `;
 export const Header = styled.header`
   padding: 2rem 0rem 2rem 1rem;
@@ -53,12 +54,12 @@ export const MenuItem = styled.div<{
   align-items: center;
   padding: 1.2rem;
   background-color: ${(props) =>
-    props.$isActive ? 'var(--color-grey-active)' : 'transparent'};
+    props.$isActive ? "var(--color-grey-active)" : "transparent"};
   border-radius: 8px;
   cursor: pointer;
 
   > span {
-    font-weight: ${(props) => (props.$isActive ? '600' : '500')};
+    font-weight: ${(props) => (props.$isActive ? "600" : "500")};
   }
   > svg {
     font-size: 1.4rem;

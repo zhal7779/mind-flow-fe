@@ -1,16 +1,16 @@
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { fileDataState } from '../../recoil/atoms/fileDataState';
-import { FileList } from '../../types/fileType';
-import * as S from './styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FaRegTrashCan } from 'react-icons/fa6';
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { fileDataState } from "../../recoil/atoms/fileDataState";
+import { FileList } from "../../types/fileType";
+import * as S from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaRegTrashCan } from "react-icons/fa6";
 import {
   faCheck,
   faFolderPlus,
   faTag,
-} from '@fortawesome/free-solid-svg-icons';
-import updateDate from '../../utils/updateDate';
+} from "@fortawesome/free-solid-svg-icons";
+import updateDate from "../../utils/updateDate";
 import {
   Wrapper,
   MainTitle,
@@ -18,17 +18,17 @@ import {
   CheckBox,
   DeleteButton,
   BaseBox,
-} from '../../styles/common';
-import NoData from '../../components/NoData';
-import { GoTag } from 'react-icons/go';
-import { useState } from 'react';
-import Tags from '../../data/tags';
+} from "../../styles/common";
+import NoData from "../../components/NoData";
+import { GoTag } from "react-icons/go";
+import { useState } from "react";
+import Tags from "../../data/tags";
 
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
   const [hoverFile, setHoverFile] = useState(-1);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
-  const [activeTagMenu, setActiveTagMenu] = useState('');
+  const [activeTagMenu, setActiveTagMenu] = useState("");
 
   const navigate = useNavigate();
 
@@ -84,7 +84,7 @@ const Home = () => {
   };
 
   const handleSelectTag = (index: number, tag: string) => {
-    setActiveTagMenu('');
+    setActiveTagMenu("");
     setFileData((prevFileData: FileList[]) => {
       const updatedFileData = [...prevFileData];
       updatedFileData[index] = {
@@ -99,11 +99,11 @@ const Home = () => {
   function addNewFile() {
     const newFileData = {
       id: updatedDate,
-      fileName: '이름이 없는 파일',
+      fileName: "이름이 없는 파일",
       tag: null,
       updatedDate,
       tree: {
-        value: '',
+        value: "",
         node: 0,
         level: 0,
         position: { x: 0, y: 0, r: 0, t: 0 },
@@ -154,7 +154,7 @@ const Home = () => {
         </S.DeleteContent>
 
         {fileData.length === 0 ? (
-          <NoData />
+          <NoData text={"최근 파일이 없습니다"} />
         ) : (
           <S.FileContent>
             {fileData.map((item, index) => (
@@ -187,7 +187,7 @@ const Home = () => {
                   }}
                 >
                   {item.tag === null ? (
-                    <GoTag style={{ color: 'var(--color-grey-02)' }} />
+                    <GoTag style={{ color: "var(--color-grey-02)" }} />
                   ) : (
                     <S.ActiveTag $tag={item.tag}>
                       <FontAwesomeIcon icon={faTag} />

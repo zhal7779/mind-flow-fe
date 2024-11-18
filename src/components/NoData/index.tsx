@@ -1,10 +1,14 @@
-import styled from 'styled-components';
-import { CiFileOff } from 'react-icons/ci';
-const NoData = () => {
+import styled from "styled-components";
+
+type NoDataProps = {
+  text: string;
+};
+
+const NoData = ({ text }: NoDataProps) => {
   return (
     <NoDataContent>
-      <CiFileOff />
-      <span>생성된 파일이 없습니다</span>
+      <img src={"/public/img/empty-file-page.png"} alt="no file" />
+      <span>{text}</span>
     </NoDataContent>
   );
 };
@@ -18,13 +22,15 @@ const NoDataContent = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  margin-top: 10rem;
+  height: 100%;
   color: var(--color-grey-02);
-  > svg {
-    font-size: 4rem;
+  padding-top: 14rem;
+  > img {
+    width: 10rem;
   }
-
   > span {
     font-size: 1.3rem;
+    color: var(--color-grey-04);
+    font-weight: 600;
   }
 `;
