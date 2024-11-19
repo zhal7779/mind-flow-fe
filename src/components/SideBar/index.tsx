@@ -1,29 +1,31 @@
 import * as S from "./styles";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAnglesLeft,
-  faAnglesRight,
-  faHouse,
-  faTag,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState } from "recoil";
 import { isSideBarOnState } from "../../recoil/atoms/isSideBarOnState";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { BiHome } from "react-icons/bi";
+import { HiOutlineHome } from "react-icons/hi2";
+import { BsTags } from "react-icons/bs";
+import { FaRegTrashCan } from "react-icons/fa6";
 const MenuData = [
-  { name: "홈페이지", icon: faHouse, color: "var(--color-red)", route: "/" },
+  {
+    name: "홈페이지",
+    icon: <BiHome style={{ fontSize: "1.8rem" }} />,
+    color: "var(--color-grey-05)",
+    route: "/",
+  },
   {
     name: "즐겨찾기",
-    icon: faTag,
-    color: "var(--color-green)",
+    icon: <BsTags style={{ fontSize: "1.6rem" }} />,
+    color: "var(--color-grey-05)",
     route: "/favorites",
   },
   {
     name: "공간 휴지통",
-    icon: faTrash,
-    color: "var(--color-blue)",
+    icon: <FaRegTrashCan style={{ fontSize: "1.5rem" }} />,
+    color: "var(--color-grey-05)",
     route: "/trash",
   },
 ];
@@ -70,10 +72,9 @@ const SideBar = () => {
             <S.MenuItem
               key={index}
               $isActive={activeItem === menu.route}
-              $color={menu.color}
               onClick={() => onClickActive(menu.route)}
             >
-              <FontAwesomeIcon icon={menu.icon} />
+              {menu.icon}
               <span>{menu.name}</span>
             </S.MenuItem>
           ))}

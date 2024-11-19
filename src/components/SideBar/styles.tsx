@@ -48,7 +48,6 @@ export const Menu = styled.ul`
 
 export const MenuItem = styled.div<{
   $isActive: boolean;
-  $color: string;
 }>`
   display: flex;
   align-items: center;
@@ -62,9 +61,8 @@ export const MenuItem = styled.div<{
     font-weight: ${(props) => (props.$isActive ? "600" : "500")};
   }
   > svg {
-    font-size: 1.4rem;
-    color: ${(props) => props.$color};
-    margin-right: 1.4rem;
+    color: ${(props) => !props.$isActive && "var(--color-grey-05)"};
+    margin-right: 1rem;
   }
 
   &:hover {

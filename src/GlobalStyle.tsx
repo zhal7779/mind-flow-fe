@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
+import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
 
 interface GlobalStyleProps {
   isDarkMode: boolean;
@@ -11,17 +11,17 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     :root {
         //color
         --color-white: ${({ isDarkMode }) =>
-          !isDarkMode ? '#ffffff' : '#9ca8b5'};
+          !isDarkMode ? "#ffffff" : "#9ca8b5"};
         --color-primary:${({ isDarkMode }) =>
-          !isDarkMode ? '#fadf85' : '#3d4854'};
+          !isDarkMode ? "#fadf85" : "#3d4854"};
         --color-butter:${({ isDarkMode }) =>
-          !isDarkMode ? '#FBD37C' : '#2F3740'};
+          !isDarkMode ? "#FBD37C" : "#2F3740"};
         --color-main-bg: ${({ isDarkMode }) =>
-          !isDarkMode ? '#FCFEE6' : '#222222'};
+          !isDarkMode ? "#FCFEE6" : "#222222"};
         --color-border :  ${({ isDarkMode }) =>
-          !isDarkMode ? '#D4D5D7' : '#D4D5D7'};
+          !isDarkMode ? "#D4D5D7" : "#D4D5D7"};
         --color-grey-bg:   
-        ${({ isDarkMode }) => (!isDarkMode ? '#fbfbfb' : '#222222')};
+        ${({ isDarkMode }) => (!isDarkMode ? "#fbfbfb" : "#222222")};
         --color-grey-active: rgba(18, 17, 42, .05);
         --color-red: #e26559;
         --color-blue: #2b7799;
@@ -34,6 +34,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         --color-grey-02: #8b8c8f;
         --color-grey-03: #f3f3f5;
         --color-grey-04: #555557;
+        --color-grey-05: #717273;
         --color-danger: #f43529;
         
         --color-tag-red: #FF7487;
