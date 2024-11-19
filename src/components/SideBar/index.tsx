@@ -5,14 +5,13 @@ import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState } from "recoil";
 import { isSideBarOnState } from "../../recoil/atoms/isSideBarOnState";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BiHome } from "react-icons/bi";
 import { HiOutlineHome } from "react-icons/hi2";
 import { BsTags } from "react-icons/bs";
 import { FaRegTrashCan } from "react-icons/fa6";
 const MenuData = [
   {
     name: "홈페이지",
-    icon: <BiHome style={{ fontSize: "1.8rem" }} />,
+    icon: <HiOutlineHome style={{ fontSize: "1.8rem" }} />,
     color: "var(--color-grey-05)",
     route: "/",
   },
