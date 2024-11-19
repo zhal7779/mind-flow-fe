@@ -23,6 +23,7 @@ import NoData from "../../components/NoData";
 import { GoTag } from "react-icons/go";
 import { useState } from "react";
 import Tags from "../../data/tags";
+import { alert, confirmAlert } from "../../utils/alert";
 
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
@@ -34,7 +35,7 @@ const Home = () => {
 
   const updatedDate = updateDate();
 
-  const hadleAddNewFile = () => {
+  const handleAddNewFile = () => {
     addNewFile();
     navigate(`/editor/${updatedDate}`);
   };
@@ -77,6 +78,16 @@ const Home = () => {
     }
 
     setSelectFiles((prevFiles) => [...prevFiles, ...addFiles]);
+  };
+
+  const handleDeleteFile = () => {
+    if (!selectFiles.length) {
+      return alert("선택한 파일이 없습니다", "info");
+    }
+
+    confirmAlert("삭제하시겠습니까?", "question", () =>
+      alert("삭제되었습니다.", "success")
+    );
   };
 
   const handleActiveTagMenu = (id: string) => {
@@ -127,7 +138,7 @@ const Home = () => {
         <MainTitle>홈페이지</MainTitle>
       </TitlePadding>
 
-      <S.NewFileFrame onClick={hadleAddNewFile}>
+      <S.NewFileFrame onClick={handleAddNewFile}>
         <FontAwesomeIcon icon={faFolderPlus} />
         <p>Create new file</p>
       </S.NewFileFrame>
@@ -147,7 +158,7 @@ const Home = () => {
           >
             <FontAwesomeIcon icon={faCheck} />
           </CheckBox>
-          <DeleteButton>
+          <DeleteButton onClick={handleDeleteFile}>
             <FaRegTrashCan />
             최근 열기에서 제거
           </DeleteButton>
