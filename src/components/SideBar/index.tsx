@@ -1,31 +1,32 @@
-import * as S from "./styles";
-import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-import { useRecoilState } from "recoil";
-import { isSideBarOnState } from "../../recoil/atoms/isSideBarOnState";
-import { useLocation, useNavigate } from "react-router-dom";
-import { HiOutlineHome } from "react-icons/hi2";
-import { BsTags } from "react-icons/bs";
-import { FaRegTrashCan } from "react-icons/fa6";
+import * as S from './styles';
+import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import { useRecoilState } from 'recoil';
+import { isSideBarOnState } from '../../recoil/atoms/isSideBarOnState';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { HiOutlineHome } from 'react-icons/hi2';
+import { BsTags } from 'react-icons/bs';
+import { FaRegTrashCan } from 'react-icons/fa6';
+import DarkModeButton from '../DarkModeButton';
 const MenuData = [
   {
-    name: "홈페이지",
-    icon: <HiOutlineHome style={{ fontSize: "1.8rem" }} />,
-    color: "var(--color-grey-05)",
-    route: "/",
+    name: '홈페이지',
+    icon: <HiOutlineHome style={{ fontSize: '1.8rem' }} />,
+    color: 'var(--color-grey-05)',
+    route: '/',
   },
   {
-    name: "즐겨찾기",
-    icon: <BsTags style={{ fontSize: "1.6rem" }} />,
-    color: "var(--color-grey-05)",
-    route: "/favorites",
+    name: '즐겨찾기',
+    icon: <BsTags style={{ fontSize: '1.6rem' }} />,
+    color: 'var(--color-grey-05)',
+    route: '/favorites',
   },
   {
-    name: "공간 휴지통",
-    icon: <FaRegTrashCan style={{ fontSize: "1.5rem" }} />,
-    color: "var(--color-grey-05)",
-    route: "/trash",
+    name: '공간 휴지통',
+    icon: <FaRegTrashCan style={{ fontSize: '1.5rem' }} />,
+    color: 'var(--color-grey-05)',
+    route: '/trash',
   },
 ];
 
@@ -61,23 +62,28 @@ const SideBar = () => {
   return (
     <>
       <S.SideMenuWrapper $isSideBarOn={isSideBarOn}>
-        <S.Header>
-          <img src="/public/img/logo.png" alt="logo" />
+        <S.TopContent>
+          <S.Header>
+            <img src="/public/img/logo.png" alt="logo" />
 
-          <FontAwesomeIcon icon={faAnglesLeft} onClick={onClickToggle} />
-        </S.Header>
-        <S.Menu>
-          {MenuData.map((menu, index) => (
-            <S.MenuItem
-              key={index}
-              $isActive={activeItem === menu.route}
-              onClick={() => onClickActive(menu.route)}
-            >
-              {menu.icon}
-              <span>{menu.name}</span>
-            </S.MenuItem>
-          ))}
-        </S.Menu>
+            <FontAwesomeIcon icon={faAnglesLeft} onClick={onClickToggle} />
+          </S.Header>
+          <S.Menu>
+            {MenuData.map((menu, index) => (
+              <S.MenuItem
+                key={index}
+                $isActive={activeItem === menu.route}
+                onClick={() => onClickActive(menu.route)}
+              >
+                {menu.icon}
+                <span>{menu.name}</span>
+              </S.MenuItem>
+            ))}
+          </S.Menu>
+        </S.TopContent>
+        <S.BottomContent>
+          <DarkModeButton />
+        </S.BottomContent>
       </S.SideMenuWrapper>
       {!isSideBarOn && showTag && (
         <S.Tag onClick={onClickToggle}>

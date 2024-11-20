@@ -1,12 +1,11 @@
-import { useLayoutEffect, useRef, useState } from "react";
-import MindMapTree from "../../components/MindMapTree/index.js";
-import { TreeContainer } from "./styles.js";
-import { useRecoilValue } from "recoil";
-import centerScroll from "../../utils/centerScroll.js";
-import SaveControlMenu from "../../components/SaveControlMenu/index.js";
-import { scaleState } from "../../recoil/atoms/scaleState.js";
-import ScaleControlMenu from "../../components/ScaleControlMenu/index.jsx";
-import DarkModeButton from "../../components/DarkModeButton/index.js";
+import { useLayoutEffect, useRef, useState } from 'react';
+import MindMapTree from '../../components/MindMapTree/index.js';
+import { TreeContainer } from './styles.js';
+import { useRecoilValue } from 'recoil';
+import centerScroll from '../../utils/centerScroll.js';
+import SaveControlMenu from '../../components/SaveControlMenu/index.js';
+import { scaleState } from '../../recoil/atoms/scaleState.js';
+import ScaleControlMenu from '../../components/ScaleControlMenu/index.jsx';
 
 const Editor = () => {
   const scale = useRecoilValue(scaleState);
@@ -97,19 +96,18 @@ const Editor = () => {
 
   return (
     <>
-      <DarkModeButton />
       <SaveControlMenu />
       <ScaleControlMenu />
       <div
         id="container"
         ref={containerRef}
         style={{
-          width: "10000px",
-          height: "3000px",
-          backgroundColor: "var(--color-main-bg)",
-          transformOrigin: "0 0",
+          width: '10000px',
+          height: '3000px',
+          backgroundColor: 'var(--color-main-bg)',
+          transformOrigin: '0 0',
           transform: `translate(${origin.x}px, ${origin.y}px) scale(${scale})`,
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
         }}
@@ -118,17 +116,17 @@ const Editor = () => {
           id="content"
           ref={contentRef}
           style={{
-            width: "100vw",
-            height: "100vh",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            width: '100vw',
+            height: '100vh',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
           }}
         >
           <div
             ref={targetElementRef}
-            style={{ position: "relative", width: "100%" }}
+            style={{ position: 'relative', width: '100%' }}
           >
             <TreeContainer>
               <MindMapTree />
