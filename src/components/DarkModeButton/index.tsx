@@ -1,7 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { isDarkModeState } from '../../recoil/atoms/isDarkModeState';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MdSunny } from 'react-icons/md';
 import styled from 'styled-components';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,11 +13,7 @@ const DarkModeButton = () => {
 
   return (
     <Button onClick={handleChangeDarkMode} $isDarkMode={isDarkMode}>
-      {!isDarkMode ? (
-        <FontAwesomeIcon icon={faMoon} />
-      ) : (
-        <MdSunny fontSize={'3rem'} />
-      )}
+      <FontAwesomeIcon icon={faMoon} />
     </Button>
   );
 };
@@ -31,8 +26,12 @@ interface ButtonProps {
 
 const Button = styled.button<ButtonProps>`
   z-index: 1000;
-  border-radius: 0.6rem;
-  font-size: 2.6rem;
+  border-radius: 50%;
+  font-size: 2.2rem;
   background-color: transparent;
-  color: ${({ $isDarkMode }) => (!$isDarkMode ? '#484848' : '#ffffff')};
+  color: #ffffff;
+  background-color: ${(props) =>
+    props.$isDarkMode ? 'var(--color-purple-dark)' : 'var(--color-border)'};
+  width: 3.6rem;
+  height: 3.6rem;
 `;
