@@ -38,13 +38,12 @@ export const Header = styled.header`
   }
 `;
 
-export const Logo = styled.h1`
-  font-size: 2rem;
-  font-weight: 600;
+export const LogoImg = styled.img`
+  width: 16rem;
 `;
 
 export const Menu = styled.ul`
-  margin-top: 2rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;

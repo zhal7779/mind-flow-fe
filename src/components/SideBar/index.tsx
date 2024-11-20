@@ -65,7 +65,7 @@ const SideBar = () => {
       <S.SideMenuWrapper $isSideBarOn={isSideBarOn}>
         <S.TopContent>
           <S.Header>
-            <img src="/public/img/logo.png" alt="logo" />
+            <S.LogoImg src="/public/img/logo.png" alt="logo" />
 
             <FontAwesomeIcon icon={faAnglesLeft} onClick={onClickToggle} />
           </S.Header>
