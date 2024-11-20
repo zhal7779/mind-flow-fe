@@ -9,6 +9,7 @@ import { HiOutlineHome } from 'react-icons/hi2';
 import { BsTags } from 'react-icons/bs';
 import { FaRegTrashCan } from 'react-icons/fa6';
 import DarkModeButton from '../DarkModeButton';
+import UserButton from '../UserButton';
 const MenuData = [
   {
     name: '홈페이지',
@@ -82,6 +83,7 @@ const SideBar = () => {
           </S.Menu>
         </S.TopContent>
         <S.BottomContent>
+          <UserButton />
           <DarkModeButton />
         </S.BottomContent>
       </S.SideMenuWrapper>

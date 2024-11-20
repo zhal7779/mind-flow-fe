@@ -27,11 +27,14 @@ interface ButtonProps {
 const Button = styled.button<ButtonProps>`
   z-index: 1000;
   border-radius: 50%;
-  font-size: 2.2rem;
+
+  font-size: 2rem;
   background-color: transparent;
   color: #ffffff;
   background-color: ${(props) =>
-    props.$isDarkMode ? 'var(--color-purple-dark)' : 'var(--color-border)'};
-  width: 3.6rem;
-  height: 3.6rem;
+    props.$isDarkMode
+      ? 'var(--color-purple-dark)'
+      : 'var(--color-grey-active)'};
+  width: 3.2rem;
+  height: 3.2rem;
 `;

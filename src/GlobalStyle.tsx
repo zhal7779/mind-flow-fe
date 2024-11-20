@@ -36,6 +36,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         --color-grey-03: #f3f3f5;
         --color-grey-04: #555557;
         --color-grey-05: #717273;
+        --color-grey-06: #efeff0;
         --color-danger: #f43529;
         
         --color-tag-red: #FF7487;

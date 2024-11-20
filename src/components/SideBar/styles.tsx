@@ -98,9 +98,12 @@ export const Tag = styled.div`
 `;
 
 export const BottomContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   border-top: 1px solid var(--color-border);
-  padding: 0.6rem;
+  padding: 0.8rem 1.2rem;
   position: absolute;
   bottom: 0;
 `;
