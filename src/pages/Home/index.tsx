@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { fileDataState } from '../../recoil/atoms/fileDataState';
 import { FileList } from '../../types/fileType';
 import * as S from './styles';
@@ -18,14 +18,18 @@ import {
   CheckBox,
   DeleteButton,
   BaseBox,
+  LoginButton,
+  CenterWrapper,
 } from '../../styles/common';
 import NoData from '../../components/NoData';
 import { GoTag } from 'react-icons/go';
 import { useState } from 'react';
 import Tags from '../../data/tags';
 import { alert, confirmAlert } from '../../utils/alert';
+import { authState } from '../../recoil/atoms/auth';
 
 const Home = () => {
+  const auth = useRecoilValue(authState);
   const [fileData, setFileData] = useRecoilState(fileDataState);
   const [hoverFile, setHoverFile] = useState(-1);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
@@ -162,7 +166,12 @@ const Home = () => {
           </DeleteButton>
         </S.DeleteContent>
 
-        {fileData.length === 0 ? (
+        {!auth ? (
+          <CenterWrapper>
+            <NoData text={'로그인 후 이용해주세요'} />
+            <LoginButton>로그인하러 가기</LoginButton>
+          </CenterWrapper>
+        ) : auth && fileData.length === 0 ? (
           <NoData text={'최근 파일이 없습니다'} />
         ) : (
           <S.FileContent>

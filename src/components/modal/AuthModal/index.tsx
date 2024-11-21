@@ -1,11 +1,16 @@
 import { useState } from 'react';
-// import { useRecoilState } from 'recoil';
-// import { authState } from '../../../recoil/atoms/auth';
+import { useRecoilState } from 'recoil';
+import { authState } from '../../../recoil/atoms/auth';
 import BaseModal from '../BaseModal';
 import styled from 'styled-components';
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useState(true);
-  // const [authRecoil, setAuthRecoil] = useRecoilState(authState);
+  const [authRecoil, setAuthRecoil] = useRecoilState(authState);
+
+  const handleActiveTrial = () => {
+    setAuthRecoil(true);
+    setIsOpen(false);
+  };
 
   const handleDelete = () => {
     setIsOpen(false);
@@ -25,7 +30,19 @@ const AuthModal = () => {
           <Input placeholder="비밀번호를 입력해주세요" type="password" />
           <TextButton>비밀번호 찾기</TextButton>
         </InputContent>
-        <Button>로그인</Button>
+        <div
+          style={{
+            display: 'flex',
+            gap: '1rem',
+            flexDirection: 'column',
+            width: '100%',
+          }}
+        >
+          <LoginButton>로그인</LoginButton>
+          <TrialLoginButton onClick={handleActiveTrial}>
+            체험판 로그인
+          </TrialLoginButton>
+        </div>
         <BottomContent>
           <span>계정이 없으신가요?</span>
           <TextButton>회원가입</TextButton>
@@ -83,10 +100,19 @@ const Button = styled.button`
   width: 100%;
   border-radius: 0.8rem;
   font-size: 1.6rem;
-  color: var(--color-white-bg);
-  background-color: var(--color-tag-purple);
   padding: 1rem 0;
   height: 4.8rem;
+`;
+
+const LoginButton = styled(Button)`
+  color: var(--color-white-bg);
+  background-color: var(--color-tag-purple);
+`;
+
+const TrialLoginButton = styled(Button)`
+  color: var(--color-tag-purple);
+  background-color: var(--color-white-bg);
+  border: 1px solid var(--color-tag-purple);
 `;
 
 const TextButton = styled.button`
@@ -98,6 +124,6 @@ const TextButton = styled.button`
 
 const BottomContent = styled.div`
   font-size: 1.3rem;
-  padding: 1rem;
+  padding: 2rem;
   margin-bottom: 3rem;
 `;

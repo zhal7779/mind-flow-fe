@@ -13,7 +13,7 @@ const BaseModal = ({ isOpen, onClose, children }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <Backdrop onClick={onClose}>
+    <Backdrop>
       <Container>
         <Content onClick={(e) => e.stopPropagation()}>{children}</Content>
         <CloseButton onClick={onClose}>

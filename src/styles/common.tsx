@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 export const Wrapper = styled.main`
   padding: 6rem 4rem 0 6rem;
@@ -24,14 +24,14 @@ export const SubTitle = styled.p`
 
 export const CheckBox = styled.span<{ $hover: boolean; $active: boolean }>`
   visibility: ${(props) =>
-    props.$hover || props.$active ? "visible" : "hidden"};
+    props.$hover || props.$active ? 'visible' : 'hidden'};
   width: 2rem;
   height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${(props) =>
-    props.$active ? "var( --color-purple)" : "var(--color-white)"};
+    props.$active ? 'var( --color-purple)' : 'var(--color-white)'};
   border: 1px solid var(--color-border);
   border-radius: 4px;
   z-index: 10;
@@ -63,4 +63,22 @@ export const BaseBox = styled.span`
   border-radius: 4px;
   color: var(--color-grey-02);
   font-size: 1.2rem;
+`;
+export const CenterWrapper = styled.div`
+  width: 100%;
+  text-align: center;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+`;
+
+export const LoginButton = styled.button`
+  width: 12rem;
+  border-radius: 0.8rem;
+  color: var(--color-white-bg);
+  padding: 1rem 1.6rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background-color: #7856ff;
 `;
