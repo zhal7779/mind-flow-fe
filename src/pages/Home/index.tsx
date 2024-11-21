@@ -140,10 +140,6 @@ const Home = () => {
 
   return (
     <Wrapper>
-      <TitlePadding>
-        <MainTitle>홈페이지</MainTitle>
-      </TitlePadding>
-
       <S.NewFileFrame onClick={handleAddNewFile}>
         <FontAwesomeIcon icon={faFolderPlus} />
         <p>Create new file</p>
