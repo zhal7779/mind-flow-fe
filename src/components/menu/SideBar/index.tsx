@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilState } from 'recoil';
-import { isSideBarOnState } from '../../recoil/atoms/isSideBarOnState';
+import { isSideBarOnState } from '../../../recoil/atoms/isSideBarOnState';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { HiOutlineHome } from 'react-icons/hi2';
 import { BsTags } from 'react-icons/bs';
 import { FaRegTrashCan } from 'react-icons/fa6';
-import DarkModeButton from '../DarkModeButton';
-import UserButton from '../UserButton';
+import DarkModeButton from '../../button/DarkModeButton';
+import UserButton from '../../button/UserButton';
 const MenuData = [
   {
     name: '홈페이지',

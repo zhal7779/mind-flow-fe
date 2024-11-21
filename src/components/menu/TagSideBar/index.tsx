@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as S from './styles';
 import { faTag } from '@fortawesome/free-solid-svg-icons';
-import { SubTitle } from '../../styles/common';
+import { SubTitle } from '../../../styles/common';
 import { useState } from 'react';
-import Tags from '../../data/tags';
+import Tags from '../../../data/tags';
 
 const TagSideBar = () => {
   const [activeTag, setActiveTag] = useState(Tags[0].name);

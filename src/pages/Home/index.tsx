@@ -21,7 +21,7 @@ import {
   LoginButton,
   CenterWrapper,
 } from '../../styles/common';
-import NoData from '../../components/NoData';
+import NoData from '../../components/etc/NoData';
 import { GoTag } from 'react-icons/go';
 import { useState } from 'react';
 import Tags from '../../data/tags';

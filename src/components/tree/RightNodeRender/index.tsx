@@ -8,11 +8,11 @@ import {
   ButtonWrapper,
   Button,
   NodeLine,
-} from '../../styles/NodeCommon';
+} from '../../../styles/NodeCommon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
-import nodeLineProps from '../../utils/nodeLineProps';
-import { GeneralNode, RootNode } from '../../types/fileType';
+import nodeLineProps from '../../../utils/nodeLineProps';
+import { GeneralNode, RootNode } from '../../../types/fileType';
 
 type NodeRenderProps = {
   node: GeneralNode;

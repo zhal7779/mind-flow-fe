@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import SideBar from '../components/SideBar';
+import SideBar from '../components/menu/SideBar';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { isSideBarOnState } from '../recoil/atoms/isSideBarOnState';

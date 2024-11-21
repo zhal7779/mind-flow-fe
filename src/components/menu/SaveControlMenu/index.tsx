@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as S from '../../styles/menu';
+import * as S from '../../../styles/menu';
 import styled from 'styled-components';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { HiOutlineSave } from 'react-icons/hi';
-import { fileDataState } from '../../recoil/atoms/fileDataState';
+import { fileDataState } from '../../../recoil/atoms/fileDataState';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 const SaveControlMenu = () => {

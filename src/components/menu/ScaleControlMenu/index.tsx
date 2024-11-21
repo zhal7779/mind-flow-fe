@@ -1,14 +1,14 @@
-import { useRecoilState } from "recoil";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRecoilState } from 'recoil';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowsToCircle,
   faMagnifyingGlassPlus,
   faMagnifyingGlassMinus,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
-import * as S from "../../styles/menu";
-import { scaleState } from "../../recoil/atoms/scaleState";
-import styled from "styled-components";
+import * as S from '../../../styles/menu';
+import { scaleState } from '../../../recoil/atoms/scaleState';
+import styled from 'styled-components';
 
 const ScaleControlMenu = () => {
   const [scale, setScale] = useRecoilState(scaleState);

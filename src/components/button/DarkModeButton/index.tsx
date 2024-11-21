@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { isDarkModeState } from '../../recoil/atoms/isDarkModeState';
+import { isDarkModeState } from '../../../recoil/atoms/isDarkModeState';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';

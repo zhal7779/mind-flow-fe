@@ -4,11 +4,11 @@ import {
   RootTopicInput,
   ButtonWrapper,
   Button,
-} from '../../styles/NodeCommon';
+} from '../../../styles/NodeCommon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
-import { GeneralNode, RootNode } from '../../types/fileType';
+import { GeneralNode, RootNode } from '../../../types/fileType';
 
 type NodeRenderProps = {
   tree: RootNode;

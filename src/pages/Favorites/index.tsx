@@ -1,5 +1,5 @@
-import NoData from '../../components/NoData';
-import TagSideBar from '../../components/TagSideBar';
+import NoData from '../../components/etc/NoData';
+import TagSideBar from '../../components/menu/TagSideBar';
 import {
   Wrapper,
   MainTitle,
