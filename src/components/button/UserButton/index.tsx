@@ -1,20 +1,51 @@
 import {
+  faArrowRightFromBracket,
   faArrowUpRightFromSquare,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { authState, isOpenAuthModal } from '../../../recoil/atoms/auth';
 
 const UserButton = () => {
+  const [menuActive, setMenuActive] = useState(false);
+  const auth = useRecoilValue(authState);
+  const setIsOpenAuthModal = useSetRecoilState(isOpenAuthModal);
+
+  const handleActiveMenu = () => {
+    if (!auth) {
+      return setIsOpenAuthModal(true);
+    }
+    setMenuActive(!menuActive);
+  };
+
   return (
-    <Wrapper>
-      <UserFrame>
-        <UserIcon>
-          <FontAwesomeIcon icon={faUser} />
-        </UserIcon>
-      </UserFrame>
-      <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-    </Wrapper>
+    <>
+      <Wrapper onClick={handleActiveMenu}>
+        <UserFrame>
+          <UserIcon>
+            <FontAwesomeIcon icon={faUser} />
+          </UserIcon>
+        </UserFrame>
+        <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+      </Wrapper>
+      {menuActive && (
+        <UserMenu>
+          <ul>
+            <li>
+              <FontAwesomeIcon icon={faUser} />
+              <span>마이페이지</span>
+            </li>
+            <li>
+              <FontAwesomeIcon icon={faArrowRightFromBracket} />
+              <span>로그아웃</span>
+            </li>
+          </ul>
+        </UserMenu>
+      )}
+    </>
   );
 };
 
@@ -56,4 +87,34 @@ const UserIcon = styled.span`
   font-size: 2.4rem;
   cursor: pointer;
   color: #ffff;
+`;
+
+const UserMenu = styled.div`
+  position: absolute;
+  padding: 1.6rem 0.4rem;
+  top: -9rem;
+  width: 13rem;
+  border-radius: 0.8rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white-bg);
+  z-index: 1;
+
+  > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    > li {
+      padding: 0.8rem 0.6rem;
+      font-size: 1.3rem;
+      border-radius: 4px;
+      cursor: default;
+      &:hover {
+        background-color: var(--color-grey-06);
+      }
+      > svg {
+        color: #a2a4a8;
+        margin-right: 0.6rem;
+      }
+    }
+  }
 `;
