@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { authState } from '../../../recoil/atoms/auth';
+import { authState, isOpenAuthModal } from '../../../recoil/atoms/auth';
 import BaseModal from '../BaseModal';
 import styled from 'styled-components';
 const AuthModal = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
   const [authRecoil, setAuthRecoil] = useRecoilState(authState);
 
   const handleActiveTrial = () => {

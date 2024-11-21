@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { fileDataState } from '../../recoil/atoms/fileDataState';
 import { FileList } from '../../types/fileType';
 import * as S from './styles';
@@ -18,7 +18,6 @@ import {
   CheckBox,
   DeleteButton,
   BaseBox,
-  LoginButton,
   CenterWrapper,
 } from '../../styles/common';
 import NoData from '../../components/etc/NoData';
@@ -26,10 +25,12 @@ import { GoTag } from 'react-icons/go';
 import { useState } from 'react';
 import Tags from '../../data/tags';
 import { alert, confirmAlert } from '../../utils/alert';
-import { authState } from '../../recoil/atoms/auth';
+import { authState, isOpenAuthModal } from '../../recoil/atoms/auth';
+import LoginButton from '../../components/button/LoginButton';
 
 const Home = () => {
   const auth = useRecoilValue(authState);
+  const setIsOpenModal = useSetRecoilState(isOpenAuthModal);
   const [fileData, setFileData] = useRecoilState(fileDataState);
   const [hoverFile, setHoverFile] = useState(-1);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
@@ -40,6 +41,9 @@ const Home = () => {
   const updatedDate = updateDate();
 
   const handleAddNewFile = () => {
+    if (!auth) {
+      return setIsOpenModal(true);
+    }
     addNewFile();
     navigate(`/editor/${updatedDate}`);
   };
@@ -169,7 +173,7 @@ const Home = () => {
         {!auth ? (
           <CenterWrapper>
             <NoData text={'로그인 후 이용해주세요'} />
-            <LoginButton>로그인하러 가기</LoginButton>
+            <LoginButton />
           </CenterWrapper>
         ) : auth && fileData.length === 0 ? (
           <NoData text={'최근 파일이 없습니다'} />

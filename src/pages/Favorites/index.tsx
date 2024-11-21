@@ -4,12 +4,12 @@ import {
   Wrapper,
   MainTitle,
   TitlePadding,
-  LoginButton,
   CenterWrapper,
 } from '../../styles/common';
 import { SideContainer, Container } from './styles';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../recoil/atoms/auth';
+import LoginButton from '../../components/button/LoginButton';
 const Favorites = () => {
   const auth = useRecoilValue(authState);
   return (
@@ -24,7 +24,7 @@ const Favorites = () => {
         {!auth ? (
           <CenterWrapper>
             <NoData text={'로그인 후 이용해주세요'} />
-            <LoginButton>로그인하러 가기</LoginButton>
+            <LoginButton />
           </CenterWrapper>
         ) : (
           <NoData text={'즐겨찾기 파일이 없습니다'} />
