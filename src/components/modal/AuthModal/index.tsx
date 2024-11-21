@@ -4,10 +4,11 @@ import BaseModal from '../BaseModal';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { alert } from '../../../utils/alert';
+
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
   const [auth, setAuth] = useRecoilState(authState);
-  const [step, setStep] = useState('login');
+  const [step, setStep] = useState('login'); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
   const handleActiveTrial = () => {
     setAuth(true);
     setIsOpen(false);
@@ -34,19 +35,12 @@ const AuthModal = () => {
         <Input placeholder="비밀번호를 입력해주세요" type="password" />
         <TextButton>비밀번호 찾기</TextButton>
       </InputContent>
-      <div
-        style={{
-          display: 'flex',
-          gap: '1rem',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
+      <ButtonWrapper>
         <LoginButton>로그인</LoginButton>
         <TrialLoginButton onClick={handleActiveTrial}>
           체험판 로그인
         </TrialLoginButton>
-      </div>
+      </ButtonWrapper>
       <BottomContent>
         <span>계정이 없으신가요?</span>
         <TextButton
@@ -66,22 +60,32 @@ const AuthModal = () => {
       {step === 'join-id' ? (
         <>
           <InputContent>
+            <span>닉네임</span>
+            <Input placeholder="닉네임을 입력해주세요" />
+          </InputContent>
+          <InputContent>
             <span>아이디</span>
             <Input placeholder="아이디를 입력해주세요" />
           </InputContent>
+
           <LoginButton onClick={() => setStep('join-pw')}>계속</LoginButton>
         </>
       ) : step === 'join-pw' ? (
         <>
           <InputContent>
-            <span>닉네임</span>
-            <Input placeholder="닉네임을 입력해주세요" />
-          </InputContent>
-          <InputContent>
             <span>비밀번호</span>
             <Input placeholder="비밀번호를 입력해주세요" type="password" />
           </InputContent>
-          <LoginButton onClick={handleCompleteJoin}>완료</LoginButton>
+          <InputContent>
+            <span>비밀번호 재확인</span>
+            <Input placeholder="비밀번호를 재확인해주세요" type="password" />
+          </InputContent>
+          <ButtonWrapper>
+            <TrialLoginButton onClick={() => setStep('join-id')}>
+              이전으로
+            </TrialLoginButton>
+            <LoginButton onClick={handleCompleteJoin}>완료</LoginButton>
+          </ButtonWrapper>
         </>
       ) : (
         <></>
@@ -149,6 +153,13 @@ const Input = styled.input`
   &:focus {
     background-color: var(--color-grey-06);
   }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  width: 100%;
 `;
 
 const Button = styled.button`
