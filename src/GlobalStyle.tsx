@@ -22,6 +22,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
           !isDarkMode ? '#D4D5D7' : '#D4D5D7'};
         --color-grey-bg:   
         ${({ isDarkMode }) => (!isDarkMode ? '#fbfbfb' : '#222222')};
+        --color-white-bg: #ffff;
         --color-grey-active: rgba(18, 17, 42, .05);
         --color-red: #e26559;
         --color-blue: #2b7799;

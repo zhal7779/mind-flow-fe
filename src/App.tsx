@@ -7,6 +7,8 @@ import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import Trash from './pages/Trash';
 import MainLayout from './layouts/MainLayout';
+import Modal from './components/Modal';
+
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
 
@@ -35,8 +37,10 @@ const App = () => {
   return (
     <>
       <GlobalStyle isDarkMode={isDarkMode} />
-
       <RouterProvider router={router} />
+      <Modal isOpen={true} onClose={() => {}}>
+        ddd
+      </Modal>
     </>
   );
 };
