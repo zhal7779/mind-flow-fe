@@ -8,13 +8,13 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 import {
   faCheck,
   faFolderPlus,
+  faBars,
   faTag,
 } from '@fortawesome/free-solid-svg-icons';
 import updateDate from '../../utils/updateDate';
 import {
   Wrapper,
   MainTitle,
-  TitlePadding,
   CheckBox,
   DeleteButton,
   BaseBox,
@@ -27,6 +27,7 @@ import Tags from '../../data/tags';
 import { alert, confirmAlert } from '../../utils/alert';
 import { authState, isOpenAuthModal } from '../../recoil/atoms/auth';
 import LoginButton from '../../components/button/LoginButton';
+import { IoGrid } from 'react-icons/io5';
 
 const Home = () => {
   const auth = useRecoilValue(authState);
@@ -35,6 +36,7 @@ const Home = () => {
   const [hoverFile, setHoverFile] = useState(-1);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
   const [activeTagMenu, setActiveTagMenu] = useState('');
+  const [viewMode, setViewMode] = useState('grid');
 
   const navigate = useNavigate();
 
@@ -140,31 +142,47 @@ const Home = () => {
 
   return (
     <Wrapper>
+      <S.TitleContent>
+        <MainTitle>최근 열기</MainTitle>
+        <BaseBox>파일 ({fileData.length})</BaseBox>
+      </S.TitleContent>
       <S.NewFileFrame onClick={handleAddNewFile}>
         <FontAwesomeIcon icon={faFolderPlus} />
         <p>Create new file</p>
       </S.NewFileFrame>
 
       <S.FileSection>
-        <S.TitleContent>
-          <MainTitle>최근 열기</MainTitle>
-          <BaseBox>파일 ({fileData.length})</BaseBox>
-        </S.TitleContent>
-        <S.DeleteContent>
-          <CheckBox
-            $hover={true}
-            $active={
-              fileData.length === selectFiles.length && selectFiles.length > 0
-            }
-            onClick={handleToggleAllFile}
-          >
-            <FontAwesomeIcon icon={faCheck} />
-          </CheckBox>
-          <DeleteButton onClick={handleDeleteFile}>
-            <FaRegTrashCan />
-            최근 열기에서 제거
-          </DeleteButton>
-        </S.DeleteContent>
+        <S.TopWrapper>
+          <S.DeleteContent>
+            <CheckBox
+              $hover={true}
+              $active={
+                fileData.length === selectFiles.length && selectFiles.length > 0
+              }
+              onClick={handleToggleAllFile}
+            >
+              <FontAwesomeIcon icon={faCheck} />
+            </CheckBox>
+            <DeleteButton onClick={handleDeleteFile}>
+              <FaRegTrashCan />
+              최근 열기에서 제거
+            </DeleteButton>
+          </S.DeleteContent>
+          <S.ModeChangeContent>
+            <S.ModeItem
+              $view={viewMode === 'grid'}
+              onClick={() => setViewMode('grid')}
+            >
+              <IoGrid />
+            </S.ModeItem>
+            <S.ModeItem
+              $view={viewMode === 'list'}
+              onClick={() => setViewMode('list')}
+            >
+              <FontAwesomeIcon icon={faBars} />
+            </S.ModeItem>
+          </S.ModeChangeContent>
+        </S.TopWrapper>
 
         {!auth ? (
           <CenterWrapper>
