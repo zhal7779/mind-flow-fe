@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import Trash from './pages/Trash';
+import MainLayout from './layouts/MainLayout';
+import AuthModal from './components/modal/AuthModal';
 
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
@@ -36,6 +38,8 @@ const App = () => {
     <>
       <GlobalStyle isDarkMode={isDarkMode} />
       <RouterProvider router={router} />
+
+      <AuthModal />
     </>
   );
 };

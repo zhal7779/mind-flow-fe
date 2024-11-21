@@ -24,7 +24,6 @@ import { GoTag } from 'react-icons/go';
 import { useState } from 'react';
 import Tags from '../../data/tags';
 import { alert, confirmAlert } from '../../utils/alert';
-import { authState } from '../../recoil/atoms/auth';
 
 const Home = () => {
   const [fileData, setFileData] = useRecoilState(fileDataState);
