@@ -84,6 +84,14 @@ export const FileImg = styled.div`
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   background-color: var(--color-grey-03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > img {
+    width: 6rem;
+    opacity: 0.4;
+  }
 `;
 
 export const FileDes = styled.div`

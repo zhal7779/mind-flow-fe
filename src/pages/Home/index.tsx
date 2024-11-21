@@ -197,7 +197,9 @@ const Home = () => {
                 >
                   <FontAwesomeIcon icon={faCheck} />
                 </CheckBox>
-                <S.FileImg></S.FileImg>
+                <S.FileImg>
+                  <img src="/public/favicon.png" alt="logo" />
+                </S.FileImg>
                 <S.FileDes>
                   <p>{item.fileName}</p>
                   <span>{item.updatedDate} 마지막으로 수정</span>
