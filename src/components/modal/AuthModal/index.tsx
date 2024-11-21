@@ -2,12 +2,14 @@ import { useRecoilState } from 'recoil';
 import { authState, isOpenAuthModal } from '../../../recoil/atoms/auth';
 import BaseModal from '../BaseModal';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { alert } from '../../../utils/alert';
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
-  const [authRecoil, setAuthRecoil] = useRecoilState(authState);
-
+  const [auth, setAuth] = useRecoilState(authState);
+  const [step, setStep] = useState('login');
   const handleActiveTrial = () => {
-    setAuthRecoil(true);
+    setAuth(true);
     setIsOpen(false);
   };
 
@@ -15,38 +17,92 @@ const AuthModal = () => {
     setIsOpen(false);
   };
 
+  const handleCompleteJoin = () => {
+    alert('회원가입이 완료되었습니다', 'success');
+    setStep('login');
+  };
+
+  const LoginContent = (
+    <Content>
+      <Title>로그인</Title>
+      <InputContent>
+        <span>아이디</span>
+        <Input placeholder="아이디를 입력해주세요" />
+      </InputContent>
+      <InputContent>
+        <span>비밀번호</span>
+        <Input placeholder="비밀번호를 입력해주세요" type="password" />
+        <TextButton>비밀번호 찾기</TextButton>
+      </InputContent>
+      <div
+        style={{
+          display: 'flex',
+          gap: '1rem',
+          flexDirection: 'column',
+          width: '100%',
+        }}
+      >
+        <LoginButton>로그인</LoginButton>
+        <TrialLoginButton onClick={handleActiveTrial}>
+          체험판 로그인
+        </TrialLoginButton>
+      </div>
+      <BottomContent>
+        <span>계정이 없으신가요?</span>
+        <TextButton
+          onClick={() => {
+            setStep('join-id');
+          }}
+        >
+          회원가입
+        </TextButton>
+      </BottomContent>
+    </Content>
+  );
+
+  const JoinContent = (
+    <Content>
+      <Title>회원가입</Title>
+      {step === 'join-id' ? (
+        <>
+          <InputContent>
+            <span>아이디</span>
+            <Input placeholder="아이디를 입력해주세요" />
+          </InputContent>
+          <LoginButton onClick={() => setStep('join-pw')}>계속</LoginButton>
+        </>
+      ) : step === 'join-pw' ? (
+        <>
+          <InputContent>
+            <span>닉네임</span>
+            <Input placeholder="닉네임을 입력해주세요" />
+          </InputContent>
+          <InputContent>
+            <span>비밀번호</span>
+            <Input placeholder="비밀번호를 입력해주세요" type="password" />
+          </InputContent>
+          <LoginButton onClick={handleCompleteJoin}>완료</LoginButton>
+        </>
+      ) : (
+        <></>
+      )}
+      <BottomContent>
+        <span>이미 계정이 있으신가요?</span>
+        <TextButton
+          onClick={() => {
+            setStep('login');
+          }}
+        >
+          로그인하러 가기
+        </TextButton>
+      </BottomContent>
+    </Content>
+  );
+
   return (
     <BaseModal isOpen={isOpen} onClose={handleDelete}>
       <img src="/public/img/logo.png" alt="logo" style={{ width: '12rem' }} />
-      <Content>
-        <Title>로그인</Title>
-        <InputContent>
-          <span>아이디</span>
-          <Input placeholder="아이디를 입력해주세요" />
-        </InputContent>
-        <InputContent>
-          <span>비밀번호</span>
-          <Input placeholder="비밀번호를 입력해주세요" type="password" />
-          <TextButton>비밀번호 찾기</TextButton>
-        </InputContent>
-        <div
-          style={{
-            display: 'flex',
-            gap: '1rem',
-            flexDirection: 'column',
-            width: '100%',
-          }}
-        >
-          <LoginButton>로그인</LoginButton>
-          <TrialLoginButton onClick={handleActiveTrial}>
-            체험판 로그인
-          </TrialLoginButton>
-        </div>
-        <BottomContent>
-          <span>계정이 없으신가요?</span>
-          <TextButton>회원가입</TextButton>
-        </BottomContent>
-      </Content>
+      {step === 'login' ? LoginContent : JoinContent}
     </BaseModal>
   );
 };

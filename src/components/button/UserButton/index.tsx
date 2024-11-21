@@ -112,7 +112,7 @@ const UserMenu = styled.div`
         background-color: var(--color-grey-06);
       }
       > svg {
-        color: #a2a4a8;
+        color: var(--color-grey-05);
         margin-right: 0.6rem;
       }
     }
