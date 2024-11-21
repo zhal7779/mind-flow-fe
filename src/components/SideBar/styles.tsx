@@ -39,7 +39,7 @@ export const Header = styled.header`
 `;
 
 export const LogoImg = styled.img`
-  width: 16rem;
+  width: 12rem;
 `;
 
 export const Menu = styled.ul`
