@@ -178,7 +178,7 @@ const Home = () => {
             selectTag={selectTag}
           />
         ) : (
-          <ListView />
+          <ListView data={fileData} />
         )}
       </S.FileSection>
     </Wrapper>

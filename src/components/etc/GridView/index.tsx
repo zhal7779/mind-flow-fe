@@ -25,7 +25,6 @@ const GridView = ({
   const [activeTagMenu, setActiveTagMenu] = useState("");
   const [hoverFile, setHoverFile] = useState(-1);
 
-  console.log(data);
   const handleMouseOver = (index: number) => {
     setHoverFile(index);
   };
