@@ -11,10 +11,17 @@ import TagMenu from '../../menu/TagMenu';
 
 type ListViewProps = {
   data: FileList[];
+  selectFiles: string[];
+  handleSelectFile: (id: string) => void;
   selectTag: (index: number, tag: string) => void;
 };
 
-const ListView = ({ data, selectTag }: ListViewProps) => {
+const ListView = ({
+  data,
+  selectFiles,
+  handleSelectFile,
+  selectTag,
+}: ListViewProps) => {
   const [activeTagMenu, setActiveTagMenu] = useState('');
 
   const navigate = useNavigate();
@@ -46,7 +53,14 @@ const ListView = ({ data, selectTag }: ListViewProps) => {
           {data.map((item, index) => (
             <tr key={index}>
               <td>
-                <CheckBox $active={false} style={{ visibility: 'visible' }}>
+                <CheckBox
+                  $active={selectFiles.includes(item.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectFile(item.id);
+                  }}
+                  style={{ visibility: 'visible' }}
+                >
                   <FontAwesomeIcon icon={faCheck} />
                 </CheckBox>
               </td>

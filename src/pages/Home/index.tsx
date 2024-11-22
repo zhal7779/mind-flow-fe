@@ -96,6 +96,11 @@ const Home = () => {
     });
   };
 
+  const handleChangeViewMode = (mode: string) => {
+    setViewMode(mode);
+    setSelectFiles([]);
+  };
+
   function addNewFile() {
     const newFileData = {
       id: updatedDate,
@@ -150,13 +155,13 @@ const Home = () => {
           <S.ModeChangeContent>
             <S.ModeItem
               $view={viewMode === 'grid'}
-              onClick={() => setViewMode('grid')}
+              onClick={() => handleChangeViewMode('grid')}
             >
               <IoGrid />
             </S.ModeItem>
             <S.ModeItem
               $view={viewMode === 'list'}
-              onClick={() => setViewMode('list')}
+              onClick={() => handleChangeViewMode('list')}
             >
               <FontAwesomeIcon icon={faBars} />
             </S.ModeItem>
@@ -178,7 +183,12 @@ const Home = () => {
             selectTag={selectTag}
           />
         ) : (
-          <ListView data={fileData} selectTag={selectTag} />
+          <ListView
+            data={fileData}
+            selectFiles={selectFiles}
+            handleSelectFile={handleSelectFile}
+            selectTag={selectTag}
+          />
         )}
       </S.FileSection>
     </Wrapper>
