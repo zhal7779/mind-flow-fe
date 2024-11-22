@@ -1,19 +1,35 @@
-import { FileList } from "../../../types/fileType";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTag, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { CheckBox } from "../../../styles/common";
-import * as S from "./styles";
+import { FileList } from '../../../types/fileType';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTag, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { CheckBox } from '../../../styles/common';
+import * as S from './styles';
+import { GoTag } from 'react-icons/go';
+import { ActiveTag } from '../GridView/styles';
+import { useState } from 'react';
+import TagMenu from '../../menu/TagMenu';
 
 type ListViewProps = {
   data: FileList[];
+  selectTag: (index: number, tag: string) => void;
 };
 
-const ListView = ({ data }: ListViewProps) => {
+const ListView = ({ data, selectTag }: ListViewProps) => {
+  const [activeTagMenu, setActiveTagMenu] = useState('');
+
   const navigate = useNavigate();
 
   const handleOpenFile = (id: string) => {
     navigate(`/editor/${id}`);
+  };
+
+  const handleActiveTagMenu = (id: string) => {
+    setActiveTagMenu(id);
+  };
+
+  const handleSelectTag = (index: number, tag: string) => {
+    setActiveTagMenu('');
+    selectTag(index, tag);
   };
   return (
     <div>
@@ -28,18 +44,47 @@ const ListView = ({ data }: ListViewProps) => {
         </thead>
         <tbody>
           {data.map((item, index) => (
-            <tr key={index} onClick={() => handleOpenFile(item.id)}>
+            <tr key={index}>
               <td>
-                <CheckBox $active={false} style={{ visibility: "visible" }}>
+                <CheckBox $active={false} style={{ visibility: 'visible' }}>
                   <FontAwesomeIcon icon={faCheck} />
                 </CheckBox>
               </td>
-              <td>{item.fileName}</td>
+              <td onClick={() => handleOpenFile(item.id)}>
+                <div>
+                  <S.FileImg>
+                    <img src="/public/favicon.png" alt="favicon" />
+                  </S.FileImg>
+                  <p>{item.fileName}</p>
+                </div>
+              </td>
               <td>
                 <span>{item.updatedDate}</span>
               </td>
               <td>
-                <FontAwesomeIcon icon={faTag} />
+                <S.TagTd
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleActiveTagMenu(item.id);
+                  }}
+                >
+                  {item.tag === null ? (
+                    <GoTag style={{ color: 'var(--color-grey-02)' }} />
+                  ) : (
+                    <ActiveTag $tag={item.tag}>
+                      <FontAwesomeIcon icon={faTag} />
+                    </ActiveTag>
+                  )}
+
+                  {activeTagMenu === item.id && (
+                    <S.TagMenuWrapper>
+                      <TagMenu
+                        itemIndex={index}
+                        handleSelectTag={handleSelectTag}
+                      />
+                    </S.TagMenuWrapper>
+                  )}
+                </S.TagTd>
               </td>
             </tr>
           ))}

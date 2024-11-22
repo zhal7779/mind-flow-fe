@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { CheckBox } from "../../../styles/common";
-import * as S from "./styles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTag } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { GoTag } from "react-icons/go";
-import Tags from "../../../data/tags";
-import { FileList } from "../../../types/fileType";
+import { useState } from 'react';
+import { CheckBox } from '../../../styles/common';
+import * as S from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTag } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import { GoTag } from 'react-icons/go';
+import { FileList } from '../../../types/fileType';
+import TagMenu from '../../menu/TagMenu';
 
 type GridViewProps = {
   data: FileList[];
@@ -22,7 +22,7 @@ const GridView = ({
   selectTag,
 }: GridViewProps) => {
   const navigate = useNavigate();
-  const [activeTagMenu, setActiveTagMenu] = useState("");
+  const [activeTagMenu, setActiveTagMenu] = useState('');
   const [hoverFile, setHoverFile] = useState(-1);
 
   const handleMouseOver = (index: number) => {
@@ -42,7 +42,7 @@ const GridView = ({
   };
 
   const handleSelectTag = (index: number, tag: string) => {
-    setActiveTagMenu("");
+    setActiveTagMenu('');
     selectTag(index, tag);
   };
 
@@ -80,7 +80,7 @@ const GridView = ({
             }}
           >
             {item.tag === null ? (
-              <GoTag style={{ color: "var(--color-grey-02)" }} />
+              <GoTag style={{ color: 'var(--color-grey-02)' }} />
             ) : (
               <S.ActiveTag $tag={item.tag}>
                 <FontAwesomeIcon icon={faTag} />
@@ -89,25 +89,9 @@ const GridView = ({
           </S.TagContent>
 
           {activeTagMenu === item.id && (
-            <S.TagMenu>
-              <ul>
-                {Tags.map((tag, tagIndex) => (
-                  <li
-                    key={tagIndex}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSelectTag(index, tag.tag);
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTag}
-                      style={{ color: tag.color }}
-                    />
-                    <span>{tag.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </S.TagMenu>
+            <S.TagMenuWrapper>
+              <TagMenu itemIndex={index} handleSelectTag={handleSelectTag} />
+            </S.TagMenuWrapper>
           )}
         </S.FileFrame>
       ))}

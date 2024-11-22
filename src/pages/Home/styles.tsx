@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const NewFileFrame = styled.div`
   position: absolute;
@@ -7,7 +7,7 @@ export const NewFileFrame = styled.div`
   width: fit-content;
   border-radius: 0.8rem;
   height: 6rem;
-  background: url("/img/home-head-bg.png") 0% 0% / 100% 100% no-repeat;
+  background: url('/img/home-head-bg.png') 0% 0% / 100% 100% no-repeat;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -51,8 +51,8 @@ export const FileFrame = styled.div<{ $active: boolean }>`
   border-radius: 8px;
   border: ${(props) =>
     props.$active
-      ? "2px solid var( --color-purple)"
-      : "1px solid var(--color-border)"};
+      ? '2px solid var( --color-purple)'
+      : '1px solid var(--color-border)'};
 
   > span {
     position: absolute;
@@ -96,102 +96,10 @@ export const ModeItem = styled.span<{ $view: boolean }>`
   height: 2.6rem;
   border-radius: 4px;
   background-color: ${(props) =>
-    props.$view ? "var(--color-grey-06)" : "transparent"};
+    props.$view ? 'var(--color-grey-06)' : 'transparent'};
   cursor: pointer;
   > svg {
     font-size: 1.8rem;
     color: var(--color-grey-04);
   }
-`;
-
-export const FileImg = styled.div`
-  height: 19rem;
-  width: 100%;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  background-color: var(--color-grey-03);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  > img {
-    width: 6rem;
-    opacity: 0.4;
-  }
-`;
-
-export const FileDes = styled.div`
-  background-color: var(--color-white);
-  padding: 1.2rem 1.2rem 0.8rem;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-
-  > p {
-    font-size: 1.4rem;
-    font-weight: 600;
-    height: 2rem;
-  }
-  > span {
-    font-size: 1.3rem;
-    line-height: 1.8rem;
-    font-weight: 400;
-    color: var(--color-grey-02);
-  }
-`;
-export const TagContent = styled.div`
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  padding: 0.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.4rem;
-  z-index: 1;
-
-  &:hover {
-    background: var(--color-grey-03);
-  }
-`;
-
-export const TagMenu = styled.div`
-  position: absolute;
-  bottom: 5rem;
-  right: -6rem;
-  width: 10em;
-  padding: 1.4rem 1rem;
-  height: fit-content;
-  border-radius: 0.8rem;
-  background-color: var(--color-white);
-  box-shadow: var(--shadow-primary);
-  z-index: 1;
-
-  > ul {
-    display: flex;
-    gap: 0.4rem;
-    flex-direction: column;
-
-    > li {
-      display: flex;
-      gap: 1rem;
-      font-size: 1.4rem;
-      padding: 0.5rem 0.8rem;
-      border-radius: 0.4rem;
-      cursor: pointer;
-      &:hover {
-        background-color: var(--color-grey-03);
-      }
-    }
-  }
-`;
-
-export const ActiveTag = styled.span<{ $tag: string }>`
-  color: ${(props) =>
-    props.$tag === "important"
-      ? "var(--color-tag-purple)"
-      : props.$tag === "defer"
-      ? "var(--color-tag-red)"
-      : props.$tag === "progress"
-      ? "var(--color-tag-orange)"
-      : "var(--color-tag-blue)"};
 `;
