@@ -1,17 +1,16 @@
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { fileDataState } from '../../recoil/atoms/fileDataState';
-import { FileList } from '../../types/fileType';
-import * as S from './styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FaRegTrashCan } from 'react-icons/fa6';
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { fileDataState } from "../../recoil/atoms/fileDataState";
+import { FileList } from "../../types/fileType";
+import * as S from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaRegTrashCan } from "react-icons/fa6";
 import {
   faCheck,
   faFolderPlus,
   faBars,
-  faTag,
-} from '@fortawesome/free-solid-svg-icons';
-import updateDate from '../../utils/updateDate';
+} from "@fortawesome/free-solid-svg-icons";
+import updateDate from "../../utils/updateDate";
 import {
   Wrapper,
   MainTitle,
@@ -19,24 +18,22 @@ import {
   DeleteButton,
   BaseBox,
   CenterWrapper,
-} from '../../styles/common';
-import NoData from '../../components/etc/NoData';
-import { GoTag } from 'react-icons/go';
-import { useState } from 'react';
-import Tags from '../../data/tags';
-import { alert, confirmAlert } from '../../utils/alert';
-import { authState, isOpenAuthModal } from '../../recoil/atoms/auth';
-import LoginButton from '../../components/button/LoginButton';
-import { IoGrid } from 'react-icons/io5';
+} from "../../styles/common";
+import NoData from "../../components/etc/NoData";
+import { useState } from "react";
+import { alert, confirmAlert } from "../../utils/alert";
+import { authState, isOpenAuthModal } from "../../recoil/atoms/auth";
+import LoginButton from "../../components/button/LoginButton";
+import { IoGrid } from "react-icons/io5";
+import GridView from "../../components/etc/GridView";
+import ListView from "../../components/etc/ListView";
 
 const Home = () => {
   const auth = useRecoilValue(authState);
   const setIsOpenModal = useSetRecoilState(isOpenAuthModal);
   const [fileData, setFileData] = useRecoilState(fileDataState);
-  const [hoverFile, setHoverFile] = useState(-1);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
-  const [activeTagMenu, setActiveTagMenu] = useState('');
-  const [viewMode, setViewMode] = useState('grid');
+  const [viewMode, setViewMode] = useState("grid");
 
   const navigate = useNavigate();
 
@@ -48,18 +45,6 @@ const Home = () => {
     }
     addNewFile();
     navigate(`/editor/${updatedDate}`);
-  };
-
-  const handleOpenFile = (id: string) => {
-    navigate(`/editor/${id}`);
-  };
-
-  const handleMouseOver = (index: number) => {
-    setHoverFile(index);
-  };
-
-  const handleMouseOut = () => {
-    setHoverFile(-1);
   };
 
   const handleSelectFile = (id: string) => {
@@ -92,20 +77,14 @@ const Home = () => {
 
   const handleDeleteFile = () => {
     if (!selectFiles.length) {
-      return alert('선택한 파일이 없습니다', 'info');
+      return alert("선택한 파일이 없습니다", "info");
     }
 
-    confirmAlert('삭제하시겠습니까?', 'question', () =>
-      alert('삭제되었습니다.', 'success')
+    confirmAlert("삭제하시겠습니까?", "question", () =>
+      alert("삭제되었습니다.", "success")
     );
   };
-
-  const handleActiveTagMenu = (id: string) => {
-    setActiveTagMenu(id);
-  };
-
-  const handleSelectTag = (index: number, tag: string) => {
-    setActiveTagMenu('');
+  const selectTag = (index: number, tag: string) => {
     setFileData((prevFileData: FileList[]) => {
       const updatedFileData = [...prevFileData];
       updatedFileData[index] = {
@@ -120,11 +99,11 @@ const Home = () => {
   function addNewFile() {
     const newFileData = {
       id: updatedDate,
-      fileName: '이름이 없는 파일',
+      fileName: "이름이 없는 파일",
       tag: null,
       updatedDate,
       tree: {
-        value: '',
+        value: "",
         node: 0,
         level: 0,
         position: { x: 0, y: 0, r: 0, t: 0 },
@@ -170,14 +149,14 @@ const Home = () => {
           </S.DeleteContent>
           <S.ModeChangeContent>
             <S.ModeItem
-              $view={viewMode === 'grid'}
-              onClick={() => setViewMode('grid')}
+              $view={viewMode === "grid"}
+              onClick={() => setViewMode("grid")}
             >
               <IoGrid />
             </S.ModeItem>
             <S.ModeItem
-              $view={viewMode === 'list'}
-              onClick={() => setViewMode('list')}
+              $view={viewMode === "list"}
+              onClick={() => setViewMode("list")}
             >
               <FontAwesomeIcon icon={faBars} />
             </S.ModeItem>
@@ -186,77 +165,20 @@ const Home = () => {
 
         {!auth ? (
           <CenterWrapper>
-            <NoData text={'로그인 후 이용해주세요'} />
+            <NoData text={"로그인 후 이용해주세요"} />
             <LoginButton />
           </CenterWrapper>
-        ) : auth && fileData.length === 0 ? (
-          <NoData text={'최근 파일이 없습니다'} />
+        ) : fileData?.length === 0 ? (
+          <NoData text={"최근 파일이 없습니다"} />
+        ) : viewMode === "grid" ? (
+          <GridView
+            data={fileData}
+            selectFiles={selectFiles}
+            handleSelectFile={handleSelectFile}
+            selectTag={selectTag}
+          />
         ) : (
-          <S.FileContent>
-            {fileData.map((item, index) => (
-              <S.FileFrame
-                key={index}
-                $active={selectFiles.includes(item.id)}
-                onClick={() => handleOpenFile(item.id)}
-                onMouseOver={() => handleMouseOver(index)}
-                onMouseOut={handleMouseOut}
-              >
-                <CheckBox
-                  $hover={hoverFile === index}
-                  $active={selectFiles.includes(item.id)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelectFile(item.id);
-                  }}
-                >
-                  <FontAwesomeIcon icon={faCheck} />
-                </CheckBox>
-                <S.FileImg>
-                  <img src="/public/favicon.png" alt="logo" />
-                </S.FileImg>
-                <S.FileDes>
-                  <p>{item.fileName}</p>
-                  <span>{item.updatedDate} 마지막으로 수정</span>
-                </S.FileDes>
-                <S.TagContent
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleActiveTagMenu(item.id);
-                  }}
-                >
-                  {item.tag === null ? (
-                    <GoTag style={{ color: 'var(--color-grey-02)' }} />
-                  ) : (
-                    <S.ActiveTag $tag={item.tag}>
-                      <FontAwesomeIcon icon={faTag} />
-                    </S.ActiveTag>
-                  )}
-                </S.TagContent>
-
-                {activeTagMenu === item.id && (
-                  <S.TagMenu>
-                    <ul>
-                      {Tags.map((tag, tagIndex) => (
-                        <li
-                          key={tagIndex}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSelectTag(index, tag.tag);
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTag}
-                            style={{ color: tag.color }}
-                          />
-                          <span>{tag.name}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </S.TagMenu>
-                )}
-              </S.FileFrame>
-            ))}
-          </S.FileContent>
+          <ListView />
         )}
       </S.FileSection>
     </Wrapper>
