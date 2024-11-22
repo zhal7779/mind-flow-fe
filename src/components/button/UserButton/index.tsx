@@ -7,13 +7,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { authState, isOpenAuthModal } from '../../../recoil/atoms/auth';
+import {
+  authState,
+  isOpenAuthModal,
+  isOpenMypageModal,
+} from '../../../recoil/atoms/auth';
 
 const UserButton = () => {
   const [menuActive, setMenuActive] = useState(false);
   const auth = useRecoilValue(authState);
-  const setIsOpenAuthModal = useSetRecoilState(isOpenAuthModal);
 
+  const setIsOpenAuthModal = useSetRecoilState(isOpenAuthModal);
+  const setIsOpenMypageModal = useSetRecoilState(isOpenMypageModal);
   const handleActiveMenu = () => {
     if (!auth) {
       return setIsOpenAuthModal(true);
@@ -34,7 +39,7 @@ const UserButton = () => {
       {menuActive && (
         <UserMenu>
           <ul>
-            <li>
+            <li onClick={() => setIsOpenMypageModal(true)}>
               <FontAwesomeIcon icon={faUser} />
               <span>마이페이지</span>
             </li>
@@ -107,7 +112,7 @@ const UserMenu = styled.div`
       padding: 0.8rem 0.6rem;
       font-size: 1.3rem;
       border-radius: 4px;
-      cursor: default;
+      cursor: pointer;
       &:hover {
         background-color: var(--color-grey-06);
       }

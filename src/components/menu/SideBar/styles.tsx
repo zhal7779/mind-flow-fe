@@ -58,6 +58,7 @@ export const MenuItem = styled.div<{
   background-color: ${(props) =>
     props.$isActive ? 'var(--color-grey-active)' : 'transparent'};
   border-radius: 8px;
+  font-size: 1.4rem;
   cursor: pointer;
 
   > span {

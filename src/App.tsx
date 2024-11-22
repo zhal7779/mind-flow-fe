@@ -8,6 +8,7 @@ import Favorites from './pages/Favorites';
 import Trash from './pages/Trash';
 import MainLayout from './layouts/MainLayout';
 import AuthModal from './components/modal/AuthModal';
+import MypageModal from './components/modal/MypageModal';
 
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
@@ -40,6 +41,7 @@ const App = () => {
       <RouterProvider router={router} />
 
       <AuthModal />
+      <MypageModal />
     </>
   );
 };

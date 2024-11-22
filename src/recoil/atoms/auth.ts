@@ -9,3 +9,8 @@ export const isOpenAuthModal = atom({
   key: 'isOpenAuthModal',
   default: true,
 });
+
+export const isOpenMypageModal = atom({
+  key: 'isOpenMypageModal',
+  default: false,
+});
