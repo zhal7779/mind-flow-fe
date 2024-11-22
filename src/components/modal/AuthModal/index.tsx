@@ -1,14 +1,14 @@
-import { useRecoilState } from 'recoil';
-import { authState, isOpenAuthModal } from '../../../recoil/atoms/auth';
-import BaseModal from '../BaseModal';
-import styled from 'styled-components';
-import { useState } from 'react';
-import { alert } from '../../../utils/alert';
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { authState, isOpenAuthModal } from "../../../recoil/atoms/auth";
+import BaseModal from "../BaseModal";
+import styled from "styled-components";
+import { useState } from "react";
+import { alert } from "../../../utils/alert";
 
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
-  const [auth, setAuth] = useRecoilState(authState);
-  const [step, setStep] = useState('login'); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
+  const setAuth = useSetRecoilState(authState);
+  const [step, setStep] = useState("login"); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
   const handleActiveTrial = () => {
     setAuth(true);
     setIsOpen(false);
@@ -19,8 +19,8 @@ const AuthModal = () => {
   };
 
   const handleCompleteJoin = () => {
-    alert('회원가입이 완료되었습니다', 'success');
-    setStep('login');
+    alert("회원가입이 완료되었습니다", "success");
+    setStep("login");
   };
 
   const LoginContent = (
@@ -45,7 +45,7 @@ const AuthModal = () => {
         <span>계정이 없으신가요?</span>
         <TextButton
           onClick={() => {
-            setStep('join-id');
+            setStep("join-id");
           }}
         >
           회원가입
@@ -57,7 +57,7 @@ const AuthModal = () => {
   const JoinContent = (
     <Content>
       <Title>회원가입</Title>
-      {step === 'join-id' ? (
+      {step === "join-id" ? (
         <>
           <InputContent>
             <span>닉네임</span>
@@ -68,9 +68,9 @@ const AuthModal = () => {
             <Input placeholder="아이디를 입력해주세요" />
           </InputContent>
 
-          <LoginButton onClick={() => setStep('join-pw')}>계속</LoginButton>
+          <LoginButton onClick={() => setStep("join-pw")}>계속</LoginButton>
         </>
-      ) : step === 'join-pw' ? (
+      ) : step === "join-pw" ? (
         <>
           <InputContent>
             <span>비밀번호</span>
@@ -81,7 +81,7 @@ const AuthModal = () => {
             <Input placeholder="비밀번호를 재확인해주세요" type="password" />
           </InputContent>
           <ButtonWrapper>
-            <TrialLoginButton onClick={() => setStep('join-id')}>
+            <TrialLoginButton onClick={() => setStep("join-id")}>
               이전으로
             </TrialLoginButton>
             <LoginButton onClick={handleCompleteJoin}>완료</LoginButton>
@@ -94,7 +94,7 @@ const AuthModal = () => {
         <span>이미 계정이 있으신가요?</span>
         <TextButton
           onClick={() => {
-            setStep('login');
+            setStep("login");
           }}
         >
           로그인하러 가기
@@ -105,8 +105,8 @@ const AuthModal = () => {
 
   return (
     <BaseModal isOpen={isOpen} onClose={handleDelete}>
-      <img src="/public/img/logo.png" alt="logo" style={{ width: '12rem' }} />
-      {step === 'login' ? LoginContent : JoinContent}
+      <img src="/public/img/logo.png" alt="logo" style={{ width: "12rem" }} />
+      {step === "login" ? LoginContent : JoinContent}
     </BaseModal>
   );
 };

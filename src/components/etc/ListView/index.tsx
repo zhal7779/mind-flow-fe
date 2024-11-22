@@ -1,4 +1,3 @@
-import React from "react";
 import { FileList } from "../../../types/fileType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTag, faCheck } from "@fortawesome/free-solid-svg-icons";
