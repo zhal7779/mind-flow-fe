@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const NewFileFrame = styled.div`
   position: absolute;
@@ -7,7 +7,7 @@ export const NewFileFrame = styled.div`
   width: fit-content;
   border-radius: 0.8rem;
   height: 6rem;
-  background: url('/img/home-head-bg.png') 0% 0% / 100% 100% no-repeat;
+  background: url("/img/home-head-bg.png") 0% 0% / 100% 100% no-repeat;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -51,8 +51,8 @@ export const FileFrame = styled.div<{ $active: boolean }>`
   border-radius: 8px;
   border: ${(props) =>
     props.$active
-      ? '2px solid var( --color-purple)'
-      : '1px solid var(--color-border)'};
+      ? "2px solid var( --color-purple)"
+      : "1px solid var(--color-border)"};
 
   > span {
     position: absolute;
@@ -74,7 +74,7 @@ export const TopWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
+  padding-bottom: 4rem;
 `;
 
 export const DeleteContent = styled.div`
@@ -96,7 +96,7 @@ export const ModeItem = styled.span<{ $view: boolean }>`
   height: 2.6rem;
   border-radius: 4px;
   background-color: ${(props) =>
-    props.$view ? 'var(--color-grey-06)' : 'transparent'};
+    props.$view ? "var(--color-grey-06)" : "transparent"};
   cursor: pointer;
   > svg {
     font-size: 1.8rem;
@@ -187,11 +187,11 @@ export const TagMenu = styled.div`
 
 export const ActiveTag = styled.span<{ $tag: string }>`
   color: ${(props) =>
-    props.$tag === 'important'
-      ? 'var(--color-tag-purple)'
-      : props.$tag === 'defer'
-      ? 'var(--color-tag-red)'
-      : props.$tag === 'progress'
-      ? 'var(--color-tag-orange)'
-      : 'var(--color-tag-blue)'};
+    props.$tag === "important"
+      ? "var(--color-tag-purple)"
+      : props.$tag === "defer"
+      ? "var(--color-tag-red)"
+      : props.$tag === "progress"
+      ? "var(--color-tag-orange)"
+      : "var(--color-tag-blue)"};
 `;

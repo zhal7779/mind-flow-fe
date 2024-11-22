@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTag, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { CheckBox } from "../../../styles/common";
+import * as S from "./styles";
+
 type ListViewProps = {
   data: FileList[];
 };
@@ -16,7 +18,7 @@ const ListView = ({ data }: ListViewProps) => {
   };
   return (
     <div>
-      <table>
+      <S.Table>
         <thead>
           <tr>
             <th></th>
@@ -43,7 +45,7 @@ const ListView = ({ data }: ListViewProps) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </S.Table>
     </div>
   );
 };
