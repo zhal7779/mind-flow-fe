@@ -41,7 +41,7 @@ const UserButton = () => {
           <ul>
             <li onClick={() => setIsOpenMypageModal(true)}>
               <FontAwesomeIcon icon={faUser} />
-              <span>마이페이지</span>
+              <span>회원정보수정</span>
             </li>
             <li>
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
