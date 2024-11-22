@@ -84,7 +84,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
     }
 
     body {
-        font-family: 'AppleSDGothicNeo';
+      font-family: 'Noto Sans KR', sans-serif;
         font-size: 1.6rem;
         word-break: keep-all;
         color: var(--color-text-05);
@@ -102,7 +102,6 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         border: 0;
         outline: 0;
         cursor: pointer;
-        font-family: inherit;
         letter-spacing: inherit;
         color: var(--color-text-01);
     }

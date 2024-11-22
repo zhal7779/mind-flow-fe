@@ -1,3 +1,51 @@
+@font-face {
+  font-family: 'Noto Sans KR';
+
+  font-weight: 300;
+
+  src: url('./assets/fonts/NotoSansKR-Light.ttf') format('woff2'),
+    url('./assets/fonts/NotoSansKR-Light.ttf') format('woff'),
+    url('./assets/fonts/NotoSansKR-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+
+  font-weight: 400;
+
+  src: url('./assets/fonts/NotoSansKR-Regular.ttf') format('woff2'),
+    url('./assets/fonts/NotoSansKR-Regular.ttf') format('woff'),
+    url('./assets/fonts/NotoSansKR-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+
+  font-weight: 500;
+
+  src: url('./assets/fonts/NotoSansKR-Medium.ttf') format('woff2');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+
+  font-weight: 700;
+
+  src: url('./assets/fonts/NotoSansKR-Bold.ttf') format('woff2'),
+    url('./assets/fonts/NotoSansKR-Bold.ttf') format('woff'),
+    url('./assets/fonts/NotoSansKR-Bold.ttf') format('truetype');
+}
+
+* {
+  box-sizing: border-box;
+
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
 :root {
   min-height: 100%;
 }
