@@ -89,8 +89,14 @@ const Input = styled.input`
 
 const PaletteMenu = styled.div`
   position: absolute;
+  bottom: -4.4rem;
+  right: -7rem;
+  background-color: var(--color-white-bg);
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
   > ul {
     display: flex;
-    gap: 0.4rem;
+    gap: 0.8rem;
   }
+  box-shadow: var(--shadow-base);
 `;
