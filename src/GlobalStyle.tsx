@@ -23,6 +23,7 @@ export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
         --color-grey-bg:   
         ${({ isDarkMode }) => (!isDarkMode ? '#fbfbfb' : '#222222')};
         --color-white-bg: #ffff;
+        --color-editor-bg: #EAEAEA;
         --color-grey-active: rgba(18, 17, 42, .05);
         --color-red: #e26559;
         --color-blue: #2b7799;

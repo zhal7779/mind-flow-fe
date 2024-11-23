@@ -104,7 +104,7 @@ const Editor = () => {
         style={{
           width: '10000px',
           height: '3000px',
-          backgroundColor: 'var(--color-main-bg)',
+          backgroundColor: 'var(--color-editor-bg)',
           transformOrigin: '0 0',
           transform: `translate(${origin.x}px, ${origin.y}px) scale(${scale})`,
           position: 'absolute',
