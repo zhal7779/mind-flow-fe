@@ -106,6 +106,7 @@ const Home = () => {
       id: updatedDate,
       fileName: '이름이 없는 파일',
       tag: null,
+      themeColor: 'navy',
       updatedDate,
       tree: {
         value: '',

@@ -39,4 +39,5 @@ export interface FileList {
   updatedDate: string;
   tree: RootNode;
   tag: null | string;
+  themeColor: string;
 }
