@@ -9,6 +9,8 @@ import Trash from './pages/Trash';
 import MainLayout from './layouts/MainLayout';
 import AuthModal from './components/modal/AuthModal';
 import MypageModal from './components/modal/MypageModal';
+import { ThemeProvider } from 'styled-components';
+import theme from './data/theme';
 
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
@@ -36,13 +38,13 @@ const App = () => {
   ]);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <GlobalStyle isDarkMode={isDarkMode} />
       <RouterProvider router={router} />
 
       <AuthModal />
       <MypageModal />
-    </>
+    </ThemeProvider>
   );
 };
 

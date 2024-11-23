@@ -35,6 +35,7 @@ export const NodeLine = styled.span<{
   $right: number;
   $width: number;
   $angle: number;
+  $color: keyof typeof theme.colors;
 }>`
   position: absolute;
   display: block;
@@ -43,7 +44,7 @@ export const NodeLine = styled.span<{
   width: ${(props) => props.$width / 10}rem;
   transform: rotate(${(props) => props.$angle}deg);
   transform-origin: 100% 0;
-  background-color: var(--color-green);
+  background-color: ${({ theme, $color }) => theme.colors[$color].line};
   height: 0.4rem;
   border-radius: 0.4rem;
 `;
@@ -51,7 +52,6 @@ export const NodeLine = styled.span<{
 const commonInput = styled.textarea`
   text-align: center;
   padding: 2rem 1.6rem;
-  background-color: var(--color-white);
   border-radius: 3.6rem;
   box-sizing: content-box;
   height: auto;
@@ -59,26 +59,35 @@ const commonInput = styled.textarea`
   z-index: 1;
 `;
 
-export const RootTopicInput = styled(commonInput)`
+export const RootTopicInput = styled(commonInput)<{
+  $color: keyof typeof theme.colors;
+}>`
+  color: var(--color-white-bg);
   font-size: 2rem;
   font-weight: 700;
   width: 100%;
   min-width: 30rem;
-  background-color: var(--color-butter);
-  border: 5px solid var(--color-butter);
+  background-color: ${({ theme, $color }) => theme.colors[$color].mainNode};
+  border: 5px solid ${({ theme, $color }) => theme.colors[$color].mainNode};
 `;
 
-export const MainTopicInput = styled(commonInput)`
+export const MainTopicInput = styled(commonInput)<{
+  $color: keyof typeof theme.colors;
+}>`
   font-size: 1.6rem;
   font-weight: 600;
   width: 100%;
   min-width: 23.5rem;
-  border: 5px solid var(--color-primary);
+  border: 5px solid ${({ theme, $color }) => theme.colors[$color].subNodeBorder};
+  background-color: ${({ theme, $color }) => theme.colors[$color].subNodeBg};
 `;
 
-export const ContentInput = styled(commonInput)`
+export const ContentInput = styled(commonInput)<{
+  $color: keyof typeof theme.colors;
+}>`
   font-size: 1.4rem;
   font-weight: 400;
+  background-color: ${({ theme, $color }) => theme.colors[$color].subNodeBg};
 `;
 
 export const ButtonWrapper = styled.span`

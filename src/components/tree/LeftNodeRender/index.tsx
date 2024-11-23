@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import nodeLineProps from '../../../utils/nodeLineProps';
 import { GeneralNode, RootNode } from '../../../types/fileType';
+import { useRecoilValue } from 'recoil';
+import { nodeColor } from '../../../recoil/atoms/nodeColor';
 
 type NodeRenderProps = {
   node: GeneralNode;
@@ -31,6 +33,7 @@ const LeftNodeRender = ({
   addNode,
   deleteNode,
 }: NodeRenderProps) => {
+  const color = useRecoilValue(nodeColor);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -100,6 +103,7 @@ const LeftNodeRender = ({
           )}
           {node.level === 1 ? (
             <MainTopicInput
+              $color={color}
               rows={1}
               onChange={(e) => updateNodeInputValue(e, node, 'left')}
               value={node.value}
@@ -107,13 +111,16 @@ const LeftNodeRender = ({
             />
           ) : (
             <ContentInput
+              $color={color}
               rows={1}
               onChange={(e) => updateNodeInputValue(e, node, 'left')}
               value={node.value}
               placeholder="내용을 입력해주세요"
             />
           )}
-          {node.node > 0 && <NodeLine {...lineProps} $direction={'left'} />}
+          {node.node > 0 && (
+            <NodeLine $color={color} {...lineProps} $direction={'left'} />
+          )}
         </Node>
       </div>
 

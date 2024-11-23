@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 import { GeneralNode, RootNode } from '../../../types/fileType';
+import { useRecoilValue } from 'recoil';
+import { nodeColor } from '../../../recoil/atoms/nodeColor';
 
 type NodeRenderProps = {
   tree: RootNode;
@@ -27,6 +29,8 @@ const RootNodeRender = ({
   deleteNode,
   updateNodeInputValue,
 }: NodeRenderProps) => {
+  const color = useRecoilValue(nodeColor);
+
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -80,6 +84,7 @@ const RootNodeRender = ({
         </ButtonWrapper>
       )}
       <RootTopicInput
+        $color={color}
         rows={1}
         onChange={(e) => updateNodeInputValue(e, tree, 'both')}
         value={tree.value}
