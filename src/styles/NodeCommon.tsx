@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import theme from '../data/theme';
+
+type ThemeColors = keyof typeof theme.colors;
 
 export const RootNodeContainer = styled.div<{
   $isRoot: boolean;
@@ -35,7 +38,7 @@ export const NodeLine = styled.span<{
   $right: number;
   $width: number;
   $angle: number;
-  $color: keyof typeof theme.colors;
+  $color: ThemeColors;
 }>`
   position: absolute;
   display: block;
@@ -60,7 +63,7 @@ const commonInput = styled.textarea`
 `;
 
 export const RootTopicInput = styled(commonInput)<{
-  $color: keyof typeof theme.colors;
+  $color: ThemeColors;
 }>`
   color: var(--color-white-bg);
   font-size: 2rem;
@@ -72,7 +75,7 @@ export const RootTopicInput = styled(commonInput)<{
 `;
 
 export const MainTopicInput = styled(commonInput)<{
-  $color: keyof typeof theme.colors;
+  $color: ThemeColors;
 }>`
   font-size: 1.6rem;
   font-weight: 600;
@@ -83,7 +86,7 @@ export const MainTopicInput = styled(commonInput)<{
 `;
 
 export const ContentInput = styled(commonInput)<{
-  $color: keyof typeof theme.colors;
+  $color: ThemeColors;
 }>`
   font-size: 1.4rem;
   font-weight: 400;

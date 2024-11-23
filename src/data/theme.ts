@@ -1,4 +1,5 @@
-const theme = {
+import { DefaultTheme } from 'styled-components';
+const theme: DefaultTheme = {
   colors: {
     red: {
       mainNode: '#F26957',
