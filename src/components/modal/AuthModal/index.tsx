@@ -5,11 +5,21 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import { alert } from '../../../utils/alert';
 import * as S from '../../../styles/modal';
-import { postJoin } from '../../../api/auth';
+import { postJoin, postLogin } from '../../../api/auth';
+import useAuthToken from '../../../hooks/useAuthToken';
+
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
   const setAuth = useSetRecoilState(authState);
+
+  const { saveToken } = useAuthToken();
+
   const [step, setStep] = useState('login'); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
+
+  const [loginInput, setLoginInput] = useState({
+    id: '',
+    password: '',
+  });
 
   const [joinInput, setJoinInput] = useState({
     id: '',
@@ -27,10 +37,25 @@ const AuthModal = () => {
     setIsOpen(false);
   };
 
+  const onChangeLoginInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+
+    setLoginInput((prevInput) => ({ ...prevInput, [name]: value }));
+  };
+
   const onChangeJoinInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
 
     setJoinInput((prevInput) => ({ ...prevInput, [name]: value }));
+  };
+
+  const handleLogin = async () => {
+    const response = await postLogin(loginInput);
+    if (response.success) {
+      saveToken(response.data);
+      setAuth(true);
+      setIsOpen(false);
+    }
   };
 
   const handleCompleteJoin = async () => {
@@ -39,7 +64,7 @@ const AuthModal = () => {
       name: joinInput.name,
       password: joinInput.password,
     });
-    console.log(response);
+
     if (response.success) {
       alert('회원가입이 완료되었습니다', 'success');
 
@@ -52,15 +77,25 @@ const AuthModal = () => {
       <S.ModalTitle>로그인</S.ModalTitle>
       <S.InputContent>
         <span>아이디</span>
-        <S.Input placeholder="아이디를 입력해주세요" />
+        <S.Input
+          type="text"
+          name="id"
+          placeholder="아이디를 입력해주세요"
+          onChange={onChangeLoginInput}
+        />
       </S.InputContent>
       <S.InputContent>
         <span>비밀번호</span>
-        <S.Input placeholder="비밀번호를 입력해주세요" type="password" />
+        <S.Input
+          placeholder="비밀번호를 입력해주세요"
+          type="password"
+          name="password"
+          onChange={onChangeLoginInput}
+        />
         <TextButton>비밀번호 찾기</TextButton>
       </S.InputContent>
       <S.ButtonWrapper>
-        <S.LoginButton>로그인</S.LoginButton>
+        <S.LoginButton onClick={handleLogin}>로그인</S.LoginButton>
         <S.TrialLoginButton onClick={handleActiveTrial}>
           체험판 로그인
         </S.TrialLoginButton>

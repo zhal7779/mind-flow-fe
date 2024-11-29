@@ -13,6 +13,7 @@ const postJoin = async (payload: {
 //로그인
 const postLogin = async (payload: { id: string; password: string }) => {
   const { data } = await instance.post('/api/auth/login', payload);
+
   return data;
 };
 

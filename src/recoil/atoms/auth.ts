@@ -5,6 +5,11 @@ export const authState = atom({
   default: false,
 });
 
+export const accessTokenState = atom({
+  key: 'accessTokenState',
+  default: null,
+});
+
 export const isOpenAuthModal = atom({
   key: 'isOpenAuthModal',
   default: true,

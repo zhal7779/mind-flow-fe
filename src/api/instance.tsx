@@ -5,8 +5,10 @@ import axios, {
 } from 'axios';
 import { isAxiosError, ResponseDataType } from '../types/axiosError';
 import { alert } from '../utils/alert';
-import useAuthToken from '../hooks/useAuthToken';
+// import useAuthToken from '../hooks/useAuthToken';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { accessTokenState } from '../recoil/atoms/auth';
 
 // InternalAxiosRequestConfig 타입 확장
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -32,12 +34,13 @@ const createAxiosInstance = (
   instance.interceptors.request.use(
     (config) => {
       // 요청을 보내기 전에 작업 수행
-      const { accessToken } = useAuthToken();
+      const accessToken = useRecoilValue(accessTokenState);
       if (accessToken !== null) {
         config.headers.Accept = 'application/json, text/plain, */*';
         config.headers.Authorization = `Bearer ${accessToken}`;
         config.headers['Content-Type'] = contentType;
       }
+      console.log(config);
       return config;
     },
     (error) => Promise.reject(error)
@@ -59,15 +62,15 @@ const createAxiosInstance = (
           originalRequest._retry = true; // _retry 속성 설정
 
           try {
-            // 새 Access Token 재발급
-            const { fetchAccessToken } = useAuthToken();
-            await fetchAccessToken();
+            // // 새 Access Token 재발급
+            // const { fetchAccessToken } = useAuthToken();
+            // await fetchAccessToken();
 
-            // 원래 요청 재시도
-            const { accessToken } = useAuthToken();
-            if (accessToken) {
-              originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-            }
+            // // 원래 요청 재시도
+            // const { accessToken } = useAuthToken();
+            // if (accessToken) {
+            //   originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+            // }
 
             return instance(originalRequest);
           } catch (tokenRefreshError) {

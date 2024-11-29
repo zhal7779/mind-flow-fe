@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { instance } from '../api/instance';
 
 const useAuthToken = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -7,14 +7,10 @@ const useAuthToken = () => {
   // 서버에서 Access Token 재발급
   const fetchAccessToken = async () => {
     try {
-      const response = await axios.post(
-        '/refresh',
-        {},
-        { withCredentials: true }
-      );
-      setAccessToken(response.data.accessToken);
+      const response = await instance.get(`/api/auth/refresh`);
+      setAccessToken(response.data);
     } catch (error) {
-      console.error('Failed to refresh access token:', error);
+      console.error('액세스 토큰 발급 실패', error);
       setAccessToken(null);
     }
   };
