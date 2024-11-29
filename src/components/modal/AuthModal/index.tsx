@@ -2,13 +2,22 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { authState, isOpenAuthModal } from '../../../recoil/atoms/auth';
 import BaseModal from '../BaseModal';
 import styled from 'styled-components';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { alert } from '../../../utils/alert';
 import * as S from '../../../styles/modal';
+import { postJoin } from '../../../api/auth';
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
   const setAuth = useSetRecoilState(authState);
   const [step, setStep] = useState('login'); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
+
+  const [joinInput, setJoinInput] = useState({
+    id: '',
+    name: '',
+    password: '',
+    passwordConfirm: '',
+  });
+
   const handleActiveTrial = () => {
     setAuth(true);
     setIsOpen(false);
@@ -18,9 +27,24 @@ const AuthModal = () => {
     setIsOpen(false);
   };
 
-  const handleCompleteJoin = () => {
-    alert('회원가입이 완료되었습니다', 'success');
-    setStep('login');
+  const onChangeJoinInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+
+    setJoinInput((prevInput) => ({ ...prevInput, [name]: value }));
+  };
+
+  const handleCompleteJoin = async () => {
+    const response = await postJoin({
+      id: joinInput.id,
+      name: joinInput.name,
+      password: joinInput.password,
+    });
+    console.log(response);
+    if (response.success) {
+      alert('회원가입이 완료되었습니다', 'success');
+
+      setStep('login');
+    }
   };
 
   const LoginContent = (
@@ -61,11 +85,19 @@ const AuthModal = () => {
         <>
           <S.InputContent>
             <span>닉네임</span>
-            <S.Input placeholder="닉네임을 입력해주세요" />
+            <S.Input
+              placeholder="닉네임을 입력해주세요"
+              name="name"
+              onChange={onChangeJoinInput}
+            />
           </S.InputContent>
           <S.InputContent>
             <span>아이디</span>
-            <S.Input placeholder="아이디를 입력해주세요" />
+            <S.Input
+              placeholder="아이디를 입력해주세요"
+              name="id"
+              onChange={onChangeJoinInput}
+            />
           </S.InputContent>
 
           <S.LoginButton onClick={() => setStep('join-pw')}>계속</S.LoginButton>
@@ -74,11 +106,21 @@ const AuthModal = () => {
         <>
           <S.InputContent>
             <span>비밀번호</span>
-            <S.Input placeholder="비밀번호를 입력해주세요" type="password" />
+            <S.Input
+              placeholder="비밀번호를 입력해주세요"
+              type="password"
+              name="password"
+              onChange={onChangeJoinInput}
+            />
           </S.InputContent>
           <S.InputContent>
             <span>비밀번호 재확인</span>
-            <S.Input placeholder="비밀번호를 재확인해주세요" type="password" />
+            <S.Input
+              placeholder="비밀번호를 재확인해주세요"
+              type="password"
+              name="passwordConfirm"
+              onChange={onChangeJoinInput}
+            />
           </S.InputContent>
           <S.ButtonWrapper>
             <S.TrialLoginButton onClick={() => setStep('join-id')}>

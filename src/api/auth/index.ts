@@ -1,14 +1,19 @@
-import { instance } from "../instance";
+import { instance } from '../instance';
 
-const usePostJoin = async (payload: {
+//회원가입
+const postJoin = async (payload: {
   id: string;
   name: string;
   password: string;
 }) => {
-  const { data } = await instance.post("/api/auth/", payload);
+  const { data } = await instance.post('/api/auth/', payload);
   return data;
 };
 
-const usePostLogin = async () => {};
+//로그인
+const postLogin = async (payload: { id: string; password: string }) => {
+  const { data } = await instance.post('/api/auth/login', payload);
+  return data;
+};
 
-export { usePostJoin, usePostLogin };
+export { postJoin, postLogin };
