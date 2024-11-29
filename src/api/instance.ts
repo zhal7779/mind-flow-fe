@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { getCookie } from "../auth/cookie";
+import { isAxiosError, ResponseDataType } from "../types/axiosError";
+import { alert } from "../utils/alert";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -34,7 +36,12 @@ const createAxiosInstance = (
   // 응답 인터셉터
   instance.interceptors.response.use(
     (response) => response, // 응답 데이터를 처리
-    (error) => Promise.reject(error)
+    (error) => {
+      if (isAxiosError<ResponseDataType>(error)) {
+        alert(`${error.response?.data.msg}`, "error");
+      }
+      Promise.reject(error);
+    }
   );
 
   return instance;
@@ -43,4 +50,11 @@ const createAxiosInstance = (
 //기본 인스턴스
 const instance = createAxiosInstance(baseUrl, getCookie);
 
-export default { instance };
+//폼데이터 전송 인스턴스
+const multiPartInstance = createAxiosInstance(
+  baseUrl,
+  getCookie,
+  "multipart/form-data"
+);
+
+export { instance, multiPartInstance };
