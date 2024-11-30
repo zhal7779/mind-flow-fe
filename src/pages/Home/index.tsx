@@ -27,6 +27,7 @@ import { IoGrid } from 'react-icons/io5';
 import GridView from '../../components/etc/GridView';
 import ListView from '../../components/etc/ListView';
 import { useGetFilesQuery } from '../../hooks/usefileQuery';
+import LoadingSpinner from '../../components/etc/LoadingSpinner';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -53,7 +54,11 @@ const Home = () => {
   }, [data, isLoading, isError]);
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   // 에러 상태 처리
