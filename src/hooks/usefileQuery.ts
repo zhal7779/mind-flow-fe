@@ -1,5 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { getFiles, getBookmarkFiles, getStorageFiles } from '../api/files';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  getFiles,
+  getBookmarkFiles,
+  getStorageFiles,
+  patchFileTag,
+} from '../api/files';
 import { IFile } from '../types/fileType';
 
 const useGetFilesQuery = (options?: { enabled?: boolean }) =>
@@ -25,4 +30,24 @@ const useGetStorageFilesQuery = (options?: { enabled?: boolean }) =>
     enabled: options?.enabled,
   });
 
-export { useGetFilesQuery, useGetBookmarkFilesQuery, useGetStorageFilesQuery };
+const usePatchFileTagQuery = (queryKey: string[]) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { file_id: string; tag: string }) => {
+      await patchFileTag(payload);
+    },
+    onSuccess() {
+      return queryClient.invalidateQueries({ queryKey: queryKey });
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
+};
+
+export {
+  useGetFilesQuery,
+  useGetBookmarkFilesQuery,
+  useGetStorageFilesQuery,
+  usePatchFileTagQuery,
+};
