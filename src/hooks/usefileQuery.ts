@@ -7,10 +7,14 @@ import {
   patchRestoreFile,
   deleteFile,
   postFile,
+  patchFileThemeColor,
+  patchFileName,
 } from '../api/files';
 import { IFile } from '../types/fileType';
 import { alert } from '../utils/alert';
 import { useNavigate } from 'react-router-dom';
+import { nodeColor } from '../recoil/atoms/nodeColor';
+import { useSetRecoilState } from 'recoil';
 
 const useReadFilesQuery = (options?: { enabled?: boolean }) =>
   useQuery<IFile[], Error>({
@@ -70,6 +74,40 @@ const useUpdateFileTagQuery = (queryKey: string[]) => {
   });
 };
 
+const useUpdateFileThemeColorQuery = (queryKey: string[]) => {
+  const queryClient = useQueryClient();
+  const setNodeColor = useSetRecoilState(nodeColor);
+  return useMutation({
+    mutationFn: async (payload: { file_id: string; theme_color: string }) => {
+      await patchFileThemeColor(payload);
+
+      return payload.theme_color;
+    },
+    onSuccess(response) {
+      setNodeColor(response);
+      return queryClient.invalidateQueries({ queryKey: queryKey });
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
+};
+
+const useUpdateFileNameQuery = (queryKey: string[]) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { file_id: string; file_name: string }) => {
+      await patchFileName(payload);
+    },
+    onSuccess() {
+      return queryClient.invalidateQueries({ queryKey: queryKey });
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
+};
+
 const useUpdateRestoreFileQuery = (queryKey: string[]) => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -109,6 +147,8 @@ export {
   useReadStorageFilesQuery,
   useCreateFileQuery,
   useUpdateFileTagQuery,
+  useUpdateFileThemeColorQuery,
+  useUpdateFileNameQuery,
   useUpdateRestoreFileQuery,
   useDeleteFileQuery,
 };

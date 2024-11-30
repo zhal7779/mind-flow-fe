@@ -8,12 +8,14 @@ import {
   faPalette,
 } from '@fortawesome/free-solid-svg-icons';
 import { HiOutlineSave } from 'react-icons/hi';
-import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { nodeColor } from '../../../recoil/atoms/nodeColor';
 import { GoTag } from 'react-icons/go';
 import TagMenu from '../TagMenu';
 import { ITree } from '../../../types/treeType';
+import {
+  useUpdateFileNameQuery,
+  useUpdateFileThemeColorQuery,
+} from '../../../hooks/usefileQuery';
 
 type dataProps = {
   data: ITree;
@@ -30,10 +32,22 @@ const ThemeColors = [
 ];
 
 const SaveControlMenu = ({ data }: dataProps) => {
-  const setColor = useSetRecoilState(nodeColor);
+  const navigate = useNavigate();
+
   const [fileName, setFileName] = useState(data.file_name);
   const [active, setActive] = useState({ palette: false, tag: false });
-  const navigate = useNavigate();
+
+  //파일 이름 수정
+  const { mutate: updateFileName } = useUpdateFileNameQuery([
+    'tree',
+    data.file_id,
+  ]);
+
+  //파일 테마 색상 수정
+  const { mutate: updateThemeColor } = useUpdateFileThemeColorQuery([
+    'tree',
+    data.file_id,
+  ]);
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -78,7 +92,15 @@ const SaveControlMenu = ({ data }: dataProps) => {
           <ul>
             {ThemeColors.map((item) => {
               return Object.entries(item).map(([colorName, colorValue]) => (
-                <li key={colorName} onClick={() => setColor(colorName)}>
+                <li
+                  key={colorName}
+                  onClick={() =>
+                    updateThemeColor({
+                      file_id: data.file_id,
+                      theme_color: colorName,
+                    })
+                  }
+                >
                   <FontAwesomeIcon
                     icon={faCircle}
                     fontSize={'2rem'}
