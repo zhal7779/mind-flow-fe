@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { alert } from '../../../utils/alert';
 import * as S from '../../../styles/modal';
 import { postJoin, postLogin } from '../../../api/auth';
+import { setAccessToken } from '../../../utils/auth';
 
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
@@ -49,6 +50,7 @@ const AuthModal = () => {
   const handleLogin = async () => {
     const response = await postLogin(loginInput);
     if (response.success) {
+      setAccessToken(response.data);
       setAuth(true);
       setIsOpen(false);
     }
