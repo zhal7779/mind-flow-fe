@@ -6,7 +6,10 @@ import {
 } from '../../styles/common';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../recoil/atoms/auth';
-import { useReadStorageFilesQuery } from '../../hooks/usefileQuery';
+import {
+  useReadStorageFilesQuery,
+  useUpdateRestoreFileQuery,
+} from '../../hooks/usefileQuery';
 import { useEffect, useState } from 'react';
 import { IFile } from '../../types/fileType';
 import DataContainer from '../../components/data/DataContainer';
@@ -29,10 +32,10 @@ import {
 } from '../../components/etc/GridView/styles';
 import { GoTag } from 'react-icons/go';
 import { LiaTrashRestoreAltSolid } from 'react-icons/lia';
+import { alert, confirmAlert } from '../../utils/alert';
 const Trash = () => {
   const auth = useRecoilValue(authState);
 
-  const [storageFileData, setStorageFileData] = useState<IFile[] | []>([]);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
   const [hoverFile, setHoverFile] = useState('');
 
@@ -40,6 +43,9 @@ const Trash = () => {
   const { data, isLoading, isError } = useReadStorageFilesQuery({
     enabled: !!auth,
   });
+  const [storageFileData, setStorageFileData] = useState<IFile[] | []>([]);
+
+  const { mutate: restoreFile } = useUpdateRestoreFileQuery(['storagefiles']); //파일 복구
 
   useEffect(() => {
     if (auth && data !== undefined && !isLoading && !isError) {
@@ -83,6 +89,15 @@ const Trash = () => {
     setSelectFiles((prevFiles) => [...prevFiles, ...addFiles]);
   };
 
+  const handleRestoreFile = () => {
+    if (!selectFiles.length) {
+      return alert('선택한 파일이 없습니다', 'info');
+    }
+
+    confirmAlert('복구하시겠습니까?', 'question', () =>
+      restoreFile({ file_list: selectFiles })
+    );
+  };
   return (
     <Wrapper>
       <TitlePadding>
@@ -106,7 +121,7 @@ const Trash = () => {
             >
               <FontAwesomeIcon icon={faCheck} />
             </CheckBox>
-            <RestoreButton>
+            <RestoreButton onClick={handleRestoreFile}>
               <LiaTrashRestoreAltSolid fontSize={16} />
               파일 복구
             </RestoreButton>

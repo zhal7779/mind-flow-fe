@@ -4,6 +4,7 @@ import {
   getBookmarkFiles,
   getStorageFiles,
   patchFileTag,
+  patchRestoreFile,
   deleteFile,
   postFile,
 } from '../api/files';
@@ -69,6 +70,22 @@ const useUpdateFileTagQuery = (queryKey: string[]) => {
   });
 };
 
+const useUpdateRestoreFileQuery = (queryKey: string[]) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { file_list: string[] }) => {
+      await patchRestoreFile(payload);
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+      return alert('파일이 복구되었습니다.', 'success');
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
+};
+
 const useDeleteFileQuery = (queryKey: string[]) => {
   const queryClient = useQueryClient();
   return useMutation({
@@ -92,5 +109,6 @@ export {
   useReadStorageFilesQuery,
   useCreateFileQuery,
   useUpdateFileTagQuery,
+  useUpdateRestoreFileQuery,
   useDeleteFileQuery,
 };

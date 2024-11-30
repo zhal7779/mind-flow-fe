@@ -36,12 +36,19 @@ const patchFileTag = async (payload: {
   return response;
 };
 
+//파일 복구
+const patchRestoreFile = async (payload: {
+  file_list: string[];
+}): Promise<AxiosResponse> => {
+  const response = await instance.patch(`/api/file/update/storage`, payload);
+  return response;
+};
 // 파일 삭제 (보관함 이동)
 // 실제 삭제가 아니기에 api 메소드는 patch 사용
 const deleteFile = async (payload: {
   file_list: string[];
 }): Promise<AxiosResponse> => {
-  const response = await instance.patch(`/api/file/delete/`, payload);
+  const response = await instance.patch(`/api/file/delete`, payload);
   return response;
 };
 
@@ -51,5 +58,6 @@ export {
   getStorageFiles,
   postFile,
   patchFileTag,
+  patchRestoreFile,
   deleteFile,
 };
