@@ -7,30 +7,27 @@ import { useNavigate } from 'react-router-dom';
 import { GoTag } from 'react-icons/go';
 import { IFile } from '../../../types/fileType';
 import TagMenu from '../../menu/TagMenu';
+import { usePatchFileTagQuery } from '../../../hooks/usefileQuery';
 
 type GridViewProps = {
   data: IFile[];
   selectFiles: string[];
   handleSelectFile: (id: string) => void;
-  selectTag: (index: number, tag: string) => void;
 };
 
-const GridView = ({
-  data,
-  selectFiles,
-  handleSelectFile,
-  selectTag,
-}: GridViewProps) => {
+const GridView = ({ data, selectFiles, handleSelectFile }: GridViewProps) => {
   const navigate = useNavigate();
   const [activeTagMenu, setActiveTagMenu] = useState('');
-  const [hoverFile, setHoverFile] = useState(-1);
+  const [hoverFile, setHoverFile] = useState('');
 
-  const handleMouseOver = (index: number) => {
-    setHoverFile(index);
+  const { mutate: updateTag } = usePatchFileTagQuery(['files']);
+
+  const handleMouseOver = (id: string) => {
+    setHoverFile(id);
   };
 
   const handleMouseOut = () => {
-    setHoverFile(-1);
+    setHoverFile('');
   };
 
   const handleOpenFile = (id: string) => {
@@ -41,9 +38,9 @@ const GridView = ({
     setActiveTagMenu(id);
   };
 
-  const handleSelectTag = (index: number, tag: string) => {
+  const handleSelectTag = (id: string, tag: string) => {
     setActiveTagMenu('');
-    selectTag(index, tag);
+    updateTag({ file_id: id, tag: tag });
   };
 
   return (
@@ -53,11 +50,11 @@ const GridView = ({
           key={index}
           $active={selectFiles.includes(item.file_id)}
           onClick={() => handleOpenFile(item.file_id)}
-          onMouseOver={() => handleMouseOver(index)}
+          onMouseOver={() => handleMouseOver(item.file_id)}
           onMouseOut={handleMouseOut}
         >
           <CheckBox
-            $hover={hoverFile === index}
+            $hover={hoverFile === item.file_id}
             $active={selectFiles.includes(item.file_id)}
             onClick={(e) => {
               e.stopPropagation();
@@ -91,9 +88,9 @@ const GridView = ({
             )}
           </S.TagContent>
 
-          {activeTagMenu === item.tag && (
+          {activeTagMenu === item.file_id && (
             <S.TagMenuWrapper>
-              <TagMenu itemIndex={index} handleSelectTag={handleSelectTag} />
+              <TagMenu id={item.file_id} handleSelectTag={handleSelectTag} />
             </S.TagMenuWrapper>
           )}
         </S.FileFrame>

@@ -8,21 +8,17 @@ import { GoTag } from 'react-icons/go';
 import { ActiveTag } from '../GridView/styles';
 import { useState } from 'react';
 import TagMenu from '../../menu/TagMenu';
+import { usePatchFileTagQuery } from '../../../hooks/usefileQuery';
 
 type ListViewProps = {
   data: IFile[];
   selectFiles: string[];
   handleSelectFile: (id: string) => void;
-  selectTag: (index: number, tag: string) => void;
 };
 
-const ListView = ({
-  data,
-  selectFiles,
-  handleSelectFile,
-  selectTag,
-}: ListViewProps) => {
+const ListView = ({ data, selectFiles, handleSelectFile }: ListViewProps) => {
   const [activeTagMenu, setActiveTagMenu] = useState('');
+  const { mutate: updateTag } = usePatchFileTagQuery(['files']);
 
   const navigate = useNavigate();
 
@@ -34,10 +30,11 @@ const ListView = ({
     setActiveTagMenu(id);
   };
 
-  const handleSelectTag = (index: number, tag: string) => {
+  const handleSelectTag = (id: string, tag: string) => {
     setActiveTagMenu('');
-    selectTag(index, tag);
+    updateTag({ file_id: id, tag: tag });
   };
+
   return (
     <div>
       <S.Table>
@@ -96,7 +93,7 @@ const ListView = ({
                   {activeTagMenu === item.file_id && (
                     <S.TagMenuWrapper>
                       <TagMenu
-                        itemIndex={index}
+                        id={item.file_id}
                         handleSelectTag={handleSelectTag}
                       />
                     </S.TagMenuWrapper>

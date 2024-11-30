@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTag } from '@fortawesome/free-solid-svg-icons';
 type TagMenuProps = {
-  itemIndex: number;
-  handleSelectTag: (itemIndex: number, tag: string) => void;
+  id: string;
+  handleSelectTag: (id: string, tag: string) => void;
 };
 
-const TagMenu = ({ itemIndex, handleSelectTag }: TagMenuProps) => {
+const TagMenu = ({ id, handleSelectTag }: TagMenuProps) => {
   return (
     <TagMenuContent>
       <ul>
@@ -16,7 +16,7 @@ const TagMenu = ({ itemIndex, handleSelectTag }: TagMenuProps) => {
             key={tagIndex}
             onClick={(e) => {
               e.stopPropagation();
-              handleSelectTag(itemIndex, tag.tag);
+              handleSelectTag(id, tag.tag);
             }}
           >
             <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} />

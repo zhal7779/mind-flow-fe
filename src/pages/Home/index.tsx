@@ -94,17 +94,6 @@ const Home = () => {
       alert('삭제되었습니다.', 'success')
     );
   };
-  const selectTag = (index: number, tag: string) => {
-    setFileData((prevFileData) => {
-      const updatedFileData = [...prevFileData];
-      updatedFileData[index] = {
-        ...updatedFileData[index],
-        tag,
-      };
-
-      return updatedFileData;
-    });
-  };
 
   const handleChangeViewMode = (mode: string) => {
     setViewMode(mode);
@@ -165,14 +154,12 @@ const Home = () => {
               data={fileData}
               selectFiles={selectFiles}
               handleSelectFile={handleSelectFile}
-              selectTag={selectTag}
             />
           ) : (
             <ListView
               data={fileData}
               selectFiles={selectFiles}
               handleSelectFile={handleSelectFile}
-              selectTag={selectTag}
             />
           )}
         </DataContainer>
