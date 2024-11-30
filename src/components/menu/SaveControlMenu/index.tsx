@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as S from '../../../styles/menu';
 import styled from 'styled-components';
@@ -36,6 +36,10 @@ const SaveControlMenu = ({ data }: dataProps) => {
 
   const [fileName, setFileName] = useState(data.file_name);
   const [active, setActive] = useState({ palette: false, tag: false });
+
+  // Refs for detecting clicks outside
+  const paletteMenuRef = useRef(null);
+  const tagMenuWrapperRef = useRef(null);
 
   //파일 이름 수정
   const { mutate: updateFileName } = useUpdateFileNameQuery([
@@ -76,7 +80,11 @@ const SaveControlMenu = ({ data }: dataProps) => {
         value={fileName}
         placeholder="파일 제목을 입력해주세요"
       />
-      <S.MenuIcon>
+      <S.MenuIcon
+        onClick={() =>
+          updateFileName({ file_id: data.file_id, file_name: fileName })
+        }
+      >
         <HiOutlineSave fontSize={'2rem'} />
       </S.MenuIcon>
       <span></span>
@@ -88,7 +96,7 @@ const SaveControlMenu = ({ data }: dataProps) => {
         <GoTag fontSize={'2rem'} />
       </S.MenuIcon>
       {active.palette ? (
-        <PaletteMenu>
+        <PaletteMenu ref={paletteMenuRef}>
           <ul>
             {ThemeColors.map((item) => {
               return Object.entries(item).map(([colorName, colorValue]) => (
@@ -112,7 +120,7 @@ const SaveControlMenu = ({ data }: dataProps) => {
           </ul>
         </PaletteMenu>
       ) : (
-        <TagMenuWrapper>
+        <TagMenuWrapper ref={tagMenuWrapperRef}>
           <TagMenu id={data.file_id} handleSelectTag={() => {}} />
         </TagMenuWrapper>
       )}
