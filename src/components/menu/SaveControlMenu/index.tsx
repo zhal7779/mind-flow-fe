@@ -14,6 +14,7 @@ import TagMenu from '../TagMenu';
 import { ITree } from '../../../types/treeType';
 import {
   useUpdateFileNameQuery,
+  useUpdateFileTagQuery,
   useUpdateFileThemeColorQuery,
 } from '../../../hooks/usefileQuery';
 
@@ -35,7 +36,8 @@ const SaveControlMenu = ({ data }: dataProps) => {
   const navigate = useNavigate();
 
   const [fileName, setFileName] = useState(data.file_name);
-  const [active, setActive] = useState({ palette: false, tag: false });
+  const [paletteActive, setPaletteActive] = useState(false);
+  const [tagActive, setTagActive] = useState(false);
 
   // Refs for detecting clicks outside
   const paletteMenuRef = useRef(null);
@@ -53,20 +55,17 @@ const SaveControlMenu = ({ data }: dataProps) => {
     data.file_id,
   ]);
 
+  //파일 태그 수정
+  const { mutate: updateTag } = useUpdateFileTagQuery(['tree', data.file_id]);
+
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setFileName(value);
   };
 
-  const handleActiveMenu = (menu: keyof typeof active) => {
-    setActive((prevActive) => {
-      const updatedActive = Object.keys(prevActive).reduce((acc, key) => {
-        acc[key as keyof typeof active] = key === menu;
-        return acc;
-      }, {} as typeof active);
-
-      return updatedActive;
-    });
+  const handleSelectTag = (id: string, tag: string) => {
+    setTagActive(false);
+    updateTag({ file_id: id, tag: tag });
   };
 
   return (
@@ -88,14 +87,14 @@ const SaveControlMenu = ({ data }: dataProps) => {
         <HiOutlineSave fontSize={'2rem'} />
       </S.MenuIcon>
       <span></span>
-      <S.MenuIcon onClick={() => handleActiveMenu('palette')}>
+      <S.MenuIcon onClick={() => setPaletteActive(!paletteActive)}>
         <FontAwesomeIcon icon={faPalette} fontSize={'2rem'} />
       </S.MenuIcon>
       <span></span>
-      <S.MenuIcon onClick={() => handleActiveMenu('tag')}>
+      <S.MenuIcon onClick={() => setTagActive(!tagActive)}>
         <GoTag fontSize={'2rem'} />
       </S.MenuIcon>
-      {active.palette ? (
+      {paletteActive && (
         <PaletteMenu ref={paletteMenuRef}>
           <ul>
             {ThemeColors.map((item) => {
@@ -119,9 +118,10 @@ const SaveControlMenu = ({ data }: dataProps) => {
             })}
           </ul>
         </PaletteMenu>
-      ) : (
+      )}
+      {tagActive && (
         <TagMenuWrapper ref={tagMenuWrapperRef}>
-          <TagMenu id={data.file_id} handleSelectTag={() => {}} />
+          <TagMenu id={data.file_id} handleSelectTag={handleSelectTag} />
         </TagMenuWrapper>
       )}
     </Wrapper>
