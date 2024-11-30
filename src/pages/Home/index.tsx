@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { fileDataState } from '../../recoil/atoms/fileDataState';
-import { FileList } from '../../types/fileType';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { IFile } from '../../types/fileType';
 import * as S from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaRegTrashCan } from 'react-icons/fa6';
@@ -20,7 +19,7 @@ import {
   CenterWrapper,
 } from '../../styles/common';
 import NoData from '../../components/etc/NoData';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { alert, confirmAlert } from '../../utils/alert';
 import { authState, isOpenAuthModal } from '../../recoil/atoms/auth';
 import LoginButton from '../../components/button/LoginButton';
@@ -30,23 +29,43 @@ import ListView from '../../components/etc/ListView';
 import { useGetFilesQuery } from '../../hooks/usefileQuery';
 
 const Home = () => {
-  const { data } = useGetFilesQuery();
-  console.log(data);
-  const auth = useRecoilValue(authState);
-  const setIsOpenModal = useSetRecoilState(isOpenAuthModal);
-  const [fileData, setFileData] = useRecoilState(fileDataState);
-  const [selectFiles, setSelectFiles] = useState<string[]>([]);
-  const [viewMode, setViewMode] = useState('grid');
-
   const navigate = useNavigate();
 
   const updatedDate = updateDate();
+
+  const auth = useRecoilValue(authState);
+  const setIsOpenModal = useSetRecoilState(isOpenAuthModal);
+
+  const [viewMode, setViewMode] = useState('grid');
+
+  // `enabled`를 auth 상태로 설정
+  const { data, isLoading, isError, error } = useGetFilesQuery({
+    enabled: !!auth,
+  });
+
+  const [fileData, setFileData] = useState<IFile[] | []>([]);
+  const [selectFiles, setSelectFiles] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (auth && data !== undefined && !isLoading && !isError) {
+      setFileData(fileData);
+    }
+  }, [data, isLoading, isError]);
+
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+
+  // 에러 상태 처리
+  if (isError) {
+    console.error(error);
+    return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
+  }
 
   const handleAddNewFile = () => {
     if (!auth) {
       return setIsOpenModal(true);
     }
-    addNewFile();
     navigate(`/editor/${updatedDate}`);
   };
 
@@ -67,8 +86,8 @@ const Home = () => {
     }
 
     const addFiles = fileData
-      .filter((file) => !selectFiles.includes(file.id))
-      .map((file) => file.id);
+      .filter((file) => !selectFiles.includes(file.file_id))
+      .map((file) => file.file_id);
 
     if (addFiles.length === 0) {
       // 추가할 파일이 없을 경우 리턴
@@ -88,7 +107,7 @@ const Home = () => {
     );
   };
   const selectTag = (index: number, tag: string) => {
-    setFileData((prevFileData: FileList[]) => {
+    setFileData((prevFileData) => {
       const updatedFileData = [...prevFileData];
       updatedFileData[index] = {
         ...updatedFileData[index],
@@ -103,30 +122,6 @@ const Home = () => {
     setViewMode(mode);
     setSelectFiles([]);
   };
-
-  function addNewFile() {
-    const newFileData = {
-      id: updatedDate,
-      fileName: '이름이 없는 파일',
-      tag: null,
-      themeColor: 'navy',
-      updatedDate,
-      tree: {
-        value: '',
-        node: 0,
-        level: 0,
-        position: { x: 0, y: 0, r: 0, t: 0 },
-        parentNode: {
-          node: -1,
-          position: { x: 0, y: 0, r: 0, t: 0 },
-        },
-        leftChildNode: [],
-        rightChildNode: [],
-      },
-    };
-
-    setFileData((prevFileData: FileList[]) => [...prevFileData, newFileData]);
-  }
 
   return (
     <Wrapper>

@@ -5,11 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTag } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { GoTag } from 'react-icons/go';
-import { FileList } from '../../../types/fileType';
+import { IFile } from '../../../types/fileType';
 import TagMenu from '../../menu/TagMenu';
 
 type GridViewProps = {
-  data: FileList[];
+  data: IFile[];
   selectFiles: string[];
   handleSelectFile: (id: string) => void;
   selectTag: (index: number, tag: string) => void;
@@ -51,17 +51,17 @@ const GridView = ({
       {data.map((item, index) => (
         <S.FileFrame
           key={index}
-          $active={selectFiles.includes(item.id)}
-          onClick={() => handleOpenFile(item.id)}
+          $active={selectFiles.includes(item.file_id)}
+          onClick={() => handleOpenFile(item.file_id)}
           onMouseOver={() => handleMouseOver(index)}
           onMouseOut={handleMouseOut}
         >
           <CheckBox
             $hover={hoverFile === index}
-            $active={selectFiles.includes(item.id)}
+            $active={selectFiles.includes(item.file_id)}
             onClick={(e) => {
               e.stopPropagation();
-              handleSelectFile(item.id);
+              handleSelectFile(item.file_id);
             }}
           >
             <FontAwesomeIcon icon={faCheck} />
@@ -70,13 +70,13 @@ const GridView = ({
             <img src="/public/favicon.png" alt="logo" />
           </S.FileImg>
           <S.FileDes>
-            <p>{item.fileName}</p>
-            <span>{item.updatedDate} 마지막으로 수정</span>
+            <p>{item.file_name}</p>
+            <span>{item.updated_at} 마지막으로 수정</span>
           </S.FileDes>
           <S.TagContent
             onClick={(e) => {
               e.stopPropagation();
-              handleActiveTagMenu(item.id);
+              handleActiveTagMenu(item.file_id);
             }}
           >
             {item.tag === null ? (
@@ -88,7 +88,7 @@ const GridView = ({
             )}
           </S.TagContent>
 
-          {activeTagMenu === item.id && (
+          {activeTagMenu === item.tag && (
             <S.TagMenuWrapper>
               <TagMenu itemIndex={index} handleSelectTag={handleSelectTag} />
             </S.TagMenuWrapper>

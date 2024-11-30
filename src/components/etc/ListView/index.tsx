@@ -1,4 +1,4 @@
-import { FileList } from '../../../types/fileType';
+import { IFile } from '../../../types/fileType';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTag, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { useState } from 'react';
 import TagMenu from '../../menu/TagMenu';
 
 type ListViewProps = {
-  data: FileList[];
+  data: IFile[];
   selectFiles: string[];
   handleSelectFile: (id: string) => void;
   selectTag: (index: number, tag: string) => void;
@@ -54,32 +54,32 @@ const ListView = ({
             <tr key={index}>
               <td>
                 <CheckBox
-                  $active={selectFiles.includes(item.id)}
+                  $active={selectFiles.includes(item.file_id)}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleSelectFile(item.id);
+                    handleSelectFile(item.file_id);
                   }}
                   style={{ visibility: 'visible' }}
                 >
                   <FontAwesomeIcon icon={faCheck} />
                 </CheckBox>
               </td>
-              <td onClick={() => handleOpenFile(item.id)}>
+              <td onClick={() => handleOpenFile(item.file_id)}>
                 <div>
                   <S.FileImg>
                     <img src="/public/favicon.png" alt="favicon" />
                   </S.FileImg>
-                  <p>{item.fileName}</p>
+                  <p>{item.file_name}</p>
                 </div>
               </td>
               <td>
-                <span>{item.updatedDate}</span>
+                <span>{item.updated_at}</span>
               </td>
               <td>
                 <S.TagTd
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleActiveTagMenu(item.id);
+                    handleActiveTagMenu(item.file_id);
                   }}
                 >
                   {item.tag === null ? (
@@ -90,7 +90,7 @@ const ListView = ({
                     </ActiveTag>
                   )}
 
-                  {activeTagMenu === item.id && (
+                  {activeTagMenu === item.file_id && (
                     <S.TagMenuWrapper>
                       <TagMenu
                         itemIndex={index}

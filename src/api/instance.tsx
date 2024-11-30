@@ -32,7 +32,6 @@ const createAxiosInstance = (
     (config) => {
       // 요청을 보내기 전에 작업 수행
       const accessToken = getAccessToken();
-      console.log(accessToken);
       if (accessToken !== null) {
         config.headers.Accept = 'application/json, text/plain, */*';
         config.headers.Authorization = `Bearer ${accessToken}`;
