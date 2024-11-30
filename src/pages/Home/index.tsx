@@ -27,8 +27,11 @@ import LoginButton from '../../components/button/LoginButton';
 import { IoGrid } from 'react-icons/io5';
 import GridView from '../../components/etc/GridView';
 import ListView from '../../components/etc/ListView';
+import { useGetFilesQuery } from '../../hooks/usefileQuery';
 
 const Home = () => {
+  const { data } = useGetFilesQuery();
+  console.log(data);
   const auth = useRecoilValue(authState);
   const setIsOpenModal = useSetRecoilState(isOpenAuthModal);
   const [fileData, setFileData] = useRecoilState(fileDataState);
