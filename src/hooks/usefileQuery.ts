@@ -5,17 +5,19 @@ import {
   getStorageFiles,
   patchFileTag,
   deleteFile,
+  postFile,
 } from '../api/files';
 import { IFile } from '../types/fileType';
 import { alert } from '../utils/alert';
+import { useNavigate } from 'react-router-dom';
 
-const useGetFilesQuery = (options?: { enabled?: boolean }) =>
+const useReadFilesQuery = (options?: { enabled?: boolean }) =>
   useQuery<IFile[], Error>({
     queryKey: ['files'],
     queryFn: getFiles,
     enabled: options?.enabled,
   });
-const useGetBookmarkFilesQuery = (
+const useReadBookmarkFilesQuery = (
   tag: string,
   options?: { enabled?: boolean }
 ) =>
@@ -25,14 +27,33 @@ const useGetBookmarkFilesQuery = (
     enabled: options?.enabled,
   });
 
-const useGetStorageFilesQuery = (options?: { enabled?: boolean }) =>
+const useReadStorageFilesQuery = (options?: { enabled?: boolean }) =>
   useQuery<IFile[], Error>({
     queryKey: ['storagefiles'],
     queryFn: getStorageFiles,
     enabled: options?.enabled,
   });
 
-const usePatchFileTagQuery = (queryKey: string[]) => {
+const useCreateFileQuery = (queryKey: string[]) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async () => {
+      const response = await postFile();
+      return response;
+    },
+    onSuccess(response) {
+      const { data } = response;
+      queryClient.invalidateQueries({ queryKey: queryKey });
+      return navigate(`/editor/${data.file_id}`);
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
+};
+
+const useUpdateFileTagQuery = (queryKey: string[]) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (payload: { file_id: string; tag: string }) => {
@@ -65,9 +86,10 @@ const useDeleteFileQuery = (queryKey: string[]) => {
 };
 
 export {
-  useGetFilesQuery,
-  useGetBookmarkFilesQuery,
-  useGetStorageFilesQuery,
-  usePatchFileTagQuery,
+  useReadFilesQuery,
+  useReadBookmarkFilesQuery,
+  useReadStorageFilesQuery,
+  useCreateFileQuery,
+  useUpdateFileTagQuery,
   useDeleteFileQuery,
 };

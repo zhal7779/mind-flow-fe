@@ -4,7 +4,7 @@ import { Wrapper, MainTitle, TitlePadding } from '../../styles/common';
 import { SideContainer, Container } from './styles';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../recoil/atoms/auth';
-import { useGetBookmarkFilesQuery } from '../../hooks/usefileQuery';
+import { useReadBookmarkFilesQuery } from '../../hooks/usefileQuery';
 import { useEffect, useState } from 'react';
 import { IFile } from '../../types/fileType';
 import DataContainer from '../../components/data/DataContainer';
@@ -18,7 +18,7 @@ const Bookmark = () => {
 
   const [viewMode, setViewMode] = useState('grid');
 
-  const { data, isLoading, isError } = useGetBookmarkFilesQuery(tag, {
+  const { data, isLoading, isError } = useReadBookmarkFilesQuery(tag, {
     enabled: !!auth,
   });
 

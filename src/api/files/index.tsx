@@ -22,6 +22,11 @@ const getStorageFiles = async (): Promise<IFile[]> => {
   return data;
 };
 
+const postFile = async () => {
+  const { data } = await instance.post('/api/file/create');
+  return data;
+};
+
 //파일 태그 수정
 const patchFileTag = async (payload: {
   file_id: string;
@@ -44,6 +49,7 @@ export {
   getFiles,
   getBookmarkFiles,
   getStorageFiles,
+  postFile,
   patchFileTag,
   deleteFile,
 };

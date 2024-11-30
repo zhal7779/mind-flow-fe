@@ -8,7 +8,7 @@ import { GoTag } from 'react-icons/go';
 import { ActiveTag } from '../GridView/styles';
 import { useState } from 'react';
 import TagMenu from '../../menu/TagMenu';
-import { usePatchFileTagQuery } from '../../../hooks/usefileQuery';
+import { useUpdateFileTagQuery } from '../../../hooks/usefileQuery';
 
 type ListViewProps = {
   data: IFile[];
@@ -18,7 +18,7 @@ type ListViewProps = {
 
 const ListView = ({ data, selectFiles, handleSelectFile }: ListViewProps) => {
   const [activeTagMenu, setActiveTagMenu] = useState('');
-  const { mutate: updateTag } = usePatchFileTagQuery(['files']);
+  const { mutate: updateTag } = useUpdateFileTagQuery(['files']);
 
   const navigate = useNavigate();
 

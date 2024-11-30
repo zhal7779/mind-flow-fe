@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { GoTag } from 'react-icons/go';
 import { IFile } from '../../../types/fileType';
 import TagMenu from '../../menu/TagMenu';
-import { usePatchFileTagQuery } from '../../../hooks/usefileQuery';
+import { useUpdateFileTagQuery } from '../../../hooks/usefileQuery';
 
 type GridViewProps = {
   data: IFile[];
@@ -20,7 +20,7 @@ const GridView = ({ data, selectFiles, handleSelectFile }: GridViewProps) => {
   const [activeTagMenu, setActiveTagMenu] = useState('');
   const [hoverFile, setHoverFile] = useState('');
 
-  const { mutate: updateTag } = usePatchFileTagQuery(['files']);
+  const { mutate: updateTag } = useUpdateFileTagQuery(['files']);
 
   const handleMouseOver = (id: string) => {
     setHoverFile(id);

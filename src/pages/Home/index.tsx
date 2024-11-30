@@ -9,7 +9,6 @@ import {
   faFolderPlus,
   faBars,
 } from '@fortawesome/free-solid-svg-icons';
-import updateDate from '../../utils/updateDate';
 import {
   Wrapper,
   MainTitle,
@@ -24,27 +23,31 @@ import { authState, isOpenAuthModal } from '../../recoil/atoms/auth';
 import { IoGrid } from 'react-icons/io5';
 import GridView from '../../components/etc/GridView';
 import ListView from '../../components/etc/ListView';
-import { useDeleteFileQuery, useGetFilesQuery } from '../../hooks/usefileQuery';
+import {
+  useCreateFileQuery,
+  useDeleteFileQuery,
+  useReadFilesQuery,
+} from '../../hooks/usefileQuery';
 import DataContainer from '../../components/data/DataContainer';
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const updatedDate = updateDate();
   const auth = useRecoilValue(authState);
   const setIsOpenModal = useSetRecoilState(isOpenAuthModal);
 
   const [viewMode, setViewMode] = useState('grid');
 
   // `enabled`를 auth 상태로 설정
-  const { data, isLoading, isError } = useGetFilesQuery({
+  const { data, isLoading, isError } = useReadFilesQuery({
     enabled: !!auth,
   });
 
   const [fileData, setFileData] = useState<IFile[] | []>([]);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
 
-  const { mutate: deleteFile } = useDeleteFileQuery(['files']);
+  const { mutate: createFile } = useCreateFileQuery(['files']); //파일 생성
+  const { mutate: deleteFile } = useDeleteFileQuery(['files']); //파일 삭제
 
   useEffect(() => {
     if (auth && data !== undefined && !isLoading && !isError) {
@@ -56,7 +59,10 @@ const Home = () => {
     if (!auth) {
       return setIsOpenModal(true);
     }
-    navigate(`/editor/${updatedDate}`);
+
+    confirmAlert('새로운 파일을 생성하시겠습니까?', 'question', () =>
+      createFile()
+    );
   };
 
   const handleSelectFile = (id: string) => {
