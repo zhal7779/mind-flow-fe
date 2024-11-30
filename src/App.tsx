@@ -11,6 +11,7 @@ import MypageModal from './components/modal/MypageModal';
 import { ThemeProvider } from 'styled-components';
 import theme from './data/theme';
 import Bookmark from './pages/Bookmark';
+import NotFoundPage from './pages/NotFound';
 
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
@@ -35,6 +36,7 @@ const App = () => {
         },
       ],
     },
+    { path: '*', element: <NotFoundPage /> },
   ]);
 
   return (

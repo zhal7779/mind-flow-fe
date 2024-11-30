@@ -12,13 +12,40 @@ import { useRecoilValue } from 'recoil';
 import { authState } from '../../recoil/atoms/auth';
 import LoginButton from '../../components/button/LoginButton';
 import { useGetBookmarkFilesQuery } from '../../hooks/usefileQuery';
+import { useEffect, useState } from 'react';
+import { IFile } from '../../types/fileType';
+import LoadingSpinner from '../../components/etc/LoadingSpinner';
 const Bookmark = () => {
-  const location = useLocation();
-  console.log(location);
+  const { pathname } = useLocation();
+  const tag = pathname.split('/')[2];
+
   const auth = useRecoilValue(authState);
-  // const { data, isLoading, isError, error } = useGetBookmarkFilesQuery('', {
-  //   enabled: !!auth,
-  // });
+  const { data, isLoading, isError, error } = useGetBookmarkFilesQuery(tag, {
+    enabled: !!auth,
+  });
+
+  const [bookmarkData, setBookmarData] = useState<IFile | []>([]);
+
+  useEffect(() => {
+    if (auth && data !== undefined && !isLoading && !isError) {
+      setBookmarData(data);
+    }
+  }, [data, isLoading, isError]);
+
+  if (isLoading) {
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  // 에러 상태 처리
+  if (isError) {
+    console.error(error);
+    return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
+  }
+
   return (
     <Container>
       <SideContainer>
