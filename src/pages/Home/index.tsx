@@ -16,31 +16,28 @@ import {
   CheckBox,
   DeleteButton,
   BaseBox,
-  CenterWrapper,
 } from '../../styles/common';
-import NoData from '../../components/etc/NoData';
 import { useState, useEffect } from 'react';
 import { alert, confirmAlert } from '../../utils/alert';
 import { authState, isOpenAuthModal } from '../../recoil/atoms/auth';
-import LoginButton from '../../components/button/LoginButton';
+
 import { IoGrid } from 'react-icons/io5';
 import GridView from '../../components/etc/GridView';
 import ListView from '../../components/etc/ListView';
 import { useGetFilesQuery } from '../../hooks/usefileQuery';
-import LoadingSpinner from '../../components/etc/LoadingSpinner';
+import DataContainer from '../../components/data/DataContainer';
 
 const Home = () => {
   const navigate = useNavigate();
 
   const updatedDate = updateDate();
-
   const auth = useRecoilValue(authState);
   const setIsOpenModal = useSetRecoilState(isOpenAuthModal);
 
   const [viewMode, setViewMode] = useState('grid');
 
   // `enabled`를 auth 상태로 설정
-  const { data, isLoading, isError, error } = useGetFilesQuery({
+  const { data, isLoading, isError } = useGetFilesQuery({
     enabled: !!auth,
   });
 
@@ -52,20 +49,6 @@ const Home = () => {
       setFileData(data);
     }
   }, [data, isLoading, isError]);
-
-  if (isLoading) {
-    return (
-      <div>
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  // 에러 상태 처리
-  if (isError) {
-    console.error(error);
-    return <div>데이터를 불러오는 중 오류가 발생했습니다.</div>;
-  }
 
   const handleAddNewFile = () => {
     if (!auth) {
@@ -171,29 +154,28 @@ const Home = () => {
             </S.ModeItem>
           </S.ModeChangeContent>
         </S.TopWrapper>
-
-        {!auth ? (
-          <CenterWrapper>
-            <NoData text={'로그인 후 이용해주세요'} />
-            <LoginButton />
-          </CenterWrapper>
-        ) : fileData?.length === 0 ? (
-          <NoData text={'최근 파일이 없습니다'} />
-        ) : viewMode === 'grid' ? (
-          <GridView
-            data={fileData}
-            selectFiles={selectFiles}
-            handleSelectFile={handleSelectFile}
-            selectTag={selectTag}
-          />
-        ) : (
-          <ListView
-            data={fileData}
-            selectFiles={selectFiles}
-            handleSelectFile={handleSelectFile}
-            selectTag={selectTag}
-          />
-        )}
+        <DataContainer
+          data={fileData}
+          isLoading={isLoading}
+          isError={isError}
+          noDataText="로그인 후 이용해주세요"
+        >
+          {viewMode === 'grid' ? (
+            <GridView
+              data={fileData}
+              selectFiles={selectFiles}
+              handleSelectFile={handleSelectFile}
+              selectTag={selectTag}
+            />
+          ) : (
+            <ListView
+              data={fileData}
+              selectFiles={selectFiles}
+              handleSelectFile={handleSelectFile}
+              selectTag={selectTag}
+            />
+          )}
+        </DataContainer>
       </S.FileSection>
     </Wrapper>
   );
