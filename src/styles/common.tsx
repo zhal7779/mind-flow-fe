@@ -11,7 +11,7 @@ export const MainTitle = styled.h2`
 `;
 
 export const TitlePadding = styled.div`
-  padding-bottom: 5rem;
+  /* padding-bottom: 5rem; */
 `;
 
 export const SubTitle = styled.p`
