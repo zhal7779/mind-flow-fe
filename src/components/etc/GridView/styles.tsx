@@ -72,10 +72,17 @@ export const FileDes = styled.div`
     height: 2rem;
   }
   > span {
+    display: block;
     font-size: 1.3rem;
     line-height: 1.8rem;
     font-weight: 400;
     color: var(--color-grey-02);
+  }
+
+  > strong {
+    font-size: 1.3rem;
+    color: var(--color-danger);
+    font-weight: 600;
   }
 `;
 
@@ -84,7 +91,7 @@ export const TagMenuWrapper = styled.div`
   bottom: 5rem;
   right: -6rem;
 `;
-export const TagContent = styled.div`
+export const TagContent = styled.div<{ $hover: boolean }>`
   position: absolute;
   bottom: 1rem;
   right: 1rem;
@@ -96,7 +103,8 @@ export const TagContent = styled.div`
   z-index: 1;
 
   &:hover {
-    background: var(--color-grey-03);
+    background: ${(props) =>
+      props.$hover ? 'var(--color-grey-03)' : 'transparent'};
   }
 `;
 

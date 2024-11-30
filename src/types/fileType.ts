@@ -52,4 +52,5 @@ export interface IFile {
   user_id: string;
   storage: boolean;
   deleted_at: null | string;
+  scheduled_deletion_at: null | string;
 }

@@ -74,6 +74,7 @@ const GridView = ({ data, selectFiles, handleSelectFile }: GridViewProps) => {
             </span>
           </S.FileDes>
           <S.TagContent
+            $hover={true}
             onClick={(e) => {
               e.stopPropagation();
               handleActiveTagMenu(item.file_id);
