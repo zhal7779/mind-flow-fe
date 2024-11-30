@@ -12,7 +12,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import nodeLineProps from '../../../utils/nodeLineProps';
-import { GeneralNode, RootNode } from '../../../types/fileType';
+import { GeneralNode, RootNode } from '../../../types/treeType';
 import { useRecoilValue } from 'recoil';
 import { nodeColor } from '../../../recoil/atoms/nodeColor';
 
@@ -53,7 +53,7 @@ const LeftNodeRender = ({
 
   const lineProps = nodeLineProps(node);
 
-  const leftChildNodeRender = node.childNode.map((child) => {
+  const leftChildNodeRender = node.child_node.map((child) => {
     return (
       <LeftNodeRender
         key={child.node}
@@ -124,7 +124,7 @@ const LeftNodeRender = ({
         </Node>
       </div>
 
-      {node.childNode.length > 0 && <div>{leftChildNodeRender}</div>}
+      {node.child_node.length > 0 && <div>{leftChildNodeRender}</div>}
     </DirectionNodeContainer>
   );
 };

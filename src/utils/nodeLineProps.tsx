@@ -1,7 +1,7 @@
-import { GeneralNode } from '../types/fileType';
+import { GeneralNode } from '../types/treeType';
 
 const nodeLineProps = (node: GeneralNode) => {
-  const { x: x1, y: y1 } = node.parentNode.position;
+  const { x: x1, y: y1 } = node.parent_node.position;
 
   const {
     x: x2,

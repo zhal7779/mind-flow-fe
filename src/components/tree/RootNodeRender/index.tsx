@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
-import { GeneralNode, RootNode } from '../../../types/fileType';
+import { GeneralNode, RootNode } from '../../../types/treeType';
 import { useRecoilValue } from 'recoil';
 import { nodeColor } from '../../../recoil/atoms/nodeColor';
 

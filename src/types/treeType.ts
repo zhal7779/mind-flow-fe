@@ -19,29 +19,34 @@ interface BaseNode {
 
 export interface ChildNode extends BaseNode {
   side: string;
-  parentNode: ParentNode;
-  childNode: ChildNode[] | [];
+  parent_node: ParentNode;
+  child_node: ChildNode[] | [];
 }
 
 export interface GeneralNode extends ChildNode {
-  childNode: ChildNode[] | [];
+  child_node: ChildNode[] | [];
 }
 
 export interface RootNode extends BaseNode {
-  parentNode: ParentNode;
-  leftChildNode: GeneralNode[];
-  rightChildNode: GeneralNode[];
+  parent_node: ParentNode;
+  left_child: GeneralNode[];
+  right_child: GeneralNode[];
 }
 
 export interface ITree {
   node_id: number;
   file_id: string;
   file_name: string;
-  value: string;
-  node: number;
-  level: number;
-  position: Position;
-  parent_node: ParentNode;
-  left_child: ChildNode[];
-  right_child: ChildNode[];
+  tag: null | string;
+  theme_color: string;
+  updated_at: string;
+  tree: {
+    value: string;
+    node: number;
+    level: number;
+    position: Position;
+    parent_node: ParentNode;
+    left_child: GeneralNode[];
+    right_child: GeneralNode[];
+  };
 }

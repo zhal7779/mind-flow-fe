@@ -4,8 +4,12 @@ import LeftNodeRender from '../LeftNodeRender';
 import RootNodeRender from '../RootNodeRender';
 import RightNodeRender from '../RightNodeRender';
 import { RootNodeContainer } from '../../../styles/NodeCommon';
-import { useRecoilValue } from 'recoil';
-import { GeneralNode, RootNode, Position } from '../../../types/treeType';
+import {
+  GeneralNode,
+  RootNode,
+  Position,
+  ITree,
+} from '../../../types/treeType';
 
 // 필요한 작업
 // 1. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
@@ -13,9 +17,23 @@ import { GeneralNode, RootNode, Position } from '../../../types/treeType';
 // 3. 기타 기능 구현
 // 마지막.  노드 추가시 선 깜빡임 디버깅
 
-const MindMapTree = () => {
-  const fileData = useRecoilValue([]);
-  const [tree, setTree] = useState<RootNode>(fileData[0].tree);
+type dataProps = {
+  data: ITree;
+};
+
+const MindMapTree = ({ data }: dataProps) => {
+  const [tree, setTree] = useState<RootNode>({
+    value: '',
+    node: 0,
+    level: 0,
+    position: { x: 0, y: 0, r: 0, t: 0 },
+    parent_node: {
+      node: 0,
+      position: { x: 0, y: 0, r: 0, t: 0 },
+    },
+    left_child: [],
+    right_child: [],
+  });
 
   const [nodeNumber, setNodeNumber] = useState(1);
 
@@ -23,29 +41,36 @@ const MindMapTree = () => {
 
   const treeChangedRef = useRef(true);
 
+  useEffect(() => {
+    if (data.tree) {
+      setTree(data.tree);
+    }
+  }, [data.tree]);
+
   // 왼쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (
-      tree.leftChildNode.length > 0 &&
+      tree?.left_child?.length > 0 &&
       treeChangedRef.current &&
       treeRef.current
     ) {
       navigatePositionInNodeElement(treeRef.current, 'left');
       treeChangedRef.current = false;
     }
-  }, [tree.leftChildNode]);
+  }, [tree?.left_child]);
 
   // 오른쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (
-      tree.rightChildNode.length > 0 &&
+      tree?.right_child?.length > 0 &&
       treeChangedRef.current &&
       treeRef.current
     ) {
       navigatePositionInNodeElement(treeRef.current, 'right');
       treeChangedRef.current = false;
     }
-  }, [tree.rightChildNode]);
+  }, [tree?.right_child]);
+
   //노드 추가
   const addNode = (targetNode: number, side: string) => {
     const addNodeRecursion = (
@@ -61,35 +86,35 @@ const MindMapTree = () => {
           side,
           node: nodeNumber,
           position: { x: 0, y: 0, r: 0, t: 0 },
-          parentNode: {
+          parent_node: {
             node: curNode.node,
             position: curNode.position,
           },
-          childNode: [],
+          child_node: [],
         };
 
         // *재귀 탈출
         // 추가할 위치에 따라 새로운 노드 추가 후 리턴
-        if ('leftChildNode' in curNode && targetNode === 0 && side === 'left') {
+        if ('left_child' in curNode && targetNode === 0 && side === 'left') {
           return {
             ...curNode,
-            leftChildNode: [...(curNode.leftChildNode || []), newNode],
+            left_child: [...(curNode.left_child || []), newNode],
           };
         } else if (
-          'rightChildNode' in curNode &&
+          'right_child' in curNode &&
           targetNode === 0 &&
           side === 'right'
         ) {
           return {
             ...curNode,
-            rightChildNode: [...(curNode.rightChildNode || []), newNode],
+            right_child: [...(curNode.right_child || []), newNode],
           };
         }
         // 루트 노드를 제외하고 일반 노드에는 childNode에 새로운 노드 추가
-        if ('childNode' in curNode) {
+        if ('child_node' in curNode) {
           return {
             ...curNode,
-            childNode: [...curNode.childNode, newNode],
+            child_node: [...curNode.child_node, newNode],
           };
         }
       }
@@ -97,36 +122,36 @@ const MindMapTree = () => {
       // *재귀 호출
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
       if (
-        'leftChildNode' in curNode &&
+        'left_child' in curNode &&
         side === 'left' &&
-        curNode.leftChildNode &&
+        curNode.left_child &&
         level < 2
       ) {
         return {
           ...curNode,
-          leftChildNode: curNode.leftChildNode.map((leftChild) =>
+          left_child: curNode.left_child.map((leftChild) =>
             addNodeRecursion(leftChild, level + 1)
           ) as GeneralNode[],
         };
       } else if (
-        'rightChildNode' in curNode &&
+        'right_child' in curNode &&
         side === 'right' &&
-        curNode.rightChildNode &&
+        curNode.right_child &&
         level < 2
       ) {
         return {
           ...curNode,
-          rightChildNode: curNode.rightChildNode.map(
-            (rightChild: GeneralNode) => addNodeRecursion(rightChild, level + 1)
+          right_child: curNode.right_child.map((rightChild: GeneralNode) =>
+            addNodeRecursion(rightChild, level + 1)
           ) as GeneralNode[],
         };
       }
 
       // 루트 노드를 제외하고는 childNode를 순회
-      if ('childNode' in curNode && curNode.childNode) {
+      if ('child_node' in curNode && curNode.child_node) {
         return {
           ...curNode,
-          childNode: curNode.childNode.map((child) =>
+          child_node: curNode.child_node.map((child) =>
             addNodeRecursion(child, level + 1)
           ) as GeneralNode[],
         };
@@ -149,46 +174,42 @@ const MindMapTree = () => {
     const deleteNodeRecursion = (
       curNode: RootNode | GeneralNode
     ): RootNode | GeneralNode | null => {
-      if ('childNode' in curNode && curNode.node === targetNode) {
+      if ('child_node' in curNode && curNode.node === targetNode) {
         treeChangedRef.current = true;
-        if (curNode.childNode.length > 0) {
+        if (curNode.child_node.length > 0) {
           //자식 노드가 있다면 자식 노드들을 삭제
-          return { ...curNode, childNode: [] };
+          return { ...curNode, child_node: [] };
         }
         return null; // 자식 노드가 없으면 자기 자신을 삭제
       }
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
-      if (
-        'leftChildNode' in curNode &&
-        curNode.level === 0 &&
-        side === 'left'
-      ) {
+      if ('left_child' in curNode && curNode.level === 0 && side === 'left') {
         return {
           ...curNode,
-          leftChildNode: curNode.leftChildNode
+          left_child: curNode.left_child
             .map((leftChild: GeneralNode) => deleteNodeRecursion(leftChild))
             .filter((leftChild) => leftChild !== null) as GeneralNode[], // 재귀가 끝나면 자기 자신을 삭제한 노드는 제거
         };
       } else if (
-        'rightChildNode' in curNode &&
+        'right_child' in curNode &&
         curNode.level === 0 &&
         side === 'right'
       ) {
         return {
           ...curNode,
-          rightChildNode: curNode.rightChildNode
+          right_child: curNode.right_child
             .map((rightChild: GeneralNode) => deleteNodeRecursion(rightChild))
             .filter((rightChild) => rightChild !== null) as GeneralNode[],
         };
       }
       // 루트 노드를 제외하고는 childNode를 순회
-      if ('childNode' in curNode && curNode.childNode) {
-        const updatedChildren = curNode.childNode
+      if ('child_node' in curNode && curNode.child_node) {
+        const updatedChildren = curNode.child_node
           .map((child) => deleteNodeRecursion(child))
           .filter((child) => child !== null) as GeneralNode[];
 
-        return { ...curNode, childNode: updatedChildren };
+        return { ...curNode, child_node: updatedChildren };
       }
 
       return curNode;
@@ -227,35 +248,31 @@ const MindMapTree = () => {
       }
 
       // 탐색할 방향을 결정하고 그 쪽으로만 재귀 호출
-      if (
-        'leftChildNode' in curNode &&
-        curNode.level === 0 &&
-        side === 'left'
-      ) {
+      if ('left_child' in curNode && curNode.level === 0 && side === 'left') {
         return {
           ...curNode,
-          leftChildNode: curNode.leftChildNode.map((leftChild) =>
+          left_child: curNode.left_child.map((leftChild) =>
             updateNodeRecursion(leftChild)
           ) as GeneralNode[],
         };
       } else if (
-        'rightChildNode' in curNode &&
+        'right_child' in curNode &&
         curNode.level === 0 &&
         side === 'right'
       ) {
         return {
           ...curNode,
-          rightChildNode: curNode.rightChildNode.map((rightChild) =>
+          right_child: curNode.right_child.map((rightChild) =>
             updateNodeRecursion(rightChild)
           ) as GeneralNode[],
         };
       }
 
-      if ('childNode' in curNode && curNode.childNode) {
+      if ('child_node' in curNode && curNode.child_node) {
         // 루트 노드를 제외하고는 childNode를 순회
         return {
           ...curNode,
-          childNode: curNode.childNode.map((child) =>
+          child_node: curNode.child_node.map((child) =>
             updateNodeRecursion(child)
           ) as GeneralNode[],
         };
@@ -281,8 +298,8 @@ const MindMapTree = () => {
       ) {
         return {
           ...curNode,
-          parentNode: {
-            ...curNode.parentNode,
+          parent_node: {
+            ...curNode.parent_node,
             position: parentPosition,
           },
           position: updatePosition,
@@ -291,10 +308,10 @@ const MindMapTree = () => {
     }
     const parentNodePosition = curNode.position;
 
-    if ('leftChildNode' in curNode && curNode.level === 0 && side === 'left') {
+    if ('left_child' in curNode && curNode.level === 0 && side === 'left') {
       return {
         ...curNode,
-        leftChildNode: curNode.leftChildNode.map((leftChild) =>
+        left_child: curNode.left_child.map((leftChild) =>
           updateNodePosition(
             leftChild,
             nodeId,
@@ -305,13 +322,13 @@ const MindMapTree = () => {
         ) as GeneralNode[],
       };
     } else if (
-      'rightChildNode' in curNode &&
+      'right_child' in curNode &&
       curNode.level === 0 &&
       side === 'right'
     ) {
       return {
         ...curNode,
-        rightChildNode: curNode.rightChildNode.map((rightChild) =>
+        right_child: curNode.right_child.map((rightChild) =>
           updateNodePosition(
             rightChild,
             nodeId,
@@ -322,10 +339,10 @@ const MindMapTree = () => {
         ) as GeneralNode[],
       };
     }
-    if ('childNode' in curNode && curNode.childNode) {
+    if ('child_node' in curNode && curNode.child_node) {
       return {
         ...curNode,
-        childNode: curNode.childNode.map((child) =>
+        child_node: curNode.child_node.map((child) =>
           updateNodePosition(
             child,
             nodeId,
@@ -360,10 +377,10 @@ const MindMapTree = () => {
         if (currentNodeID === '0') {
           setTree((prevTree) => ({
             ...prevTree,
-            leftChildNode: prevTree.leftChildNode.map((leftChild) => ({
+            left_child: prevTree.left_child.map((leftChild) => ({
               ...leftChild,
               parentNode: {
-                ...leftChild.parentNode,
+                ...leftChild.parent_node,
                 position: currentPosition,
               },
             })),
@@ -407,8 +424,8 @@ const MindMapTree = () => {
   return (
     <RootNodeContainer ref={treeRef} $side={'both'} $isRoot={true}>
       <div>
-        {tree.leftChildNode.length > 0 &&
-          tree.leftChildNode.map((leftNode) => (
+        {tree?.left_child?.length > 0 &&
+          tree.left_child.map((leftNode) => (
             <LeftNodeRender
               key={leftNode.node}
               node={leftNode}
@@ -427,8 +444,8 @@ const MindMapTree = () => {
       />
 
       <div>
-        {tree.rightChildNode.length > 0 &&
-          tree.rightChildNode.map((rightNode) => (
+        {tree?.right_child?.length > 0 &&
+          tree.right_child.map((rightNode) => (
             <RightNodeRender
               key={rightNode.node}
               node={rightNode}

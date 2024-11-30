@@ -32,7 +32,6 @@ const ThemeColors = [
 const SaveControlMenu = ({ data }: dataProps) => {
   const setColor = useSetRecoilState(nodeColor);
   const [fileName, setFileName] = useState(data.file_name);
-  console.log(fileName);
   const [active, setActive] = useState({ palette: false, tag: false });
   const navigate = useNavigate();
 
