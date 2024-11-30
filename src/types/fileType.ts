@@ -42,7 +42,7 @@ export interface FileList {
   themeColor: string;
 }
 
-export interface File {
+export interface IFile {
   file_id: string;
   file_name: string;
   tag: string;
