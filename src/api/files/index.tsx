@@ -1,5 +1,6 @@
 import { instance } from '../instance';
 import { IFile } from '../../types/fileType';
+import { AxiosResponse } from 'axios';
 
 //최근 열기 파일 가져오기
 const getFiles = async (): Promise<IFile[]> => {
@@ -21,4 +22,13 @@ const getStorageFiles = async (): Promise<IFile[]> => {
   return data;
 };
 
-export { getFiles, getBookmarkFiles, getStorageFiles };
+//파일 태그 수정
+const patchFileTag = async (payload: {
+  file_id: string;
+  tag: string;
+}): Promise<AxiosResponse> => {
+  const response = await instance.patch('/api/file/update/tag', payload);
+  return response;
+};
+
+export { getFiles, getBookmarkFiles, getStorageFiles, patchFileTag };
