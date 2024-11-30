@@ -22,6 +22,7 @@ const getStorageFiles = async (): Promise<IFile[]> => {
   return data;
 };
 
+//파일 생성
 const postFile = async () => {
   const { data } = await instance.post('/api/file/create');
   return data;
@@ -36,6 +37,24 @@ const patchFileTag = async (payload: {
   return response;
 };
 
+//파일 테마 색 수정
+const patchFileThemeColor = async (payload: {
+  file_id: string;
+  theme_color: string;
+}): Promise<AxiosResponse> => {
+  const response = await instance.patch('/api/file/update/themecolor', payload);
+  return response;
+};
+
+//파일 이름 수정
+const patchFileName = async (payload: {
+  file_id: string;
+  file_name: string;
+}): Promise<AxiosResponse> => {
+  const response = await instance.patch('/api/file/update/name', payload);
+  return response;
+};
+
 //파일 복구
 const patchRestoreFile = async (payload: {
   file_list: string[];
@@ -43,6 +62,7 @@ const patchRestoreFile = async (payload: {
   const response = await instance.patch(`/api/file/update/storage`, payload);
   return response;
 };
+
 // 파일 삭제 (보관함 이동)
 // 실제 삭제가 아니기에 api 메소드는 patch 사용
 const deleteFile = async (payload: {
@@ -58,6 +78,8 @@ export {
   getStorageFiles,
   postFile,
   patchFileTag,
+  patchFileName,
+  patchFileThemeColor,
   patchRestoreFile,
   deleteFile,
 };
