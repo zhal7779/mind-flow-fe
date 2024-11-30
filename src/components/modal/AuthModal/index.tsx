@@ -6,13 +6,10 @@ import React, { useState } from 'react';
 import { alert } from '../../../utils/alert';
 import * as S from '../../../styles/modal';
 import { postJoin, postLogin } from '../../../api/auth';
-import useAuthToken from '../../../hooks/useAuthToken';
 
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
   const setAuth = useSetRecoilState(authState);
-
-  const { saveToken } = useAuthToken();
 
   const [step, setStep] = useState('login'); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
 
@@ -52,7 +49,6 @@ const AuthModal = () => {
   const handleLogin = async () => {
     const response = await postLogin(loginInput);
     if (response.success) {
-      saveToken(response.data);
       setAuth(true);
       setIsOpen(false);
     }
