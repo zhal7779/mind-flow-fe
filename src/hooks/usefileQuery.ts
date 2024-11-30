@@ -4,8 +4,10 @@ import {
   getBookmarkFiles,
   getStorageFiles,
   patchFileTag,
+  deleteFile,
 } from '../api/files';
 import { IFile } from '../types/fileType';
+import { alert } from '../utils/alert';
 
 const useGetFilesQuery = (options?: { enabled?: boolean }) =>
   useQuery<IFile[], Error>({
@@ -45,9 +47,27 @@ const usePatchFileTagQuery = (queryKey: string[]) => {
   });
 };
 
+const useDeleteFileQuery = (queryKey: string[]) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload: { file_list: string[] }) => {
+      await deleteFile(payload);
+    },
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+
+      return alert('파일이 삭제되었습니다.', 'success');
+    },
+    onError(error) {
+      console.error(error);
+    },
+  });
+};
+
 export {
   useGetFilesQuery,
   useGetBookmarkFilesQuery,
   useGetStorageFilesQuery,
   usePatchFileTagQuery,
+  useDeleteFileQuery,
 };

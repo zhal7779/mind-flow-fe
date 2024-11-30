@@ -24,7 +24,7 @@ import { authState, isOpenAuthModal } from '../../recoil/atoms/auth';
 import { IoGrid } from 'react-icons/io5';
 import GridView from '../../components/etc/GridView';
 import ListView from '../../components/etc/ListView';
-import { useGetFilesQuery } from '../../hooks/usefileQuery';
+import { useDeleteFileQuery, useGetFilesQuery } from '../../hooks/usefileQuery';
 import DataContainer from '../../components/data/DataContainer';
 
 const Home = () => {
@@ -43,6 +43,8 @@ const Home = () => {
 
   const [fileData, setFileData] = useState<IFile[] | []>([]);
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
+
+  const { mutate: deleteFile } = useDeleteFileQuery(['files']);
 
   useEffect(() => {
     if (auth && data !== undefined && !isLoading && !isError) {
@@ -91,7 +93,7 @@ const Home = () => {
     }
 
     confirmAlert('삭제하시겠습니까?', 'question', () =>
-      alert('삭제되었습니다.', 'success')
+      deleteFile({ file_list: selectFiles })
     );
   };
 
