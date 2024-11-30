@@ -71,7 +71,10 @@ const GridView = ({
           </S.FileImg>
           <S.FileDes>
             <p>{item.file_name}</p>
-            <span>{item.updated_at} 마지막으로 수정</span>
+            <span>
+              {item.updated_at.split('T')[0]}{' '}
+              {item.updated_at.split('T')[1].slice(0, 8)} 마지막으로 수정
+            </span>
           </S.FileDes>
           <S.TagContent
             onClick={(e) => {

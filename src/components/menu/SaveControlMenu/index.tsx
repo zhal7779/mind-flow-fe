@@ -8,8 +8,7 @@ import {
   faPalette,
 } from '@fortawesome/free-solid-svg-icons';
 import { HiOutlineSave } from 'react-icons/hi';
-import { fileDataState } from '../../../recoil/atoms/fileDataState';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { nodeColor } from '../../../recoil/atoms/nodeColor';
 import { GoTag } from 'react-icons/go';
@@ -27,7 +26,7 @@ const ThemeColors = [
 
 const SaveControlMenu = () => {
   const setColor = useSetRecoilState(nodeColor);
-  const fileData = useRecoilValue(fileDataState);
+  const fileData = [];
   const [fileName, setFileName] = useState(fileData[0].fileName);
   const [active, setActive] = useState({ palette: false, tag: false });
   const navigate = useNavigate();

@@ -48,7 +48,7 @@ const Home = () => {
 
   useEffect(() => {
     if (auth && data !== undefined && !isLoading && !isError) {
-      setFileData(fileData);
+      setFileData(data);
     }
   }, [data, isLoading, isError]);
 

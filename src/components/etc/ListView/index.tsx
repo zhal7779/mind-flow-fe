@@ -73,7 +73,10 @@ const ListView = ({
                 </div>
               </td>
               <td>
-                <span>{item.updated_at}</span>
+                <span>
+                  {item.updated_at.split('T')[0]}{' '}
+                  {item.updated_at.split('T')[1].slice(0, 8)}
+                </span>
               </td>
               <td>
                 <S.TagTd

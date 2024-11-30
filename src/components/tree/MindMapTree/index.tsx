@@ -5,7 +5,6 @@ import RootNodeRender from '../RootNodeRender';
 import RightNodeRender from '../RightNodeRender';
 import { RootNodeContainer } from '../../../styles/NodeCommon';
 import { useRecoilValue } from 'recoil';
-import { fileDataState } from '../../../recoil/atoms/fileDataState';
 import { GeneralNode, RootNode, Position } from '../../../types/fileType';
 
 // 필요한 작업
@@ -15,7 +14,7 @@ import { GeneralNode, RootNode, Position } from '../../../types/fileType';
 // 마지막.  노드 추가시 선 깜빡임 디버깅
 
 const MindMapTree = () => {
-  const fileData = useRecoilValue(fileDataState);
+  const fileData = useRecoilValue([]);
   const [tree, setTree] = useState<RootNode>(fileData[0].tree);
 
   const [nodeNumber, setNodeNumber] = useState(1);
