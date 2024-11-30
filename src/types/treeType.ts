@@ -36,6 +36,7 @@ export interface RootNode extends BaseNode {
 export interface ITree {
   node_id: number;
   file_id: string;
+  file_name: string;
   value: string;
   node: number;
   level: number;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const WarningText = styled.div`
   margin-top: 3rem;
   padding: 0.8rem 0.8rem;
-  background: transparent;
+  background: #ffe1e7;
   border: 1px solid var(--color-danger);
   color: var(--color-danger);
   border-radius: 4px;

@@ -5,7 +5,7 @@ import RootNodeRender from '../RootNodeRender';
 import RightNodeRender from '../RightNodeRender';
 import { RootNodeContainer } from '../../../styles/NodeCommon';
 import { useRecoilValue } from 'recoil';
-import { GeneralNode, RootNode, Position } from '../../../types/fileType';
+import { GeneralNode, RootNode, Position } from '../../../types/treeType';
 
 // 필요한 작업
 // 1. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요

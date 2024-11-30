@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import MindMapTree from '../../components/tree/MindMapTree/index.js';
 import { TreeContainer } from './styles.js';
 import { useRecoilValue } from 'recoil';
@@ -6,40 +6,34 @@ import centerScroll from '../../utils/centerScroll.js';
 import SaveControlMenu from '../../components/menu/SaveControlMenu/index.js';
 import { scaleState } from '../../recoil/atoms/scaleState.js';
 import ScaleControlMenu from '../../components/menu/ScaleControlMenu/index.js';
+import { useLocation } from 'react-router-dom';
+import { useReadTreeQuery } from '../../hooks/useTreeQuery.js';
+import { authState } from '../../recoil/atoms/auth.js';
+import LoadingSpinner from '../../components/etc/LoadingSpinner/index.js';
+import { ITree } from '../../types/treeType.js';
 
 const Editor = () => {
+  const auth = useRecoilValue(authState);
+  const { pathname } = useLocation();
+  const fileId = pathname.split('/')[2];
+  const [treeData, setTreeData] = useState<ITree | null>(null);
+
   const scale = useRecoilValue(scaleState);
-  // const [isCtrlPressed, setIsCtrlPressed] = useState(false);
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
+
+  const { data, isLoading, isError } = useReadTreeQuery(fileId);
+
+  useEffect(() => {
+    if (auth && data !== undefined && !isLoading && !isError) {
+      setTreeData(data);
+    }
+  }, [data, isLoading, isError]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const targetElementRef = useRef<HTMLDivElement>(null);
 
-  // const handleKeyDown = (event: KeyboardEvent) => {
-  //   if (event.key === "Control") {
-  //     setIsCtrlPressed(true);
-  //   }
-  // };
-
-  // const handleKeyUp = (event: KeyboardEvent) => {
-  //   if (event.key === "Control") {
-  //     setIsCtrlPressed(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("keydown", handleKeyDown);
-  //   window.addEventListener("keyup", handleKeyUp);
-
-  //   return () => {
-  //     window.removeEventListener("keydown", handleKeyDown);
-  //     window.removeEventListener("keyup", handleKeyUp);
-  //   };
-  // }, []);
-
   useLayoutEffect(() => {
-    // window.scrollTo(4268, 700);
     if (containerRef.current !== null) {
       centerScroll(containerRef.current);
     }
@@ -55,48 +49,17 @@ const Editor = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const contentElement = contentRef.current;
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
-  //   if (!contentElement) return;
-
-  //   const handleWheel = (event: WheelEvent) => {
-  //     if (!isCtrlPressed) return;
-
-  //     event.preventDefault();
-
-  //     const delta = Math.sign(event.deltaY) * -0.1;
-  //     let newScale = scale + delta;
-  //     newScale = Math.min(Math.max(0.5, newScale), 3);
-
-  //     const rect = contentElement.getBoundingClientRect();
-
-  //     // 마우스 포인터의 좌표 계산
-  //     const mouseX = event.clientX - rect.left;
-  //     const mouseY = event.clientY - rect.top;
-
-  //     // 새로운 origin 계산 (마우스 포인터를 기준으로 한 좌표)
-  //     const scaleRatio = newScale / scale;
-  //     const newOriginX = mouseX - mouseX * scaleRatio;
-  //     const newOriginY = mouseY - mouseY * scaleRatio;
-
-  //     setScale(newScale);
-  //     setOrigin((prevOrigin) => ({
-  //       x: prevOrigin.x + newOriginX,
-  //       y: prevOrigin.y + newOriginY,
-  //     }));
-  //   };
-
-  //   contentElement.addEventListener("wheel", handleWheel, { passive: false });
-
-  //   return () => {
-  //     contentElement.removeEventListener("wheel", handleWheel);
-  //   };
-  // }, [isCtrlPressed, scale]);
+  if (isError) {
+    return <></>;
+  }
 
   return (
     <>
-      <SaveControlMenu />
+      {treeData && <SaveControlMenu data={treeData} />}
       <ScaleControlMenu />
       <div
         id="container"
@@ -129,7 +92,7 @@ const Editor = () => {
             style={{ position: 'relative', width: '100%' }}
           >
             <TreeContainer>
-              <MindMapTree />
+              {treeData && <MindMapTree data={treeData} />}
             </TreeContainer>
           </div>
         </div>

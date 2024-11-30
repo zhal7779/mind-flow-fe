@@ -13,6 +13,11 @@ import { useNavigate } from 'react-router-dom';
 import { nodeColor } from '../../../recoil/atoms/nodeColor';
 import { GoTag } from 'react-icons/go';
 import TagMenu from '../TagMenu';
+import { ITree } from '../../../types/treeType';
+
+type dataProps = {
+  data: ITree;
+};
 
 const ThemeColors = [
   { red: '#F26957' },
@@ -24,10 +29,10 @@ const ThemeColors = [
   { purple: '#C263E8' },
 ];
 
-const SaveControlMenu = () => {
+const SaveControlMenu = ({ data }: dataProps) => {
   const setColor = useSetRecoilState(nodeColor);
-  const fileData = [];
-  const [fileName, setFileName] = useState(fileData[0].fileName);
+  const [fileName, setFileName] = useState(data.file_name);
+  console.log(fileName);
   const [active, setActive] = useState({ palette: false, tag: false });
   const navigate = useNavigate();
 
@@ -87,7 +92,7 @@ const SaveControlMenu = () => {
         </PaletteMenu>
       ) : (
         <TagMenuWrapper>
-          <TagMenu itemIndex={0} handleSelectTag={() => {}} />
+          <TagMenu id={data.file_id} handleSelectTag={() => {}} />
         </TagMenuWrapper>
       )}
     </Wrapper>
