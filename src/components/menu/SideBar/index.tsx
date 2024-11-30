@@ -21,7 +21,7 @@ const MenuData = [
     name: '즐겨찾기',
     icon: <BsTags style={{ fontSize: '1.6rem' }} />,
     color: 'var(--color-grey-05)',
-    route: '/favorites',
+    route: '/bookmark/important',
   },
   {
     name: '공간 휴지통',

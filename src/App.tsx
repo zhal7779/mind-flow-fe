@@ -4,13 +4,13 @@ import { useRecoilValue } from 'recoil';
 import { isDarkModeState } from './recoil/atoms/isDarkModeState';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
-import Favorites from './pages/Favorites';
 import Trash from './pages/Trash';
 import MainLayout from './layouts/MainLayout';
 import AuthModal from './components/modal/AuthModal';
 import MypageModal from './components/modal/MypageModal';
 import { ThemeProvider } from 'styled-components';
 import theme from './data/theme';
+import Bookmark from './pages/Bookmark';
 
 const App = () => {
   const isDarkMode = useRecoilValue(isDarkModeState);
@@ -26,8 +26,8 @@ const App = () => {
           element: <Editor />,
         },
         {
-          path: '/favorites',
-          element: <Favorites />,
+          path: '/bookmark/:tag',
+          element: <Bookmark />,
         },
         {
           path: '/trash',

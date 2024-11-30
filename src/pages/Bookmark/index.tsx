@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import NoData from '../../components/etc/NoData';
 import TagSideBar from '../../components/menu/TagSideBar';
 import {
@@ -10,8 +11,14 @@ import { SideContainer, Container } from './styles';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../recoil/atoms/auth';
 import LoginButton from '../../components/button/LoginButton';
-const Favorites = () => {
+import { useGetBookmarkFilesQuery } from '../../hooks/usefileQuery';
+const Bookmark = () => {
+  const location = useLocation();
+  console.log(location);
   const auth = useRecoilValue(authState);
+  // const { data, isLoading, isError, error } = useGetBookmarkFilesQuery('', {
+  //   enabled: !!auth,
+  // });
   return (
     <Container>
       <SideContainer>
@@ -34,4 +41,4 @@ const Favorites = () => {
   );
 };
 
-export default Favorites;
+export default Bookmark;
