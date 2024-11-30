@@ -41,3 +41,15 @@ export interface FileList {
   tag: null | string;
   themeColor: string;
 }
+
+export interface File {
+  file_id: string;
+  file_name: string;
+  tag: string;
+  theme_color: string;
+  created_at: string;
+  updated_at: string;
+  user_id: string;
+  storage: boolean;
+  deleted_at: null | string;
+}
