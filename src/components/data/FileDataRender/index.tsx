@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as S from './styles';
 import { CheckBox, DeleteButton } from '../../../styles/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
