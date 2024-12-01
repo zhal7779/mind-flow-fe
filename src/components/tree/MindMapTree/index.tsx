@@ -41,26 +41,26 @@ const MindMapTree = ({ data }: dataProps) => {
   // 왼쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (
-      tree?.left_child?.length > 0 &&
+      tree.left_child.length > 0 &&
       treeChangedRef.current &&
       treeRef.current
     ) {
       navigatePositionInNodeElement(treeRef.current, 'left');
       treeChangedRef.current = false;
     }
-  }, [tree?.left_child]);
+  }, [tree.left_child]);
 
   // 오른쪽 자식 노드가 생성되거나 변경된 것을 감지
   useEffect(() => {
     if (
-      tree?.right_child?.length > 0 &&
+      tree.right_child.length > 0 &&
       treeChangedRef.current &&
       treeRef.current
     ) {
       navigatePositionInNodeElement(treeRef.current, 'right');
       treeChangedRef.current = false;
     }
-  }, [tree?.right_child]);
+  }, [tree.right_child]);
 
   //노드 추가
   const addNode = (targetNode: number, side: string) => {
@@ -415,7 +415,7 @@ const MindMapTree = ({ data }: dataProps) => {
   return (
     <RootNodeContainer ref={treeRef} $side={'both'} $isRoot={true}>
       <div>
-        {tree?.left_child?.length > 0 &&
+        {tree.left_child.length > 0 &&
           tree.left_child.map((leftNode) => (
             <LeftNodeRender
               key={leftNode.node}
@@ -435,7 +435,7 @@ const MindMapTree = ({ data }: dataProps) => {
       />
 
       <div>
-        {tree?.right_child?.length > 0 &&
+        {tree.right_child.length > 0 &&
           tree.right_child.map((rightNode) => (
             <RightNodeRender
               key={rightNode.node}
