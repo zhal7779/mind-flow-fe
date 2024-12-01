@@ -8,7 +8,6 @@ import {
   faPalette,
 } from '@fortawesome/free-solid-svg-icons';
 import { HiOutlineSave } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
 import { GoTag } from 'react-icons/go';
 import TagMenu from '../TagMenu';
 import { ITree } from '../../../types/treeType';
@@ -17,6 +16,9 @@ import {
   useUpdateFileTagQuery,
   useUpdateFileThemeColorQuery,
 } from '../../../hooks/usefileQuery';
+
+import { useUpdateTreeQuery } from '../../../hooks/useTreeQuery';
+import { confirmAlert } from '../../../utils/alert';
 
 type dataProps = {
   data: ITree;
@@ -33,8 +35,6 @@ const ThemeColors = [
 ];
 
 const SaveControlMenu = ({ data }: dataProps) => {
-  const navigate = useNavigate();
-
   const [fileName, setFileName] = useState(data.file_name);
   const [paletteActive, setPaletteActive] = useState(false);
   const [tagActive, setTagActive] = useState(false);
@@ -42,6 +42,8 @@ const SaveControlMenu = ({ data }: dataProps) => {
   // Refs for detecting clicks outside
   const paletteMenuRef = useRef(null);
   const tagMenuWrapperRef = useRef(null);
+
+  const { mutate: updateTree } = useUpdateTreeQuery(['tree', data.file_id]);
 
   //파일 이름 수정
   const { mutate: updateFileName } = useUpdateFileNameQuery([
@@ -63,6 +65,20 @@ const SaveControlMenu = ({ data }: dataProps) => {
     setFileName(value);
   };
 
+  const handleUpdateTree = () => {
+    confirmAlert('파일을 저장하시겠습니까?', 'question', () =>
+      updateTree(data)
+    );
+  };
+
+  const handleSelectThemeColor = (id: string, color: string) => {
+    setPaletteActive(false);
+    updateThemeColor({
+      file_id: id,
+      theme_color: color,
+    });
+  };
+
   const handleSelectTag = (id: string, tag: string) => {
     setTagActive(false);
     updateTag({ file_id: id, tag: tag });
@@ -70,7 +86,7 @@ const SaveControlMenu = ({ data }: dataProps) => {
 
   return (
     <Wrapper>
-      <S.MenuIcon onClick={() => navigate(-1)}>
+      <S.MenuIcon onClick={handleUpdateTree}>
         <FontAwesomeIcon icon={faChevronLeft} />
       </S.MenuIcon>
       <span></span>
@@ -102,10 +118,7 @@ const SaveControlMenu = ({ data }: dataProps) => {
                 <li
                   key={colorName}
                   onClick={() =>
-                    updateThemeColor({
-                      file_id: data.file_id,
-                      theme_color: colorName,
-                    })
+                    handleSelectThemeColor(data.file_id, colorName)
                   }
                 >
                   <FontAwesomeIcon

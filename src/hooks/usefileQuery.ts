@@ -100,6 +100,7 @@ const useUpdateFileNameQuery = (queryKey: string[]) => {
       await patchFileName(payload);
     },
     onSuccess() {
+      alert('파일이 이름이 수정되었습니다.', 'success');
       return queryClient.invalidateQueries({ queryKey: queryKey });
     },
     onError(error) {
