@@ -19,6 +19,8 @@ import {
 
 import { useUpdateTreeQuery } from '../../../hooks/useTreeQuery';
 import { confirmAlert } from '../../../utils/alert';
+import { useRecoilValue } from 'recoil';
+import { treeState } from '../../../recoil/atoms/tree';
 
 type dataProps = {
   data: ITree;
@@ -35,11 +37,12 @@ const ThemeColors = [
 ];
 
 const SaveControlMenu = ({ data }: dataProps) => {
+  const tree = useRecoilValue(treeState);
+
   const [fileName, setFileName] = useState(data.file_name);
   const [paletteActive, setPaletteActive] = useState(false);
   const [tagActive, setTagActive] = useState(false);
 
-  // Refs for detecting clicks outside
   const paletteMenuRef = useRef(null);
   const tagMenuWrapperRef = useRef(null);
 
@@ -67,7 +70,15 @@ const SaveControlMenu = ({ data }: dataProps) => {
 
   const handleUpdateTree = () => {
     confirmAlert('파일을 저장하시겠습니까?', 'question', () =>
-      updateTree(data)
+      updateTree({
+        file_id: data.file_id,
+        node_id: data.node_id,
+        theme_color: data.theme_color,
+        tag: data.tag,
+        file_name: data.file_name,
+        updated_at: data.updated_at,
+        tree,
+      })
     );
   };
 

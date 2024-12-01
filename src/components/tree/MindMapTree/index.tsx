@@ -10,6 +10,8 @@ import {
   Position,
   ITree,
 } from '../../../types/treeType';
+import { useRecoilState } from 'recoil';
+import { treeState } from '../../../recoil/atoms/tree';
 
 // 필요한 작업
 // 1. 노드 비율이 100%가 아닐 경우에도 선 길이 유지 필요
@@ -22,18 +24,7 @@ type dataProps = {
 };
 
 const MindMapTree = ({ data }: dataProps) => {
-  const [tree, setTree] = useState<RootNode>({
-    value: '',
-    node: 0,
-    level: 0,
-    position: { x: 0, y: 0, r: 0, t: 0 },
-    parent_node: {
-      node: 0,
-      position: { x: 0, y: 0, r: 0, t: 0 },
-    },
-    left_child: [],
-    right_child: [],
-  });
+  const [tree, setTree] = useRecoilState(treeState);
 
   const [nodeNumber, setNodeNumber] = useState(1);
 
