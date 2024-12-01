@@ -84,7 +84,7 @@ const SideBar = () => {
         </S.TopContent>
         <S.BottomContent>
           <UserButton />
-          <DarkModeButton />
+          {/* <DarkModeButton /> */}
         </S.BottomContent>
       </S.SideMenuWrapper>
       {!isSideBarOn && showTag && (

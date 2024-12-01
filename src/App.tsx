@@ -1,6 +1,6 @@
 import { GlobalStyle } from './GlobalStyle';
 import Editor from './pages/Editor';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isDarkModeState } from './recoil/atoms/isDarkModeState';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
@@ -12,9 +12,32 @@ import { ThemeProvider } from 'styled-components';
 import theme from './data/theme';
 import Bookmark from './pages/Bookmark';
 import NotFoundPage from './pages/NotFound';
+import { useEffect } from 'react';
+import {
+  fetchAccessToken,
+  clearAccessToken,
+  getAccessToken,
+} from './utils/auth';
+import { authState } from './recoil/atoms/auth';
 
 const App = () => {
+  const setAuth = useSetRecoilState(authState);
   const isDarkMode = useRecoilValue(isDarkModeState);
+  const token = getAccessToken();
+  console.log(token);
+  useEffect(() => {
+    const initializeAuth = async () => {
+      const success = await fetchAccessToken();
+      if (success) {
+        setAuth(true);
+      } else {
+        clearAccessToken();
+        setAuth(false);
+      }
+    };
+
+    initializeAuth();
+  }, [setAuth]);
 
   const router = createBrowserRouter([
     {
@@ -43,8 +66,8 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyle isDarkMode={isDarkMode} />
       <RouterProvider router={router} />
+      {!token && <AuthModal />}
 
-      <AuthModal />
       <MypageModal />
     </ThemeProvider>
   );
