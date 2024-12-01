@@ -26,9 +26,13 @@ const AuthModal = () => {
     passwordConfirm: '',
   });
 
-  const handleActiveTrial = () => {
-    setAuth(true);
-    setIsOpen(false);
+  const handleActiveTrial = async () => {
+    const response = await postLogin({ id: 'test1', password: 'test1111' });
+    if (response.success) {
+      setAccessToken(response.data);
+      setAuth(true);
+      setIsOpen(false);
+    }
   };
 
   const handleDelete = () => {
