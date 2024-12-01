@@ -7,7 +7,6 @@ import { isSideBarOnState } from '../../../recoil/atoms/isSideBarOnState';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BsTags } from 'react-icons/bs';
 import { FaRegTrashCan } from 'react-icons/fa6';
-import DarkModeButton from '../../button/DarkModeButton';
 import UserButton from '../../button/UserButton';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 const MenuData = [
@@ -84,7 +83,6 @@ const SideBar = () => {
         </S.TopContent>
         <S.BottomContent>
           <UserButton />
-          {/* <DarkModeButton /> */}
         </S.BottomContent>
       </S.SideMenuWrapper>
       {!isSideBarOn && showTag && (
