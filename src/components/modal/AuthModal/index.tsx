@@ -1,33 +1,33 @@
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { authState, isOpenAuthModal } from '../../../recoil/atoms/auth';
-import BaseModal from '../BaseModal';
-import styled from 'styled-components';
-import React, { useState } from 'react';
-import { alert } from '../../../utils/alert';
-import * as S from '../../../styles/modal';
-import { postJoin, postLogin } from '../../../api/auth';
-import { setAccessToken } from '../../../utils/auth';
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { authState, isOpenAuthModal } from "../../../recoil/atoms/auth";
+import BaseModal from "../BaseModal";
+import styled from "styled-components";
+import React, { useState } from "react";
+import { alert } from "../../../utils/alert";
+import * as S from "../../../styles/modal";
+import { postJoin, postLogin } from "../../../api/auth";
+import { setAccessToken } from "../../../utils/auth";
 
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
   const setAuth = useSetRecoilState(authState);
 
-  const [step, setStep] = useState('login'); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
+  const [step, setStep] = useState("login"); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
 
   const [loginInput, setLoginInput] = useState({
-    id: '',
-    password: '',
+    id: "",
+    password: "",
   });
 
   const [joinInput, setJoinInput] = useState({
-    id: '',
-    name: '',
-    password: '',
-    passwordConfirm: '',
+    id: "",
+    name: "",
+    password: "",
+    passwordConfirm: "",
   });
 
   const handleActiveTrial = async () => {
-    const response = await postLogin({ id: 'test1', password: 'test1111' });
+    const response = await postLogin({ id: "test1", password: "test1111" });
     if (response.success) {
       setAccessToken(response.data);
       setAuth(true);
@@ -68,9 +68,9 @@ const AuthModal = () => {
     });
 
     if (response.success) {
-      alert('회원가입이 완료되었습니다', 'success');
+      alert("회원가입이 완료되었습니다", "success");
 
-      setStep('login');
+      setStep("login");
     }
   };
 
@@ -106,7 +106,7 @@ const AuthModal = () => {
         <span>계정이 없으신가요?</span>
         <TextButton
           onClick={() => {
-            setStep('join-id');
+            setStep("join-id");
           }}
         >
           회원가입
@@ -118,7 +118,7 @@ const AuthModal = () => {
   const JoinContent = (
     <S.ModalContent>
       <S.ModalTitle>회원가입</S.ModalTitle>
-      {step === 'join-id' ? (
+      {step === "join-id" ? (
         <>
           <S.InputContent>
             <span>닉네임</span>
@@ -137,9 +137,9 @@ const AuthModal = () => {
             />
           </S.InputContent>
 
-          <S.LoginButton onClick={() => setStep('join-pw')}>계속</S.LoginButton>
+          <S.LoginButton onClick={() => setStep("join-pw")}>계속</S.LoginButton>
         </>
-      ) : step === 'join-pw' ? (
+      ) : step === "join-pw" ? (
         <>
           <S.InputContent>
             <span>비밀번호</span>
@@ -160,7 +160,7 @@ const AuthModal = () => {
             />
           </S.InputContent>
           <S.ButtonWrapper>
-            <S.TrialLoginButton onClick={() => setStep('join-id')}>
+            <S.TrialLoginButton onClick={() => setStep("join-id")}>
               이전으로
             </S.TrialLoginButton>
             <S.LoginButton onClick={handleCompleteJoin}>완료</S.LoginButton>
@@ -173,7 +173,7 @@ const AuthModal = () => {
         <span>이미 계정이 있으신가요?</span>
         <TextButton
           onClick={() => {
-            setStep('login');
+            setStep("login");
           }}
         >
           로그인하러 가기
@@ -184,8 +184,8 @@ const AuthModal = () => {
 
   return (
     <BaseModal isOpen={isOpen} onClose={handleDelete}>
-      <img src="/public/img/logo.png" alt="logo" style={{ width: '12rem' }} />
-      {step === 'login' ? LoginContent : JoinContent}
+      <img src="/img/logo.png" alt="logo" style={{ width: "12rem" }} />
+      {step === "login" ? LoginContent : JoinContent}
     </BaseModal>
   );
 };

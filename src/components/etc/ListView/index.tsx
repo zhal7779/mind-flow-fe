@@ -1,14 +1,14 @@
-import { IFile } from '../../../types/fileType';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTag, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
-import { CheckBox } from '../../../styles/common';
-import * as S from './styles';
-import { GoTag } from 'react-icons/go';
-import { ActiveTag } from '../GridView/styles';
-import { useState } from 'react';
-import TagMenu from '../../menu/TagMenu';
-import { useUpdateFileTagQuery } from '../../../hooks/usefileQuery';
+import { IFile } from "../../../types/fileType";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTag, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { CheckBox } from "../../../styles/common";
+import * as S from "./styles";
+import { GoTag } from "react-icons/go";
+import { ActiveTag } from "../GridView/styles";
+import { useState } from "react";
+import TagMenu from "../../menu/TagMenu";
+import { useUpdateFileTagQuery } from "../../../hooks/usefileQuery";
 
 type ListViewProps = {
   data: IFile[];
@@ -17,8 +17,8 @@ type ListViewProps = {
 };
 
 const ListView = ({ data, selectFiles, handleSelectFile }: ListViewProps) => {
-  const [activeTagMenu, setActiveTagMenu] = useState('');
-  const { mutate: updateTag } = useUpdateFileTagQuery(['files']);
+  const [activeTagMenu, setActiveTagMenu] = useState("");
+  const { mutate: updateTag } = useUpdateFileTagQuery(["files"]);
 
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const ListView = ({ data, selectFiles, handleSelectFile }: ListViewProps) => {
   };
 
   const handleSelectTag = (id: string, tag: string) => {
-    setActiveTagMenu('');
+    setActiveTagMenu("");
     updateTag({ file_id: id, tag: tag });
   };
 
@@ -56,7 +56,7 @@ const ListView = ({ data, selectFiles, handleSelectFile }: ListViewProps) => {
                     e.stopPropagation();
                     handleSelectFile(item.file_id);
                   }}
-                  style={{ visibility: 'visible' }}
+                  style={{ visibility: "visible" }}
                 >
                   <FontAwesomeIcon icon={faCheck} />
                 </CheckBox>
@@ -64,15 +64,15 @@ const ListView = ({ data, selectFiles, handleSelectFile }: ListViewProps) => {
               <td onClick={() => handleOpenFile(item.file_id)}>
                 <div>
                   <S.FileImg>
-                    <img src="/public/favicon.png" alt="favicon" />
+                    <img src="/favicon.png" alt="favicon" />
                   </S.FileImg>
                   <p>{item.file_name}</p>
                 </div>
               </td>
               <td>
                 <span>
-                  {item.updated_at.split('T')[0]}{' '}
-                  {item.updated_at.split('T')[1].slice(0, 8)}
+                  {item.updated_at.split("T")[0]}{" "}
+                  {item.updated_at.split("T")[1].slice(0, 8)}
                 </span>
               </td>
               <td>
@@ -83,7 +83,7 @@ const ListView = ({ data, selectFiles, handleSelectFile }: ListViewProps) => {
                   }}
                 >
                   {item.tag === null ? (
-                    <GoTag style={{ color: 'var(--color-grey-02)' }} />
+                    <GoTag style={{ color: "var(--color-grey-02)" }} />
                   ) : (
                     <ActiveTag $tag={item.tag}>
                       <FontAwesomeIcon icon={faTag} />

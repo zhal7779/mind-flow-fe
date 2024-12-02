@@ -7,7 +7,7 @@ type NoDataProps = {
 const NoData = ({ text }: NoDataProps) => {
   return (
     <NoDataContent>
-      <img src={"/public/img/empty-file-page.png"} alt="no file" />
+      <img src={"/img/empty-file-page.png"} alt="no file" />
       <span>{text}</span>
     </NoDataContent>
   );

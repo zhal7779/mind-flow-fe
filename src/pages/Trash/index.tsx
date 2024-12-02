@@ -3,25 +3,25 @@ import {
   MainTitle,
   TitlePadding,
   CheckBox,
-} from '../../styles/common';
-import { useRecoilValue } from 'recoil';
-import { authState } from '../../recoil/atoms/auth';
+} from "../../styles/common";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../recoil/atoms/auth";
 import {
   useReadStorageFilesQuery,
   useUpdateRestoreFileQuery,
-} from '../../hooks/usefileQuery';
-import { useEffect, useState } from 'react';
-import { IFile } from '../../types/fileType';
-import DataContainer from '../../components/data/DataContainer';
-import { WarningText, RestoreButton } from './styles';
-import { CgDanger } from 'react-icons/cg';
+} from "../../hooks/usefileQuery";
+import { useEffect, useState } from "react";
+import { IFile } from "../../types/fileType";
+import DataContainer from "../../components/data/DataContainer";
+import { WarningText, RestoreButton } from "./styles";
+import { CgDanger } from "react-icons/cg";
 import {
   FileSection,
   TopWrapper,
   DeleteContent,
-} from '../../components/data/FileDataRender/styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTag } from '@fortawesome/free-solid-svg-icons';
+} from "../../components/data/FileDataRender/styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faTag } from "@fortawesome/free-solid-svg-icons";
 import {
   FileContent,
   FileFrame,
@@ -29,15 +29,15 @@ import {
   FileDes,
   TagContent,
   ActiveTag,
-} from '../../components/etc/GridView/styles';
-import { GoTag } from 'react-icons/go';
-import { LiaTrashRestoreAltSolid } from 'react-icons/lia';
-import { alert, confirmAlert } from '../../utils/alert';
+} from "../../components/etc/GridView/styles";
+import { GoTag } from "react-icons/go";
+import { LiaTrashRestoreAltSolid } from "react-icons/lia";
+import { alert, confirmAlert } from "../../utils/alert";
 const Trash = () => {
   const auth = useRecoilValue(authState);
 
   const [selectFiles, setSelectFiles] = useState<string[]>([]);
-  const [hoverFile, setHoverFile] = useState('');
+  const [hoverFile, setHoverFile] = useState("");
 
   // `enabled`를 auth 상태로 설정
   const { data, isLoading, isError } = useReadStorageFilesQuery({
@@ -45,7 +45,7 @@ const Trash = () => {
   });
   const [storageFileData, setStorageFileData] = useState<IFile[] | []>([]);
 
-  const { mutate: restoreFile } = useUpdateRestoreFileQuery(['storagefiles']); //파일 복구
+  const { mutate: restoreFile } = useUpdateRestoreFileQuery(["storagefiles"]); //파일 복구
 
   useEffect(() => {
     if (auth && data !== undefined && !isLoading && !isError) {
@@ -58,7 +58,7 @@ const Trash = () => {
   };
 
   const handleMouseOut = () => {
-    setHoverFile('');
+    setHoverFile("");
   };
 
   const handleSelectFile = (id: string) => {
@@ -91,10 +91,10 @@ const Trash = () => {
 
   const handleRestoreFile = () => {
     if (!selectFiles.length) {
-      return alert('선택한 파일이 없습니다', 'info');
+      return alert("선택한 파일이 없습니다", "info");
     }
 
-    confirmAlert('복구하시겠습니까?', 'question', () =>
+    confirmAlert("복구하시겠습니까?", "question", () =>
       restoreFile({ file_list: selectFiles })
     );
   };
@@ -132,7 +132,7 @@ const Trash = () => {
         data={storageFileData}
         isLoading={isLoading}
         isError={isError}
-        noDataText={'휴지통에 파일이 없습니다'}
+        noDataText={"휴지통에 파일이 없습니다"}
       >
         <FileContent>
           {storageFileData.map((item, index) => (
@@ -153,25 +153,25 @@ const Trash = () => {
                 <FontAwesomeIcon icon={faCheck} />
               </CheckBox>
               <FileImg>
-                <img src="/public/favicon.png" alt="logo" />
+                <img src="/favicon.png" alt="logo" />
               </FileImg>
               <FileDes>
                 <p>{item.file_name}</p>
                 <span>
-                  {item.updated_at.split('T')[0]}{' '}
-                  {item.updated_at.split('T')[1].slice(0, 8)} 마지막으로 수정
+                  {item.updated_at.split("T")[0]}{" "}
+                  {item.updated_at.split("T")[1].slice(0, 8)} 마지막으로 수정
                 </span>
                 {item.scheduled_deletion_at !== null && (
                   <strong>
-                    {item.scheduled_deletion_at.split('T')[0]}{' '}
-                    {item.scheduled_deletion_at.split('T')[1].slice(0, 8)} 영구
+                    {item.scheduled_deletion_at.split("T")[0]}{" "}
+                    {item.scheduled_deletion_at.split("T")[1].slice(0, 8)} 영구
                     삭제될 예정
                   </strong>
                 )}
               </FileDes>
               <TagContent $hover={false}>
                 {item.tag === null ? (
-                  <GoTag style={{ color: 'var(--color-grey-02)' }} />
+                  <GoTag style={{ color: "var(--color-grey-02)" }} />
                 ) : (
                   <ActiveTag $tag={item.tag}>
                     <FontAwesomeIcon icon={faTag} />

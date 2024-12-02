@@ -1,32 +1,32 @@
-import * as S from './styles';
-import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
-import { useRecoilState } from 'recoil';
-import { isSideBarOnState } from '../../../recoil/atoms/isSideBarOnState';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { BsTags } from 'react-icons/bs';
-import { FaRegTrashCan } from 'react-icons/fa6';
-import UserButton from '../../button/UserButton';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
+import * as S from "./styles";
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { useRecoilState } from "recoil";
+import { isSideBarOnState } from "../../../recoil/atoms/isSideBarOnState";
+import { useLocation, useNavigate } from "react-router-dom";
+import { BsTags } from "react-icons/bs";
+import { FaRegTrashCan } from "react-icons/fa6";
+import UserButton from "../../button/UserButton";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 const MenuData = [
   {
-    name: '최근 열기',
-    icon: <FontAwesomeIcon icon={faClock} style={{ fontSize: '1.6rem' }} />,
-    color: 'var(--color-grey-05)',
-    route: '/',
+    name: "최근 열기",
+    icon: <FontAwesomeIcon icon={faClock} style={{ fontSize: "1.6rem" }} />,
+    color: "var(--color-grey-05)",
+    route: "/",
   },
   {
-    name: '즐겨찾기',
-    icon: <BsTags style={{ fontSize: '1.6rem' }} />,
-    color: 'var(--color-grey-05)',
-    route: '/bookmark/important',
+    name: "즐겨찾기",
+    icon: <BsTags style={{ fontSize: "1.6rem" }} />,
+    color: "var(--color-grey-05)",
+    route: "/bookmark/important",
   },
   {
-    name: '공간 휴지통',
-    icon: <FaRegTrashCan style={{ fontSize: '1.5rem' }} />,
-    color: 'var(--color-grey-05)',
-    route: '/trash',
+    name: "공간 휴지통",
+    icon: <FaRegTrashCan style={{ fontSize: "1.5rem" }} />,
+    color: "var(--color-grey-05)",
+    route: "/trash",
   },
 ];
 
@@ -64,7 +64,7 @@ const SideBar = () => {
       <S.SideMenuWrapper $isSideBarOn={isSideBarOn}>
         <S.TopContent>
           <S.Header>
-            <S.LogoImg src="/public/img/logo.png" alt="logo" />
+            <S.LogoImg src="/img/logo.png" alt="logo" />
 
             <FontAwesomeIcon icon={faAnglesLeft} onClick={onClickToggle} />
           </S.Header>

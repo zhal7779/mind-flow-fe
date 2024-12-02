@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { CheckBox } from '../../../styles/common';
-import * as S from './styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTag } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
-import { GoTag } from 'react-icons/go';
-import { IFile } from '../../../types/fileType';
-import TagMenu from '../../menu/TagMenu';
-import { useUpdateFileTagQuery } from '../../../hooks/usefileQuery';
+import { useState } from "react";
+import { CheckBox } from "../../../styles/common";
+import * as S from "./styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faTag } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { GoTag } from "react-icons/go";
+import { IFile } from "../../../types/fileType";
+import TagMenu from "../../menu/TagMenu";
+import { useUpdateFileTagQuery } from "../../../hooks/usefileQuery";
 
 type GridViewProps = {
   data: IFile[];
@@ -17,17 +17,17 @@ type GridViewProps = {
 
 const GridView = ({ data, selectFiles, handleSelectFile }: GridViewProps) => {
   const navigate = useNavigate();
-  const [activeTagMenu, setActiveTagMenu] = useState('');
-  const [hoverFile, setHoverFile] = useState('');
+  const [activeTagMenu, setActiveTagMenu] = useState("");
+  const [hoverFile, setHoverFile] = useState("");
 
-  const { mutate: updateTag } = useUpdateFileTagQuery(['files']);
+  const { mutate: updateTag } = useUpdateFileTagQuery(["files"]);
 
   const handleMouseOver = (id: string) => {
     setHoverFile(id);
   };
 
   const handleMouseOut = () => {
-    setHoverFile('');
+    setHoverFile("");
   };
 
   const handleOpenFile = (id: string) => {
@@ -39,7 +39,7 @@ const GridView = ({ data, selectFiles, handleSelectFile }: GridViewProps) => {
   };
 
   const handleSelectTag = (id: string, tag: string) => {
-    setActiveTagMenu('');
+    setActiveTagMenu("");
     updateTag({ file_id: id, tag: tag });
   };
 
@@ -64,13 +64,13 @@ const GridView = ({ data, selectFiles, handleSelectFile }: GridViewProps) => {
             <FontAwesomeIcon icon={faCheck} />
           </CheckBox>
           <S.FileImg>
-            <img src="/public/favicon.png" alt="logo" />
+            <img src="/favicon.png" alt="logo" />
           </S.FileImg>
           <S.FileDes>
             <p>{item.file_name}</p>
             <span>
-              {item.updated_at.split('T')[0]}{' '}
-              {item.updated_at.split('T')[1].slice(0, 8)} 마지막으로 수정
+              {item.updated_at.split("T")[0]}{" "}
+              {item.updated_at.split("T")[1].slice(0, 8)} 마지막으로 수정
             </span>
           </S.FileDes>
           <S.TagContent
@@ -81,7 +81,7 @@ const GridView = ({ data, selectFiles, handleSelectFile }: GridViewProps) => {
             }}
           >
             {item.tag === null ? (
-              <GoTag style={{ color: 'var(--color-grey-02)' }} />
+              <GoTag style={{ color: "var(--color-grey-02)" }} />
             ) : (
               <S.ActiveTag $tag={item.tag}>
                 <FontAwesomeIcon icon={faTag} />
