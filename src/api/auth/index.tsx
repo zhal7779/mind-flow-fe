@@ -16,5 +16,11 @@ const postLogin = async (payload: { id: string; password: string }) => {
 
   return data;
 };
+//로그아웃
+const postLogout = async () => {
+  const { data } = await instance.post('/api/auth/logout');
 
-export { postJoin, postLogin };
+  return data;
+};
+
+export { postJoin, postLogin, postLogout };

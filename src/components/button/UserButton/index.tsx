@@ -12,6 +12,9 @@ import {
   isOpenAuthModal,
   isOpenMypageModal,
 } from '../../../recoil/atoms/auth';
+import { postLogout } from '../../../api/auth';
+import { clearAccessToken } from '../../../utils/auth';
+import { alert } from '../../../utils/alert';
 
 const UserButton = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -26,6 +29,12 @@ const UserButton = () => {
     setMenuActive(!menuActive);
   };
 
+  const handleLogout = async () => {
+    const response = await postLogout();
+    console.log(response);
+    clearAccessToken();
+    alert('로그아웃되었습니다.', 'success');
+  };
   return (
     <>
       <Wrapper onClick={handleActiveMenu}>
@@ -43,7 +52,7 @@ const UserButton = () => {
               <FontAwesomeIcon icon={faUser} />
               <span>회원정보수정</span>
             </li>
-            <li>
+            <li onClick={handleLogout}>
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
               <span>로그아웃</span>
             </li>
