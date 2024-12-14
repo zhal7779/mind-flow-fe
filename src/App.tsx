@@ -41,10 +41,6 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("sdfsd");
-  }, []);
-
   const router = createBrowserRouter([
     {
       path: "/",

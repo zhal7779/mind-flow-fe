@@ -27,7 +27,13 @@ const AuthModal = () => {
   });
 
   const handleActiveTrial = async () => {
-    const response = await postLogin({ id: "test1", password: "test1111" });
+    const testID = import.meta.env.VITE_TEST_ID;
+    const testPW = import.meta.env.VITE_TEST_PASSWORD;
+
+    const response = await postLogin({
+      id: testID,
+      password: testPW,
+    });
     if (response.success) {
       setAccessToken(response.data);
       setAuth(true);
