@@ -2,19 +2,18 @@ import {
   faArrowRightFromBracket,
   faArrowUpRightFromSquare,
   faUser,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import {
   authState,
   isOpenAuthModal,
   isOpenMypageModal,
-} from '../../../recoil/atoms/auth';
-import { postLogout } from '../../../api/auth';
-import { clearAccessToken } from '../../../utils/auth';
-import { alert } from '../../../utils/alert';
+} from "../../../recoil/atoms/auth";
+import { postLogout } from "../../../api/auth";
+import { clearAccessToken } from "../../../utils/auth";
 
 const UserButton = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -31,9 +30,10 @@ const UserButton = () => {
 
   const handleLogout = async () => {
     const response = await postLogout();
-    console.log(response);
-    clearAccessToken();
-    alert('로그아웃되었습니다.', 'success');
+    if (response.success) {
+      clearAccessToken();
+      location.reload();
+    }
   };
   return (
     <>
