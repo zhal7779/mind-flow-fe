@@ -1,5 +1,12 @@
 import { instance } from "../instance";
 
+//아이디 중복 조회
+const postDuplicateId = async (id: string | undefined) => {
+  const { data } = await instance.post("/api/auth/duplicate-id", { id });
+
+  return data;
+};
+
 //회원가입
 const postJoin = async (payload: {
   id: string;
@@ -21,9 +28,9 @@ const postLogin = async (payload: {
 };
 //로그아웃
 const postLogout = async () => {
-  const { data } = await instance.post('/api/auth/logout');
+  const { data } = await instance.post("/api/auth/logout");
 
   return data;
 };
 
-export { postJoin, postLogin, postLogout };
+export { postDuplicateId, postJoin, postLogin, postLogout };

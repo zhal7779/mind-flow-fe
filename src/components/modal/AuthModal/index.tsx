@@ -5,7 +5,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { alert } from "../../../utils/alert";
 import * as S from "../../../styles/modal";
-import { postJoin, postLogin } from "../../../api/auth";
+import { postJoin, postLogin, postDuplicateId } from "../../../api/auth";
 import { setAccessToken } from "../../../utils/auth";
 
 const AuthModal = () => {
@@ -64,6 +64,11 @@ const AuthModal = () => {
       setAuth(true);
       setIsOpen(false);
     }
+  };
+
+  const handleCheckDuplicateId = async () => {
+    const response = await postDuplicateId(joinInput.id);
+    console.log(response);
   };
 
   const handleCompleteJoin = async () => {
@@ -137,7 +142,9 @@ const AuthModal = () => {
                 value={joinInput.id}
                 onChange={onChangeJoinInput}
               />
-              <S.ConfirmButton>중복확인</S.ConfirmButton>
+              <S.ConfirmButton onClick={handleCheckDuplicateId}>
+                중복확인
+              </S.ConfirmButton>
             </div>
           </S.InputContent>
           <S.InputContent>
