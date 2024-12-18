@@ -2,25 +2,25 @@ import {
   faArrowRightFromBracket,
   faArrowUpRightFromSquare,
   faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import styled from "styled-components";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import styled from 'styled-components';
 import {
   authState,
   isOpenAuthModal,
-  isOpenMypageModal,
-} from "../../../recoil/atoms/auth";
-import { postLogout } from "../../../api/auth";
-import { clearAccessToken } from "../../../utils/auth";
+  // isOpenMypageModal,
+} from '../../../recoil/atoms/auth';
+import { postLogout } from '../../../api/auth';
+import { clearAccessToken } from '../../../utils/auth';
 
 const UserButton = () => {
   const [menuActive, setMenuActive] = useState(false);
   const auth = useRecoilValue(authState);
 
   const setIsOpenAuthModal = useSetRecoilState(isOpenAuthModal);
-  const setIsOpenMypageModal = useSetRecoilState(isOpenMypageModal);
+  // const setIsOpenMypageModal = useSetRecoilState(isOpenMypageModal);
   const handleActiveMenu = () => {
     if (!auth) {
       return setIsOpenAuthModal(true);
@@ -48,10 +48,10 @@ const UserButton = () => {
       {menuActive && (
         <UserMenu>
           <ul>
-            <li onClick={() => setIsOpenMypageModal(true)}>
+            {/* <li onClick={() => setIsOpenMypageModal(true)}>
               <FontAwesomeIcon icon={faUser} />
               <span>회원정보수정</span>
-            </li>
+            </li> */}
             <li onClick={handleLogout}>
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
               <span>로그아웃</span>
@@ -106,7 +106,7 @@ const UserIcon = styled.span`
 const UserMenu = styled.div`
   position: absolute;
   padding: 1.6rem 0.4rem;
-  top: -9rem;
+  top: -5.6rem;
   width: 13rem;
   border-radius: 0.8rem;
   border: 1px solid var(--color-border);
