@@ -26,6 +26,10 @@ const AuthModal = () => {
     passwordConfirm: "",
   });
 
+  const [isValid, setIsValid] = useState({
+    id: false,
+  });
+
   const handleActiveTrial = async () => {
     const testID = import.meta.env.VITE_TEST_ID;
     const testPW = import.meta.env.VITE_TEST_PASSWORD;
@@ -67,8 +71,26 @@ const AuthModal = () => {
   };
 
   const handleCheckDuplicateId = async () => {
+    setIsValid((prevValid) => ({ ...prevValid, id: false }));
+
     const response = await postDuplicateId(joinInput.id);
-    console.log(response);
+
+    if (response.code === 200) {
+      alert("사용 가능한 아이디입니다", "success");
+      return setIsValid((prevValid) => ({ ...prevValid, id: true }));
+    }
+  };
+
+  const handleNextJoin = () => {
+    if (!joinInput.id.length) {
+      alert("아이디를 입력해 주세요", "warning");
+    } else if (!isValid.id) {
+      alert("아이디를 중복 체크해 주세요", "warning");
+    } else if (!joinInput.name.length) {
+      alert("닉네임을 입력해주세요", "warning");
+    } else {
+      setStep("join-pw");
+    }
   };
 
   const handleCompleteJoin = async () => {
@@ -156,7 +178,7 @@ const AuthModal = () => {
               onChange={onChangeJoinInput}
             />
           </S.InputContent>
-          <S.LoginButton onClick={() => setStep("join-pw")}>계속</S.LoginButton>
+          <S.LoginButton onClick={handleNextJoin}>계속</S.LoginButton>
         </>
       ) : step === "join-pw" ? (
         <>
