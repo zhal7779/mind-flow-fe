@@ -129,6 +129,18 @@ const AuthModal = () => {
       {step === "join-id" ? (
         <>
           <S.InputContent>
+            <span>아이디</span>
+            <div style={{ display: "flex", gap: "0.4rem", width: "100%" }}>
+              <S.Input
+                placeholder="아이디를 입력해주세요"
+                name="id"
+                value={joinInput.id}
+                onChange={onChangeJoinInput}
+              />
+              <S.ConfirmButton>중복확인</S.ConfirmButton>
+            </div>
+          </S.InputContent>
+          <S.InputContent>
             <span>닉네임</span>
             <S.Input
               placeholder="닉네임을 입력해주세요"
@@ -137,16 +149,6 @@ const AuthModal = () => {
               onChange={onChangeJoinInput}
             />
           </S.InputContent>
-          <S.InputContent>
-            <span>아이디</span>
-            <S.Input
-              placeholder="아이디를 입력해주세요"
-              name="id"
-              value={joinInput.id}
-              onChange={onChangeJoinInput}
-            />
-          </S.InputContent>
-
           <S.LoginButton onClick={() => setStep("join-pw")}>계속</S.LoginButton>
         </>
       ) : step === "join-pw" ? (

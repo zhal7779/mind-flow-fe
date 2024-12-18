@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 export const ModalContent = styled.div`
   text-align: center;
   display: flex;
@@ -29,7 +29,7 @@ export const InputContent = styled.div`
 
 export const Input = styled.input`
   width: 100%;
-  height: 4.8rem;
+  height: 4rem;
   border: 1px solid var(--color-border);
   border-radius: 0.8rem;
   padding: 0 1rem;
@@ -62,6 +62,13 @@ export const LoginButton = styled(Button)`
 `;
 
 export const TrialLoginButton = styled(Button)`
+  color: var(--color-tag-purple);
+  background-color: var(--color-white-bg);
+  border: 1px solid var(--color-tag-purple);
+`;
+
+export const ConfirmButton = styled.button`
+  border-radius: 0.8rem;
   color: var(--color-tag-purple);
   background-color: var(--color-white-bg);
   border: 1px solid var(--color-tag-purple);
