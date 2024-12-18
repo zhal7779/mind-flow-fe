@@ -88,6 +88,7 @@ const AuthModal = () => {
         <S.Input
           type="text"
           name="id"
+          value={loginInput.id}
           placeholder="아이디를 입력해주세요"
           onChange={onChangeLoginInput}
         />
@@ -98,9 +99,10 @@ const AuthModal = () => {
           placeholder="비밀번호를 입력해주세요"
           type="password"
           name="password"
+          value={loginInput.password}
           onChange={onChangeLoginInput}
         />
-        <TextButton>비밀번호 찾기</TextButton>
+        <TextButton>아이디 찾기</TextButton>
       </S.InputContent>
       <S.ButtonWrapper>
         <S.LoginButton onClick={handleLogin}>로그인</S.LoginButton>
@@ -131,6 +133,7 @@ const AuthModal = () => {
             <S.Input
               placeholder="닉네임을 입력해주세요"
               name="name"
+              value={joinInput.name}
               onChange={onChangeJoinInput}
             />
           </S.InputContent>
@@ -139,6 +142,7 @@ const AuthModal = () => {
             <S.Input
               placeholder="아이디를 입력해주세요"
               name="id"
+              value={joinInput.id}
               onChange={onChangeJoinInput}
             />
           </S.InputContent>
@@ -152,6 +156,7 @@ const AuthModal = () => {
             <S.Input
               placeholder="비밀번호를 입력해주세요"
               type="password"
+              value={joinInput.password}
               name="password"
               onChange={onChangeJoinInput}
             />
@@ -161,6 +166,7 @@ const AuthModal = () => {
             <S.Input
               placeholder="비밀번호를 재확인해주세요"
               type="password"
+              value={joinInput.passwordConfirm}
               name="passwordConfirm"
               onChange={onChangeJoinInput}
             />
