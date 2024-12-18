@@ -1,33 +1,35 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { authState, isOpenAuthModal } from "../../../recoil/atoms/auth";
-import BaseModal from "../BaseModal";
-import styled from "styled-components";
-import React, { useState } from "react";
-import { alert } from "../../../utils/alert";
-import * as S from "../../../styles/modal";
-import { postJoin, postLogin, postDuplicateId } from "../../../api/auth";
-import { setAccessToken } from "../../../utils/auth";
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { authState, isOpenAuthModal } from '../../../recoil/atoms/auth';
+import BaseModal from '../BaseModal';
+import styled from 'styled-components';
+import React, { useState } from 'react';
+import { alert } from '../../../utils/alert';
+import * as S from '../../../styles/modal';
+import { postJoin, postLogin, postDuplicateId } from '../../../api/auth';
+import { setAccessToken } from '../../../utils/auth';
+import { passwordRegex } from '../../../data/regex';
 
 const AuthModal = () => {
   const [isOpen, setIsOpen] = useRecoilState(isOpenAuthModal);
   const setAuth = useSetRecoilState(authState);
 
-  const [step, setStep] = useState("login"); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
+  const [step, setStep] = useState('login'); // login => 로그인 화면, join-id => 회원가입 아이디 화면, join-pw =>회원가입 비밀번호 화면
 
   const [loginInput, setLoginInput] = useState({
-    id: "",
-    password: "",
+    id: '',
+    password: '',
   });
 
   const [joinInput, setJoinInput] = useState({
-    id: "",
-    name: "",
-    password: "",
-    passwordConfirm: "",
+    id: '',
+    name: '',
+    password: '',
+    passwordConfirm: '',
   });
 
   const [isValid, setIsValid] = useState({
     id: false,
+    password: false,
   });
 
   const handleActiveTrial = async () => {
@@ -59,6 +61,15 @@ const AuthModal = () => {
     const { value, name } = e.target;
 
     setJoinInput((prevInput) => ({ ...prevInput, [name]: value }));
+
+    if (name === 'password') {
+      //비밀번호 유효성 검사
+      if (passwordRegex.test(value)) {
+        setIsValid((prevValid) => ({ ...prevValid, password: true }));
+      } else {
+        setIsValid((prevValid) => ({ ...prevValid, password: false }));
+      }
+    }
   };
 
   const handleLogin = async () => {
@@ -71,29 +82,38 @@ const AuthModal = () => {
   };
 
   const handleCheckDuplicateId = async () => {
+    if (!joinInput.id.length) return alert('아이디를 입력해 주세요', 'warning');
+
     setIsValid((prevValid) => ({ ...prevValid, id: false }));
 
     const response = await postDuplicateId(joinInput.id);
 
     if (response.code === 200) {
-      alert("사용 가능한 아이디입니다", "success");
+      alert('사용 가능한 아이디입니다', 'success');
       return setIsValid((prevValid) => ({ ...prevValid, id: true }));
     }
   };
 
   const handleNextJoin = () => {
     if (!joinInput.id.length) {
-      alert("아이디를 입력해 주세요", "warning");
+      alert('아이디를 입력해 주세요', 'warning');
     } else if (!isValid.id) {
-      alert("아이디를 중복 체크해 주세요", "warning");
+      alert('아이디를 중복 체크해 주세요', 'warning');
     } else if (!joinInput.name.length) {
-      alert("닉네임을 입력해주세요", "warning");
+      alert('닉네임을 입력해주세요', 'warning');
     } else {
-      setStep("join-pw");
+      setStep('join-pw');
     }
   };
 
   const handleCompleteJoin = async () => {
+    if (!joinInput.password.length) {
+      return alert('비밀번호를 입력해주세요', 'warning');
+    } else if (!isValid.password) {
+      return alert('비밀번호 형식이 올바르지 않습니다.', 'warning');
+    } else if (joinInput.password !== joinInput.passwordConfirm) {
+      return alert('비밀번호를 재확인해주세요', 'warning');
+    }
     const response = await postJoin({
       id: joinInput.id,
       name: joinInput.name,
@@ -101,9 +121,14 @@ const AuthModal = () => {
     });
 
     if (response.success) {
-      alert("회원가입이 완료되었습니다", "success");
-
-      setStep("login");
+      alert('회원가입이 완료되었습니다', 'success');
+      setStep('login');
+      setJoinInput({
+        id: '',
+        name: '',
+        password: '',
+        passwordConfirm: '',
+      });
     }
   };
 
@@ -141,7 +166,7 @@ const AuthModal = () => {
         <span>계정이 없으신가요?</span>
         <TextButton
           onClick={() => {
-            setStep("join-id");
+            setStep('join-id');
           }}
         >
           회원가입
@@ -153,11 +178,11 @@ const AuthModal = () => {
   const JoinContent = (
     <S.ModalContent>
       <S.ModalTitle>회원가입</S.ModalTitle>
-      {step === "join-id" ? (
+      {step === 'join-id' ? (
         <>
           <S.InputContent>
             <span>아이디</span>
-            <div style={{ display: "flex", gap: "0.4rem", width: "100%" }}>
+            <div style={{ display: 'flex', gap: '0.4rem', width: '100%' }}>
               <S.Input
                 placeholder="아이디를 입력해주세요"
                 name="id"
@@ -180,17 +205,20 @@ const AuthModal = () => {
           </S.InputContent>
           <S.LoginButton onClick={handleNextJoin}>계속</S.LoginButton>
         </>
-      ) : step === "join-pw" ? (
+      ) : step === 'join-pw' ? (
         <>
           <S.InputContent>
             <span>비밀번호</span>
             <S.Input
-              placeholder="비밀번호를 입력해주세요"
+              placeholder="비밀번호는 영문 + 숫자 + 특수문자를 조합해주세요"
               type="password"
               value={joinInput.password}
               name="password"
               onChange={onChangeJoinInput}
             />
+            <S.DuplicateText $isDuplicate={isValid.password}>
+              영문+숫자+특수문자
+            </S.DuplicateText>
           </S.InputContent>
           <S.InputContent>
             <span>비밀번호 재확인</span>
@@ -201,9 +229,17 @@ const AuthModal = () => {
               name="passwordConfirm"
               onChange={onChangeJoinInput}
             />
+            <S.DuplicateText
+              $isDuplicate={
+                joinInput.password === joinInput.passwordConfirm &&
+                isValid.password
+              }
+            >
+              비밀번호 재확인 일치
+            </S.DuplicateText>
           </S.InputContent>
           <S.ButtonWrapper>
-            <S.TrialLoginButton onClick={() => setStep("join-id")}>
+            <S.TrialLoginButton onClick={() => setStep('join-id')}>
               이전으로
             </S.TrialLoginButton>
             <S.LoginButton onClick={handleCompleteJoin}>완료</S.LoginButton>
@@ -216,7 +252,7 @@ const AuthModal = () => {
         <span>이미 계정이 있으신가요?</span>
         <TextButton
           onClick={() => {
-            setStep("login");
+            setStep('login');
           }}
         >
           로그인하러 가기
@@ -227,8 +263,8 @@ const AuthModal = () => {
 
   return (
     <BaseModal isOpen={isOpen} onClose={handleDelete}>
-      <img src="/img/logo.png" alt="logo" style={{ width: "12rem" }} />
-      {step === "login" ? LoginContent : JoinContent}
+      <img src="/img/logo.png" alt="logo" style={{ width: '12rem' }} />
+      {step === 'login' ? LoginContent : JoinContent}
     </BaseModal>
   );
 };

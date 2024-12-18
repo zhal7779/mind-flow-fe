@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 export const ModalContent = styled.div`
   text-align: center;
   display: flex;
@@ -54,6 +54,13 @@ export const Button = styled.button`
   font-size: 1.6rem;
   padding: 1rem 0;
   height: 4.8rem;
+`;
+
+export const DuplicateText = styled.p<{ $isDuplicate: boolean }>`
+  padding-left: 0.6rem;
+  font-size: 1.2rem;
+  color: ${(props) =>
+    props.$isDuplicate ? 'var(--color-purple)' : 'var(--color-grey-02)'};
 `;
 
 export const LoginButton = styled(Button)`
