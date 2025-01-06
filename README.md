@@ -26,3 +26,37 @@ npm run build
 ```
 <br/>
 <br/>
+
+
+###  Product Structure
+```markdown
+mind-flow/
+├── mind-flow-fe/
+│ ├── src/
+│ │ ├── api/
+│ │ ├── assets/
+│ │ ├── auth/
+│ │ ├── components/
+│ │ ├── pages/
+│ │ ├── styles/
+│ │ ├── types/
+│ │ ├── utils/
+│ │ ├── hooks/
+│ │ └── data/
+│ └── dist/
+├── mind-flow-be/
+│ ├── src/
+│ │ ├── config/
+│ │ ├── comtrollers/
+│ │ ├── middleware/
+│ │ ├── models/
+│ │ ├── routes/
+│ │ ├── servies/
+│ │ ├── tasks/
+│ │ ├── types/
+│ │ └── utils/
+│ └── dist/
+└── README.md
+```
+<br/>
+<br/>
