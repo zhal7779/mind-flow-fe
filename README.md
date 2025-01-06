@@ -7,3 +7,22 @@
 <br/>
 <br/>
 <img src="https://github.com/user-attachments/assets/c9d12db4-e4fd-43c3-9b92-552218c84b33" alt="mind-flow web site" />
+
+<br/>
+<br/>
+
+## Getting Started
+### Installation
+```
+npm install
+```
+### Develop Mode
+```
+npm run dev
+```
+### Production
+```
+npm run build
+```
+<br/>
+<br/>
